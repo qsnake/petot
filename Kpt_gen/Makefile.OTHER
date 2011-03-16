@@ -1,0 +1,160 @@
+#
+# Makefile for stand-alone kpoint generator from xpw
+#
+# $Id: Makefile,v 1.3 89/05/04 12:41:32 jim Exp Locker: jim $
+#
+SHELL = /bin/sh
+
+PARAM = param.h
+
+# System-dependent definitions:
+#--------------------------------------------------
+# ETA10:
+# FFLAGS = -v D -O DPR -Wv,-D,C
+# PRECISION = | single
+# CPP = /lib/cpp -P -DCYBER -DPARAM_H=\"$(PARAM)\"
+# FC = ftn77
+# LDFLAGS =
+# COMPRESS = | compress -v
+# SHAR = shar
+# TAR = tar cvf -
+#--------------------------------------------------
+# ISAAC:
+#FFLAGS = -g /usr/lib/libm.il -dalign
+FFLAGS = -O 
+PRECISION =
+CPP = /lib/cpp -P -DPARAM_H=\"$(PARAM)\"
+FC = f77
+LDFLAGS =
+COMPRESS = | compress -v
+SHAR = shar
+TAR = tar cvf -
+#--------------------------------------------------
+# SUN4:
+#FFLAGS = -g /usr/lib/libm.il -dalign
+#FFLAGS = -O
+#PRECISION =
+#CPP = /lib/cpp -P -DPARAM_H=\"$(PARAM)\"
+#FC = f77
+#LDFLAGS =
+#COMPRESS = | compress -v
+#SHAR = shar
+#TAR = tar cvf -
+#--------------------------------------------------
+# SUN3:
+# FFLAGS = -f68881
+# PRECISION =
+# CPP = /lib/cpp -P -DPARAM_H=\"$(PARAM)\"
+# FC = f77
+# LDFLAGS = -s
+# COMPRESS = | compress -v
+# SHAR = shar
+# TAR = tar cvf -
+#--------------------------------------------------
+# SYS5/AT: [will not load w/-Ms; compiler error on crystl w/-Ml]
+# FFLAGS = -Ms
+# PRECISION = | single
+# CPP = /lib/cpp -P -DPARAM_H=\"$(PARAM)\"
+# FC = f77
+# LDFLAGS = -s
+# COMPRESS = | compress -v
+# SHAR = shar
+# TAR = tar cvf -
+#--------------------------------------------------
+
+# Non-local source directories:
+DSYM = $(HOME)/src/sym/RCS
+DCPW = $(HOME)/src/xpw/cpw/RCS
+
+# Source files:
+KPG = kpgen.x
+SYM = input.x
+CPW = cnvrt.x crstl.x intpnt.x intsub.x lower.x metric.x ration.x \
+	rdmod.x recip.x symchk.x symgen.x warn.x ppsym.x
+
+SRC = $(KPG) $(SYM) $(CPW)
+
+# Parameter-file dependent objects:
+PARAM_DEP = kpgen.o symgen.o intpnt.o intsub.o ppsym.o
+
+PROGS = kpgen
+
+# Dummy OBJ target:
+OBJ = -
+
+.SUFFIXES: .x
+.x.o:
+	$(CPP) $< $(PRECISION) > $*.f
+	$(FC) -c $(FFLAGS) $*.f
+	rm -f $*.f
+
+kpgen: $(SRC) $(PARAM)
+	@$(MAKE) _prog TARGET=$@ \
+		OBJ="`echo $(SRC) | sed 's/\([^ .]*\)\.[cfx]/\1.o/g'`"
+	@echo "--fin--"
+
+_prog: $(OBJ)
+	$(FC) $(FFLAGS) $(LDFLAGS) $(OBJ) -o $(TARGET)
+
+$(PARAM_DEP): $(PARAM)
+
+list:
+	@echo $(SRC)
+
+base: $(KPG) Makefile
+	@echo "	Creating compressed tar file..."
+	@$(TAR) Makefile $(PARAM) $(KPG) test $(COMPRESS) > kpgbase.tar.Z
+
+tar: $(SRC) Makefile
+	@echo "	Creating compressed tar file..."
+	@$(TAR) Makefile $(PARAM) $(SRC) test $(COMPRESS) > kpgen.tar.Z
+
+shar: $(SRC) Makefile
+	@echo "	Creating compressed shar file..."
+	@$(SHAR) Makefile $(PARAM) $(SRC) test test/* $(COMPRESS) > kpgen.sh.Z
+
+collect: $(SRC)
+	@(for f in $(SRC); do \
+		cat $$f; echo; \
+	done;)
+
+clean:
+	-rm core *.o *.f a.out
+	
+realclean: clean rcsclean
+	rm $(SYM) $(CPW)
+
+rcsclean:
+	-rcsclean $(KPG)
+
+# How to get non-local sources (latest on trunk unless otherwise specified):
+$(KPG):
+	co $@
+$(SYM):
+	co $(DSYM)/$@,v
+cnvrt.x:
+	co $(DCPW)/$@,v
+crstl.x:
+	co -r1.1.1 $(DCPW)/$@,v
+intpnt.x:
+	co -r1.2 $(DCPW)/$@,v
+intsub.x:
+	co $(DCPW)/$@,v
+lower.x:
+	co $(DCPW)/$@,v
+metric.x:
+	co $(DCPW)/$@,v
+ration.x:
+	co $(DCPW)/$@,v
+rdmod.x:
+	co $(DCPW)/$@,v
+recip.x:
+	co $(DCPW)/$@,v
+symchk.x:
+	co $(DCPW)/$@,v
+symgen.x:
+	co $(DCPW)/$@,v
+warn.x:
+	co $(DCPW)/$@,v
+ppsym.x:
+	co $(DCPW)/$@,v

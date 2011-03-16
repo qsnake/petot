@@ -1,0 +1,17 @@
+   These programs were written by Jame Bernard and Sverre Froyen
+   when they were in National Renewabe Energy Laboratory (around
+   1990).  
+
+   The input file is modified by Lin-Wang Wang for the purpose of
+   the current package. 
+
+   Here we are only using part of the functions in the original package. 
+   More specifically, we use them to generate the reduced k-pionts
+   using the equivalent k-point scheme [S. Froyen, P.R.B 39, 3168(1989)]
+   and the point-group symmetry operations around the (0.,0.,0.) point. 
+
+   Lin-Wang Wang
+   March 5, 2001
+   NERSC
+
+   

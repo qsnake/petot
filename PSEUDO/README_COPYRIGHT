@@ -1,0 +1,69 @@
+ This package is down loaded from Jose Luis Martins's home page:
+ http://bohr.inesc.pt/~jlm/jlm.html
+ 
+ Dr. Martins is the co-auther of the popular Troullier-Martins
+ pseudopotential method, and this package is widely used. 
+
+ This is provided to be a supporting package for the PEtot code, 
+ and the underlined programs are copyrighted by several people, thus
+ may only be used for non-profit research. 
+
+ I have modified some of the routines a little bit, so they are fine
+ tuned to the use of PEtot program. More specificly, I have made the 
+ following changes:
+
+ (1) input.f, so we have a free formatted input. (The input file, now
+     called atom.input, is different from the original atom.dat, and 
+     it combines atom.dat with kb.dat). 
+
+ (2) added gen_vwr.f: it generate the pseudopotential file: vwr.atom, 
+     which can be used directly for PEtot.
+
+ (3) added pcc_poly.f and pcc_sin.f, use a slightlt different routine
+     to generate the pseudo-core charge when core correction is used. 
+
+ (4) related to item (3), the pseud2.f, pseudb.f, pseudk.f pseudo.f
+     pseudt.f pseudv.f are modified, and a new nval_tmp variable is 
+     passed in. 
+
+ (5) modified lnplot.f lnplot_kb.f. 
+
+   Attached is the original README file from the package of Jose Luis 
+   Martins, it contains the copy right issues of this package. 
+   I am not the owner of this package !
+
+
+  Lin-Wang Wang 
+  NERSC
+  lwwang@lbl.gov
+  http://www.nersc.gov/~linwang
+
+-----------------------------------------------------------------
+ATOMIC PROGRAM
+VERSION 5.63    19 May 1997
+VERSION 5.64    25 Feb 1998
+VERSION 5.65     9 Mar 1999
+VERSION 5.66     8 Feb 2000
+VERSION 5.67    30 Oct 2000
+
+These programs are copyrighted by several people. You may use
+them for non-profit research.
+
+Sverre Froyen wrote the basic atomic program
+
+Norman Troullier improved convergence, added a few extra pseudopotentials
+and wrote some of the other programs.
+
+Carlos Balbas and Jose Soler contributed the GGA subroutines
+
+Manuel Maria Alemany and Peter Schuster worked on the plotting programs
+
+To use follow the instructions in INSTALL
+
+Report bugs, comments, improvements to Jose.L.Martins@inesc.pt
+or other people mentioned in the programs. But we can't
+help you to get the program running: If you can't do it alone,
+probably you shouldn't use it...
+
+If you do not want the GGA option, get the 5.51 version, as it is 
+more thoroughly tested!!!!!!!!!!!

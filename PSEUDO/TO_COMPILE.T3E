@@ -1,0 +1,8 @@
+f90 -dp -o atom.exe atm.f libatom.a
+f90 -dp -o atomkb.exe atomkb.f libatom.a
+f90 -dp -o kbconv.exe kbconv.f libatom.a
+f90 -dp -o gen_vwr.exe gen_vwr.f libatom.a
+f90 -dp -o lnplot.exe lnplot.f libatom.a
+f90 -dp -o lnplot_kb.exe lnplot_kb.f libatom.a
+f90 -dp -o conv_plot.exe conv_plot.f 
+f90 -dp -o conv_plot_kb.exe conv_plot_kb.f

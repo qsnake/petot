@@ -1,0 +1,19 @@
+       integer inode,nnodes,mg,mgM,mtype,nwork
+       integer mg2,mrb2,mr,mrb2_matom_node,mnq
+       integer n1,n2,n3,ng_n,ng2_n,nr,nr_n,mx,natom
+       real*8     vol,rcut,Ecut2
+       real*8 ALI(3,3),Ecut,Smth
+
+       common /mpi_data/inode,nnodes
+
+       common /com123/n1,n2,n3,nr,nr_n,mx,natom
+
+       common /comgenG/ALI,Ecut,Smth
+
+       common /comNL/rcut,Ecut2,vol
+
+       parameter (mtype=6)
+       parameter (mnq=2000)
+
+c matom and nmax declared in data.f
+c mtype and do not cause too much memory, but mrb2 does.  

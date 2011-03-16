@@ -1,0 +1,83 @@
+This program produces a reduced k-point set [output in kpt.file]
+using the equivalent k-point scheme [S. Froyen, Phys. Rev. B 39, 3168(1989)]
+and generat a point-group symmetry [around the origin (0.,0.,0.)]
+file [symm.file] from atom.config. 
+
+This program should be runned before you run the PEtot program if you want
+to use symmetry operation and symmetry reduced k-point set. 
+
+To use the package, you need first to compile it: (1) copy the appropriate
+Makefile.machine to Makefile; (2) type >make. 
+The executable is: "kpgen".  
+
+
+To run the program, you need the atom.config file, which contains the 
+atomic positions in the system. You also need to prepar a "kpgen.input"
+file, which specifies the k-point information you want to use in the 
+calculation. After that, simply type >kpgen. It will dump a lots of 
+garbages on the screen. The resulting symmetry and k-point files are 
+"symm.file" and "kpt.file" respectively. 
+
+----------------------------------------------------------
+Example for kpgen.input (see: SAMPLE_kpgen.input)
+---------------------------------------------------------
+atom.config                  | the name of atom.config file
+10.68                        |a0
+4.0    0.     0.      1      |real space v(:,1), and kshif(1)
+0.0    4.0    0.      1      |real space v(:,2), and kshif(2)
+0.0    0.0   4.0      1      |real space v(:,3), and kshif(3)
+------------------------------------
+or: (equivalently)
+---------------------------------------------------------
+atom.config                  | the name of atom.config file
+1.0                          |a0
+42.72    0.     0.      1    |real space v(:,1), and kshif(1)
+0.0    42.72    0.      1    |real space v(:,2), and kshif(2)
+0.0     0.0   42.72     1    |real space v(:,3), and kshif(3)
+------------------------------------------
+
+In this example, the corresonding atomGaAs.config is: (see: SAMPLE_atom.config)
+------------------------------------
+2                                        |natom
+5.34   5.34   0.                         |AL(:,1)
+5.34   0.     5.34                       |AL(:,2)
+0.0    5.34   5.34                       |AL(:,3)
+31  0.   0.   0.         0 0 0           |iatom,x1,x2,x3,imv1,imv2,imv3
+33  0.25  0.25  0.25     0 0 0           |iatom,x1,x2,x3,imv1,imv2,imv3
+--------------------------------------------------------
+
+The resulting symm.file and kpt.file are reported in 
+SAMPLE_symm.file and SAMPLE_kpt.file. 
+-----------------------------------------------------------------
+Note, in our above annotation: V(:,1)->vector-> {V(x,1),V(y,1),V(z,1)}
+---------------------------------------------------------
+Equivalent k-point scheme is a generalized method of the Monkhorst-Pack scheme. 
+Simplly state, a small unit cell (AL(:,:) in atom.config) calculation with 
+many k-points is equivalent to a single bigger cell (a0*V(:,:) in kpgen.input) 
+calculation with a single k-point (without shift, kshif(:)=0, or with shift, 
+kshif(:)=1). Thus, all we need to input is this bigger cell a0*V(:,:) and the 
+shifting (kshif(:)) in the three directions. This big cell a0*V(:,:) must
+contains the original unit cell AL(:,:) and should have the highest symmetry 
+of the atoms in atom.config [so the overall symmetry will not be reduced due
+to improper choice of a0*V(:,:)]. For example, for a Monkhorst-Pack of 
+(m1,m2,m3), we have: a0*V(:,1)=m1*AL(:,1), a0*V(:,2)=m2*AL(:,2), 
+a0*V(:,3)=m3*AL(:,3). Here, a0 is used to simplify the specification of V(:,:)
+(e.g., by choosing a0 as the lattice constant). Only a0*V(:,:) matters.  
+But the current scheme can be more flexible than the Monkhorst-Pack. 
+Two different AL(:,:) calculations (one large, one small) can be directly 
+compared when the same a0*V(:,:) is used for these two calculations, because 
+they have the same "equivalent k-points" (but their kpt.files are different). 
+
+
+kshift(i) specifies whether you want a half grid point shift in this ith-direction
+on the k-point grid. Sometime a shift can reduce the number of the reduced k-point
+in kpt.file. 
+
+-----------------------------------------------------------
+Lin-Wang Wang
+NERSC
+email: lwwang@lbl.gov
+March 5, 2001
+
+
+

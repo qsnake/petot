@@ -1,0 +1,37 @@
+ 6
+    1-----------------
+         1         0         0
+         0         1         0
+         0         0         1
+    2-----------------
+         0         0         1
+         1         0         0
+         0         1         0
+    3-----------------
+         0         1         0
+         0         0         1
+         1         0         0
+    4-----------------
+         0         1         0
+         1         0         0
+         0         0         1
+    5-----------------
+         1         0         0
+         0         0         1
+         0         1         0
+    6-----------------
+         0         0         1
+         0         1         0
+         1         0         0
+ -------------------------------
+
+*******************************************
+Symmetry operation files generated from "kpgen". 
+They are in the unit of supercell lattice AL(3,3). (Not in the unit of x,y,z). 
+Each operation is a matrix of integer. 
+The symmetry is just a point group symmetry around the origin. So, it is 
+important to shift the highest symmetry point to the origin in atom.config
+The inversion operation is omitted, since k -> -k relationship already exists
+in a calculation without magnetic field. The PEtot and k-point reduction do not 
+take further advantages over the spacial inversion symmetry. 
+

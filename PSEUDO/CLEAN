@@ -1,0 +1,4 @@
+rm plot.dat plot.dat01 pseudo.dat pseudo.dat01 
+rm command.gp ppot.gp wfct.gp fppot.gp fwfct.gp kbplot.dat potfourkb.dat pseudokb.dat 
+rm command_kb.gp kbop.gp kbtr.gp datafile.dat command_log.gp log_ppot.gp 
+rm command_logkb.gp log_ppkb.gp log_true.gp kbar.gp

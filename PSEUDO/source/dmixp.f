@@ -1,0 +1,128 @@
+      SUBROUTINE DMIXP(A,B,BETA,ICY,ID,NMSH,
+     1                 C,D,VN1,VN12,VN2,VN22)
+C
+C  *************************************************************
+C  *
+C  *    ADAPTED FROM K.C.PANDEY
+C  *    USING ANDERSON'S EXTRAPOLATION SCHEME
+C  *    EQS 4.1-4.9,4.15-4.18 OF
+C  *    D.G.ANDERSON J.ASSOC.COMPUTING MACHINERY,12,547(1965)
+C  *    COMPUTES A NEW VECTOR IN A ITERATIVE SCHEME
+C  *    INPUT A=NEWPOT B=OLDPOT
+C  *    OUTPUT A=A-B B=NEWPOT
+C  *    BETA=MIXING,IN=ITER. NUMBER
+C  *    ID=1,2 OR 3 DIFF CONV METH.
+C  *    ICY CYCLE NUMBER ,ICY=1 ON FIRST/ZEROTH CALL
+C  *    C,D WORK ARRAYS OF SIZE NMSH
+C  *    VN1,VN12,VN2,VN22 STORAGE ARRAYS OF SIZE NMSH
+C  *
+C  *
+C  *
+C  *
+C  *************************************************************
+      IMPLICIT REAL*8 (A-H,O-Z)
+C
+      PARAMETER (UZE=0.0D0,UM=1.0D0,DETOL=1.D-9)
+C
+      DIMENSION A(NMSH),B(NMSH),C(NMSH),D(NMSH)
+      DIMENSION VN1(NMSH),VN12(NMSH),VN2(NMSH),VN22(NMSH)
+      IN=ICY-1
+      IF(IN.EQ.0) THEN
+        CALL TRNSVV(B,A,UM,NMSH)
+        RETURN
+      ENDIF
+      CALL TRNSVV(A,B,-UM,NMSH)
+      CALL DOTTVV(A,A,R2,NMSH)
+      IF(ID.EQ.1) THEN
+        CALL TRNSVV(B,A,BETA,NMSH)
+        RETURN
+      ENDIF
+      IF(IN.EQ.1) THEN
+        DO 100 I=1,NMSH
+          VN1(I)=A(I)
+ 100    CONTINUE
+        DO 105 I=1,NMSH
+          VN2(I)=B(I)
+ 105    CONTINUE
+        CALL TRNSVV(B,A,BETA,NMSH)
+        RETURN
+      ENDIF
+      DO 110 I=1,NMSH
+        C(I)=VN1(I)
+ 110  CONTINUE
+      IF(ID.EQ.3.AND.IN.GT.2) THEN
+        DO 115 I=1,NMSH
+          D(I)=VN12(I)
+ 115    CONTINUE
+      ENDIF
+      DO 120 I=1,NMSH
+        VN1(I)=A(I)
+ 120  CONTINUE
+      IF(ID.GT.2.AND.IN.GT.1) THEN
+        DO 125 I=1,NMSH
+          VN12(I)=C(I)
+ 125    CONTINUE
+      ENDIF
+      CALL TRNSVV(C,A,-UM,NMSH)
+      CALL DOTTVV(C,C,D11,NMSH)
+      CALL DOTTVV(A,C,RD1M,NMSH)
+      IF(IN.LE.2.OR.ID.LE.2) THEN
+        T1=-RD1M/D11
+        X=UM-T1
+        BT1=BETA*T1
+        DO 5 I=1,NMSH
+          A(I)=BETA*A(I)
+ 5      CONTINUE
+        CALL TRNSVV(A,C,BT1,NMSH)
+        DO 130 I=1,NMSH
+          D(I)=VN2(I)
+ 130    CONTINUE
+        CALL TRNSVV(A,D,T1,NMSH)
+        DO 135 I=1,NMSH
+          VN2(I)=B(I)
+ 135    CONTINUE
+        IF(ID.GT.2.AND.IN.EQ.2) THEN
+          DO 140 I=1,NMSH
+            VN22(I)=D(I)
+ 140      CONTINUE
+        ENDIF
+        DO 10 I=1,NMSH
+          B(I)=X*B(I)+A(I) 
+ 10     CONTINUE
+        RETURN
+      ENDIF
+      CALL TRNSVV(D,A,-UM,NMSH)
+      CALL DOTTVV(D,D,D22,NMSH)
+      CALL DOTTVV(C,D,D12,NMSH)
+      CALL DOTTVV(A,D,RD2M,NMSH)
+      A2=D11*D22
+      DET=A2-D12*D12
+      DETT=DET/A2
+      IF(ABS(DETT).GE.DETOL) THEN
+        T1=(-RD1M*D22+RD2M*D12)/DET
+        T2=( RD1M*D12-RD2M*D11)/DET
+      ELSE
+        T1=-RD1M/D11
+        T2=UZE
+      ENDIF
+      X=UM-T1-T2
+      BT1=BETA*T1
+      BT2=BETA*T2
+      DO 15 I=1,NMSH
+        A(I)=BETA*A(I)
+ 15   CONTINUE
+      CALL TRNSVV(A,C,BT1,NMSH)
+      CALL TRNSVV(A,D,BT2,NMSH)
+      CALL TRNSVV(A,VN2,T1,NMSH)
+      CALL TRNSVV(A,VN22,T2,NMSH)
+      DO 145 I=1,NMSH
+        VN22(I)=VN2(I)
+ 145  CONTINUE  
+      DO 155 I=1,NMSH
+        VN2(I)=B(I)
+ 155  CONTINUE
+      DO 20 I=1,NMSH
+        B(I)=X*B(I)+A(I) 
+ 20   CONTINUE      
+      RETURN
+      END

@@ -1,0 +1,18 @@
+ input.f.new   
+     change the format input with not formatted input. 
+     and nval_orig as the last output variable
+
+ pseud2.f, pseudb.f, pseudk.f, pseudo.f, pseudt.f, pseudv.f
+      add the nval_orig as the last input variable, 
+      and used that in the read(5,*) statement. 
+      switch the call from original pcc_exp.f to 
+      pcc_poly.f (for GGA) and pcc_sin.f (for none GGA).
+   
+ pcc_poly.f
+      created to replace the old pcc_exp.f
+
+ pcc_sin.f
+      smoother, used for none GGA pe calculation. 
+
+ Lin-Wang Wang
+ March 6, 2001

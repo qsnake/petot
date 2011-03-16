@@ -1,0 +1,50 @@
+$NOSTANDARD ON
+      SUBROUTINE ZEDATE(BDATE)
+C   
+C   Gets the data (DAY-MONTH-YEAR)
+C   HP version
+C
+       CHARACTER*10 BDATE
+       CHARACTER*9 ADATE
+       CALL DATE(ADATE)
+       WRITE(BDATE,100) ADATE
+ 100   FORMAT(A9,' ')
+       RETURN
+       END
+C
+$NOSTANDARD ON
+      SUBROUTINE ZESEC(T)
+C     HP VERSION
+C     ELAPSED WALL TIME IN SECONDS
+C     MAY GIVE WRONG VALUES IF RUN
+C     FOR MORE THAN A DAY
+      REAL*4 T0,T1
+      REAL*8 T
+      SAVE T0
+      DATA IFIRST /0/
+C
+C   GETS WALL_CLOCK TIME IN SECONDS
+C   HP VERSION
+C
+      IF(IFIRST .EQ. 0) THEN
+        T0 = SECNDS(0.0)
+        IFIRST = 1
+        T = 0.0
+      ELSE      
+        T1 = SECNDS(T0)
+	T = T1 
+        IF(T .LT. 0.0) T = 86400.0 + T
+      ENDIF
+      RETURN
+      END
+C
+$NOSTANDARD ON
+      SUBROUTINE ZETIME(BTIME)
+C   
+C   Gets the time of day (HH:MM:SS)
+C   HP version
+C
+       CHARACTER*8 BTIME
+       CALL TIME(BTIME)
+       RETURN
+       END

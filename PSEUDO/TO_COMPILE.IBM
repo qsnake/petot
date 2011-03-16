@@ -1,0 +1,8 @@
+xlf -o atom.exe atm.f libatom.a
+xlf -o atomkb.exe atomkb.f libatom.a
+xlf -o kbconv.exe kbconv.f libatom.a
+xlf -o gen_vwr.exe gen_vwr.f libatom.a
+xlf -o lnplot.exe lnplot.f libatom.a
+xlf -o lnplot_kb.exe lnplot_kb.f libatom.a
+xlf -o conv_plot.exe conv_plot.f 
+xlf -o conv_plot_kb.exe conv_plot_kb.f

@@ -1,0 +1,38 @@
+1   xatom.GaAs.cub8          | atom configuration input file   
+2   32,32,32             | n1,n2,n3
+3   1, 0                 | islda (1:LDA; 2:LSDA), igga (0:no gga; 1: PBE-gga)
+4   20., 80.,  1.0       |Ecut (Ryd), Ecut2, Smth 
+5   0, wg.in1,wg.in2     |iwg_in, wg_in1,2, if iwg_in=1, input ug from file wg_in
+6   1, wg.out1,wg.out2   |iwg_out, wg_out1,2, if iwg_out=1, output ug in file wg_out
+7   0, dens.in1,dens.in2 |irho_in, rho_in1,2, if irho_in=1, input dens from file rho_in
+8   1, dens.out1,dens.out2   |irho_out, rho_out1,2, if irho_out=1, output dens to file rho_out
+9   0, vr.in1,vr.in2     |ivr_in, vr_in1,2, if ivr_in=1, input vr from file vr_in
+10  1, vr.out1,vr_out2   |ivr_out, vr_out1,2, if ivr_out=1, output vr to file vr_out
+11  0,2,1,2,4,charge_out |idens_out,kpt_d,ispin_d,iw_i,iw_f,fcharge_out
+12   1, xforce           |iforce,xforce, if iforce=1, calculate force and output in xforce
+13   1, symm.file        |isymm, symm.file, if isymm=1, read symm info from symm.file
+14   1, kpt.file         |ikpt, kpt.file,  if ikpt=1, read k-point inform from kpt.file
+15   32.,18, 1.E-5, 1.E-8    | totNel,mx,tolug,tolE
+16   10, 10, 2           | niter0,nline0, mCGbad0 (mCGbad0 used only for iCG=2).
+     1    0   0.02       | iCG, iscf, dE(eV)  
+     1    0   0.02       | iCG, iscf, dE   
+     1    0   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+17   0, 1.E-5, 10.,  xatom_out     | num_mov, tolforce, dstart, fxatom_out 
+18   5, 10, 2            | niter,nline, mx, mCGbad1 (mCGbad1 used only for iCG=2).
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+     1    1   0.02       | iCG, iscf, dE   
+19   3                   |  ilocal:1,2,3-> local, real sp NL, q sp NL.
+20   4.7                 | rcut (A.U)
+21  2                    | ntype 
+22  vwr.Ga               | the pseudopotential file for the first atom type
+23  vwr.As               | the pseudopotential file for the second atom type

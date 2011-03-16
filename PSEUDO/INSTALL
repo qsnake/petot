@@ -1,0 +1,12 @@
+  A few simple steps are needed to compile the program:
+
+ (1) cd to directory "source": >cd source
+ (2) copy the appropriate Makefile.machine to Makefile (or edit the Makefile)
+ (3) type >make
+ (4) move the libatom.a to parent directory: >mv libatom.a ..
+ (5) go back to the parent directory: >cd ..
+ (6) Use TO_COMPILE.machine to compile the .exe files: > ./TO_COMPILE.machine
+     There should result in the following files:
+     atom.exe, atomkb.exe,conv_plot.exe,conv_plot_kb.exe,
+     gen_vwr.exe, kbconv.exe,lnplot.exe,lnplot_kb.exe
+ (7) You are done !

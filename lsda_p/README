@@ -1,0 +1,19 @@
+You can generate two executable codes: PEtot, Pmoment. 
+The main code is PEtot. To make them, you need to do:
+
+(1) copy the appropriate Makefile.Machine to Makefile. 
+    If you are not using T3E or IBM SP, you might need 
+    to edit the Makefile yourself. 
+
+(2) Edit all the system_xxxx.f programs, uncomment the 
+    program lines corresponding to the machine you are using. 
+    This is easy to do for T3E and IBM-SP user. 
+    If you are not using T3E or IBM SP, you might need 
+    to provide the adequate subroutines in those programs. 
+
+(3) For IBM-SP user, link the lapack library:
+    > module load lapack
+
+(4) type >make PEtot
+         >make Pmoment
+    You are done. 

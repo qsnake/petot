@@ -1,0 +1,44 @@
+./atom.exe
+#
+echo "plot.dat01" > tmp.input
+echo "dis" >> tmp.input
+./conv_plot.exe < tmp.input
+#
+cp pseudo.dat01 pseudo.dat
+./kbconv.exe
+#
+echo "kbplot.dat" > tmp.input
+echo "dis" >> tmp.input
+./conv_plot_kb.exe < tmp.input
+#
+cp atom.input atom.input.tmp
+awk '{if (NR==2) $1="min"; print $0}' atom.input.tmp > atom.input
+./atom.exe
+#
+echo "pseudo.dat01" > tmp.input
+echo "datafile.dat" >> tmp.input
+echo "2.0" >> tmp.input
+./lnplot.exe < tmp.input
+#
+echo "pseudokb.dat" > tmp.input
+echo "datafile.dat" >> tmp.input
+echo "2.0" >> tmp.input
+./lnplot_kb.exe < tmp.input
+#
+cp pseudokb.dat pseudo.dat
+awk '{if (NR==1) {$1="pt,"; $2="kb-test"}; print $0}' atom.input.tmp > atom.input
+./atomkb.exe
+#
+mv atom.input.tmp atom.input
+rm tmp.input
+#
+./gen_vwr.exe
+#
+echo " ******PSEUDOPOTENTIAL GENERATION FINISHED******* "
+echo " information are stored in: atom.out, atomkb.out, kb.out"
+echo " type > gnuplot command.gp (or command_kb.gp, command_log.gp, command_logkb.gp) "
+echo "       to see the figures"
+echo " type > ./CLEAN   to clean up"
+echo " The new pseudopotential file for PEtot is: vwr.Atom-Name "
+
+

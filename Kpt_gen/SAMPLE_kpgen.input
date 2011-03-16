@@ -1,0 +1,5 @@
+atom.config                  | the name of atom.config file
+10.68                        |a0
+4.0    0.     0.      1      |real space v(:,1), and kshif(1)
+0.0    4.0    0.      1      |real space v(:,2), and kshif(2)
+0.0    0.0   4.0      1      |real space v(:,3), and kshif(3)
