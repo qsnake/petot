@@ -1,0 +1,56 @@
+This directory contains one subdirectory for each atom of the
+periodic table for which pseudopotentials are available.
+
+Please read the DISCLAIMER regarding the potentials in the library.
+
+To find the potential of interest to you, move to the subdirectory
+for the atom of interest.  Within each atom directory, there are
+further subdirectories with a naming structure of the form
+
+  nnn-Sy-xc-[nspdf]-label
+
+where
+
+  nnn-Sy is the atomic number and symbol
+
+  xc is the type of exchange-correlation, which can be:
+
+      ca   Ceperley-Alder
+      wg   Wigner
+      hl   Hedin-Lundquist
+      gl   Gunnarson-Lundquist
+      gbl  LDA (CA) + Becke88 + LYP GC xc
+      gb   LDA (CA) + Becke88
+      gbp  LDA (CA) + Becke88 + Perdew86 GC xc
+      gpw  PW(91)
+      gpbe PBE(96)
+
+  [nspdf] is one or more of:
+
+      n    Non-linear core correction included
+      s    Semicore s shell included in valence
+      p    Semicore p shell included in valence
+      d    Semicore d shell included in valence
+      f    Semicore f shell included in valence
+
+  label is a unique label provided by the supplier of the potential
+
+Examples:
+
+  022-Ti-ca-sp-vgrp     Ti Ceperley-Alder potential with semicore s and p
+  008-O-gpbe--marz01    Oxygen PBE potential with no semicore states
+
+Each subdirectory should contain a 'Makefile,' any needed *.adat files,
+and a README file.  See example subdirectories and README file in the
+000-Ex/ subdirectory.
+
+					David Vanderbilt
+					January 2002
+
+------------------------------------------------------------------------
+Prof. David Vanderbilt               Phone: (732) 445-2514
+Department of Physics and Astronomy  Fax:   (732) 445-4400
+Rutgers University                   Email:  dhv@physics.rutgers.edu
+136 Frelinghuysen Road               http://www.physics.rutgers.edu/~dhv
+Piscataway, NJ 08854-8019   USA
+------------------------------------------------------------------------

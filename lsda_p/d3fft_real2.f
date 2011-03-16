@@ -2,8 +2,12 @@
 
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 
@@ -60,7 +64,6 @@ c
 
 
 
-      call mpi_barrier(mpi_comm_world,ierr)
 
       if(isign.eq.-1) then
 
@@ -82,7 +85,6 @@ c     put into x col format for fft in workr_n
       enddo
  
       k0npac = 0
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
 
       do ig = 1, ngtotnod2(inode)
 
@@ -107,21 +109,23 @@ c
 c
 c pass out half  k.eq.0 plane
 c
+      call mpi_barrier(MPI_COMM_K,ierr)
+
       do i = 1,nnodes
        call mpi_isend(k0val(1,i),k0npac(i),mpi_real8,i-1,inode,
-     &                mpi_comm_world,ireq(i),ierr)
+     &                MPI_COMM_K,ireq(i),ierr)
       enddo
 
       do i = 1,nnodes
        call mpi_recv(frdum(1,i),k0nunp(i),mpi_real8,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               MPI_COMM_K,mpistatus,ierr)
       enddo
 
       do i = 1, nnodes
          call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
       do i = 1,nnodes
         do j = 1,k0nunp(i)
@@ -129,7 +133,6 @@ c
         enddo
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
 c     
 c     deal with origin separately (it is its own inverse)
 c     
@@ -146,7 +149,7 @@ c
 
       call invcpfft2(fr_n,n1,n2,n3)
 
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
       deallocate(k0val)
       deallocate(frdum)
@@ -181,7 +184,7 @@ c
            endif
       endif
 
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
       return
       endif
 

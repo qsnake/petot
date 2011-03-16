@@ -1,16 +1,32 @@
        integer inode,nnodes,mg,mgM,mtype,nwork
        integer mg2,mrb2,mr,mrb2_matom_node,mnq
        integer n1,n2,n3,ng_n,ng2_n,nr,nr_n,mx,natom
-       real*8     vol,rcut,Ecut2
-       real*8 ALI(3,3),Ecut,Smth
+       integer n1L,n2L,n3L,nrL,nr_nL
+       integer n1L2,n2L2,n3L2,nrL2,nr_nL2
+       integer iflag_fft2L
 
-       common /mpi_data/inode,nnodes
+       integer inode_tot,nnodes_tot,icolor,num_group
+       integer MPI_COMM_K,MPI_COMM_N
+       integer kpt_slda_dis(2),kpt_dis(2),natom_dis(2)
 
-       common /com123/n1,n2,n3,nr,nr_n,mx,natom
+       real*8  vol,rcut,Ecut2,Ecut2L,vol2
+       real*8 ALI(3,3),ALI2(3,3),Ecut,Smth
+       real*8 AL2(3,3)
 
-       common /comgenG/ALI,Ecut,Smth
+       common /mpi_data/inode,nnodes,inode_tot,nnodes_tot,
+     &  icolor,num_group,MPI_COMM_K,MPI_COMM_N
 
-       common /comNL/rcut,Ecut2,vol
+       common /kpt_slda/kpt_slda_dis,kpt_dis,natom_dis
+
+       common /com123/n1,n2,n3,nr,nr_n,mx,natom,
+     &   n1L,n2L,n3L,nrL,nr_nL,n1L2,n2L2,n3L2,
+     &   nrL2,nr_nL2
+
+       common /comgenG/ALI,ALI2,AL2,Ecut,Smth
+
+       common /comNL/rcut,Ecut2,vol,vol2,Ecut2L
+
+       common /comiflag_fft/iflag_fft2L
 
        parameter (mtype=6)
        parameter (mnq=2000)

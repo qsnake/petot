@@ -1,21 +1,26 @@
                   (I). GENERAL INFORMATION + COPYRIGHT ISSUES
 
-     This is a planewave pseudopotential package. It contains: lsda_p 
+     This is a planewave pseudopotential package. It contains: lsda_p_v2 
      (the main program), Kpt_gen (the k-point generator), PSEUDO (the
-     supporting pseudopotential generating package), DOC_EXAMPLE 
-     (the documents and examples). 
-
-     lsda_p package was developed by Lin-Wang Wang at NERSC, 
-     Lawrence Berkeley National Lab, Berkeley, CA, email: lwwang@lib.gov,
-     web site: http://www.nersc.gov/~linwang. The project was funded by
-     U.S. Department of Energy. 
+     supporting pseudopotential generating package from J.L. Martin), 
+     ULTRASOFT (the ultrasoft pseudopotential package from D. Vanderbilt), 
+     DOC_FILE (the document files) and EXAMPLE (the files for one example run). 
+     
+     lsda_p_v2 package was written by Lin-Wang Wang, and copyrighted by 
+     the Regents of the University of California, through Lawrence Berkeley 
+     National Laboratory (subject to receipt of any required approvals from 
+     the U.S. Dept. of Energy). The development of this code is mostly funded
+     by NERSC computer center at LBNL. 
      
      The original serie code Etot was written by L.W. Wang when he was in 
      National Renewable Energy Lab, Golden, CO. 
 
-     PEtot was parallelized by Andrew Canning and L.W. Wang at NERSC using
-     standard MPI, and it uses the MPI parallel FFT code, developed by 
-     Andrew Canning.  
+     The MPI parallel code PEtot  was written by L.W. Wang when he is at NERSC. 
+     It uses the MPI parallel FFT code, developed by Andrew Canning at 
+     NERSC. 
+
+     The new version (lsda_p_v2) was written by L.W. Wang at Computational 
+     Research Division of LBNL. 
 
      ******  See Section (II)  for the features of PEtot  *******
 
@@ -24,21 +29,29 @@
      resulting pseudopotential file can be used directly for PEtot calculation. 
      See the directory PSEUDO for more copyright issues for that package.  
 
+     The ULTRASOFT package was down loaded from D. Vanderbilt's web site:
+     http://www.physics.rutgers.edu/%7Edhv/uspp/#CONTRIB, without any 
+     modification (except a simple file: HOW_TO_MAKE_USPP). It is compiled
+     for the IBM SP machine. So for the IBM user, the executable can be used
+     directly without recompiling. See the README in that directory for copyright
+     its issues. 
+
      The Kpt_gen program was originally written by James E. Bernard and 
      Sverre Froyen, see that directory for more copyright issues.  
 
      The whole package can only be used for non-profit research. It is
-     intended for U.S. Department of Energy research community, and especially
+     intended mostly for U.S. Department of Energy research community, and especially
      for NERSC computer users.  
 
-     It was tested in NERSC parallel computers: Cray T3E, and IBM SP, 
-     althought we expect it to run smoothly on other platforms. 
+     It was tested the package extensively on the NERSC parallel computers: IBM SP, 
+     althought we expect it to run smoothly on other platforms (for example on 
+     Linux clusters).  
 
-     It is fine tunned for large scale electronic structure calculations. 
+     It is fine tuned for large scale electronic structure calculations. 
      With modest energy cutoff (e.g, Ecut=20Ryd), it can handle 
-     thousand atoms with no problem. 
+     thousand atoms on a few hundred processors. 
 
-     Go to each directory, and read the "README" or "INSTALL" files in that
+     Go to each directory, read the "README" or "INSTALL" files in that
      directory, and find out what to do. 
 
 -----------------------------------------------------------------------------
@@ -46,51 +59,59 @@
 
      (1) It is a planewave pseudopotential code. 
 
-     (2) It uses norm conservation pseudopotentials. (We do plan to go beyond
-         the current pseudopotential to reduce Ecut). 
+     (2) It uses both the norm conservation pseudopotentials and ultrasoft
+         pseudopotentials. 
 
      (3) It is written in Fortran 90 and parallelized using standard MPI.
 
-     (4) It is mainly aimed for large scale electronic structure calculations
+     (4) It is parallelized in two levels. The most fundamental level is the G-point
+         parallelization. This is done by distributing the G-vectors and the corresponding 
+         wavefunction coefficients on different processors. In real space, the unit
+         cell is divided into layers along the first dimension (n1), and distributed
+         among different processors. This parallelization allows the calculation for
+         very large systems (e.g, nanosystem) using large number of processors. 
+         The second level of parallelization is for the k-points. This is done by 
+         dividing the processors into groups, and each group deals with one k-point
+         independently. This level of parallelization is useful for bulk and surface
+         calculations where large numbers of k-points exist. Both levels of parallelization
+         are usually used simultaneously. 
+
+     (5) It is mainly aimed for large scale electronic structure calculations
          (e.g., 100-1000 atoms). With modest Ecut (e.g, 25 Ryd), and 100 processors, 
          it can calculate thousand atom systems. 
 
-     (5) It has both G-space and r-space Kleinman-Bylander nonlocal pseudopotential 
+     (6) It has both G-space and r-space Kleinman-Bylander nonlocal pseudopotential 
          implementation. For systems with number of atom larger than ~50, the real
          space implementation becomes faster. for r-space implementation, the original
-         pseudopotential file is used, without the need for proprocessing, due
+         pseudopotential file is used, without the need for preprocessing, due
          to the use of a new algorithm (and a mask function from file  "maskr"). 
 
-     (6) It uses the charge mixing self-consistent field (SCF) approach. It employs
+     (7) It uses the charge mixing self-consistent field (SCF) approach. It employs
          different charge mixing schemes: Puly-Kerker, Thomas-Fermi. The newly 
          developed Thomas-Fermi scheme stablizes many previously unstable large 
          scale systems under SCF. 
         
-     (7) It has two schemes for electron wavefunction iterations: (1) Standard 
+     (8) It has two schemes for electron wavefunction iterations: (1) Standard 
          conjugate gradient, (2) Residual minimization scheme. The residual minimization
          scheme reduce the need for wavefunction orthogonalization, thus effectively 
          reduces the computational time scaling from O(N^3) to O(N^2) for N~100 to a few
          thousands. 
 
-     (8) It can do calculations for: LDA, LSDA, GGA. (But no spin-orbit coupling, thus 
+     (9) It can do calculations for: LDA, LSDA, GGA. (But no spin-orbit coupling, thus 
          not for noncolinear magnetic system).   
 
-     (9) It can calculate the forces on the atoms, and relax the atomic positions to 
+    (10) It can calculate the forces on the atoms, and relax the atomic positions to 
          minimize the total energy using the BFGS algorithm (updating the Hession 
          matrix). However, it does not automatically relax unit cell itself (not
          designed for small compound system comprehensive analysis).
 
-    (10) It takes the k-points and symmetry operations from the Kpt_gen directory in 
+    (11) It takes the k-points and symmetry operations from the Kpt_gen directory in 
          this package. But it can only do point-group symm. No space group symmetry. 
 
-    (11) It takes the pseudopotential files vwr.atom from the PSEUDO directory in 
-         this package.
-
-    (12) It is parallelized by distributing the G-vectors and the corresponding 
-         wavefunction coefficients on different processors. In real space, the unit
-         cell is divided into layers along the first dimension (n1), and distributed
-         among different processors. 
-
+    (12) It takes the pseudopotential files vwr.atom from the PSEUDO directory in 
+         this package, and the binary ultrasoft pseudopotential files uspp.atom from 
+         the ULTRASOFT directory in this package. 
+         
     (13) Andrew Canning's special designed parallel Fast Fourier Transform (FFT) code
          is used for this program. It reaches perfect load balance in the G-space, 
          and minimizes the communication and operations taking the advantages of the 
@@ -98,13 +119,25 @@
          NERSC computers (T3E and IBM SP).  
 
     (14) For multiple k-points, it stores the wavefunctions of the currently unused 
-         k-points on disk, thus saves the memory space. 
+         k-points on disk, thus reduces the memory requirment. 
 
     (15) It can restart using previous calculation results. 
 
-    (16) It can be used in conjunction with Escan (another package produced by 
-         Lin-Wang Wang), for large system nanostructure calculations. 
+    (17) It can do calculations for isolated clusters (or molecules) in vacuum and 
+         isolated surface calculations without the periodic boundary condition. 
+         This is useful to avoid the possible long term Coulomb interaction caused 
+         by the period boundary condition when the Poisson equation is solved. This 
+         is done by using a special algorithm to solve the Poisson equation. 
 
+    (18) It has different methods of finite temperature smearing for the occupation 
+         for metallic systems. It has Fermi-Dirac and generalized Gaussian method.   
+
+    (19) It can be used in conjunction with Escan (another package produced by 
+         Lin-Wang Wang), for large system nanostructure calculations (e.g, using the 
+         charge patching method). 
+
+    (20) It has various ways to output the charge density and the wavefunctions
+         in real space.  
 -----------------------------------------------------------------------------
                (III). Suggested Acknowledgement
 
@@ -114,7 +147,7 @@ and instructions carefully). However, it will be a great help for the future dev
 of this project if you can acknowledge the use of the current code in your research paper. 
 The suggested acknowledgement could be: "The current results have been obtained through the
 use of the PEtot code, which is developed by the U.S. Department of Energy, and can be  
-downloaded from: http://www.lbl.gov/~linwang".  Even better, if you can forward me a 
+downloaded from: http://hpcrd.lbl.gov/~linwang".  Even better, if you can forward me a 
 copy, or just a title of the papers using this program, and including the suggested 
 acknowledgement. 
 
@@ -122,7 +155,7 @@ acknowledgement.
                (IV). HELPS, etc. 
 
     If you are a NERSC user, I am happy to help you to use this code, especially on
-the T3E and IBM SP machines. If you are within DOE research community, I am willing 
+the IBM SP machines. If you are within DOE research community, I am willing 
 to help if it does not take a lot of time. If you are none of above, good luck, you 
 are on your own. However, I am happy to hear your complains, comments, and suggestions
 for more features. Your feedbacks are highly valued.
@@ -130,7 +163,8 @@ for more features. Your feedbacks are highly valued.
 
 
 Lin-Wang Wang
-NERSC
+Computational Research Division
+Lawrence Berkeley National Lab
 email: lwwang@lbl.gov
-March 5, 2001. 
+Dec. 10, 2004
         

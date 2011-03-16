@@ -1,0 +1,56 @@
+This directory contains samples and documentation files on how to 
+run the PEtot package. You should first go to lsda_p, PSEUDO, Kpt-gen
+to make the executable programs. 
+
+The main program is PEtot_U (in lsda_p_v2).  
+
+To run this program: you need to prepare the following files:
+
+-------------------------------------------------------------
+etot.input     ! The main input file for PEtot
+atom.config    ! contains the atomic positions and relax informations
+vwr.atom       ! pseudopotential files (can be generated from PSEUDO)
+symm.file      ! symmetry file, if you want to use symm. (from Kpt-gen)
+kpt.file       ! k-point file, if you are not use only Gamma point (from Kpt-gen)
+-------------------------------------------------------------
+You also need file: "maskr" for real space Kleinman-Bylander pseudopotential
+implementation (simply copy this file from the current directory).
+
+To run the program, place the above files in the directory you are running, 
+then type: 
+
+>mpprun -n NPROC ./PEtot_U     (on T3E)
+or
+>poe ./PEtot_U -procs NPROC -nnodes N_nodes  (on IBM SP)
+
+here NPROC is the total number of processors you want to use. 
+
+You can also use a Batch job to run the program, see NERSC web site for how
+to submit Batch jobs.
+
+The program will dump a lot of stuff on the screen (give you a sense that the 
+job is running), and will write a more concise result in file "report". 
+Depending on the specification in etot.input, other output files might be
+generated. During the run, it will generate some scratch files, e.g, ugiofilexxx. 
+These files will be deleted after the run is finished successfully.  
+-----------------------------------------------------------------
+
+Another small executable: Pmoment in lsda_p_v2, calculates the matrix elements
+|<i|P|j>|^2 for optical transitions. To run it, you need to prepare:
+
+moment.input   ! the input file to name the input wavefunction and kpt.file
+
+Then to run it, type
+
+>mpprun -n NPROC ./Pmoment (on T3E)
+or
+>poe ./Pmoment -procs NPROC -nodes N_nodes  (on IBM SP)
+
+It will output a file: "pmatrix", containing the information for the
+matrix elements. Note that the NPROC for the current Pmoment run must be the same
+as the NPROC for the PEtot run which generated the wavefunction files. 
+------------------------------------------------------------------
+------------------------------------------------------------------
+The DOC_xxx files in this directory will explain each above file in detail. 
+------------------------------------------------------------------
+------------------------------------------------------------------

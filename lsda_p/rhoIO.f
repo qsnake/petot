@@ -1,8 +1,13 @@
-      subroutine rhoIO(AL,vr_n_tmp,mr_n,iflag,fdens_name)
+      subroutine rhoIO(AL,vr_n_tmp,mr_ni,iflag,
+     &    n1i,n2i,n3i,fdens_name)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 
@@ -21,13 +26,17 @@ ccccccc iflag=2, read the charge density vr_n_tmp from fdens_name
 
       real*8,allocatable,dimension(:)   :: temp_rho
     
-      real*8 vr_n_tmp(mr_n)
+      real*8 vr_n_tmp(mr_ni)
 
       integer status(MPI_STATUS_SIZE)
       real*8 AL(3,3),ALt(3,3)
       character*20 fdens_name
 
+      nri=n1i*n2i*n3i
+
+
       if(iflag.eq.2) then   ! read the charge density
+      if(icolor.eq.0) then    ! only read from the icolor group
      
       if (inode==1) then
       open(unit=15,file=fdens_name,form='unformatted',
@@ -39,7 +48,7 @@ ccccccc iflag=2, read the charge density vr_n_tmp from fdens_name
 
       read(15)n1t,n2t,n3t,nodes
 
-      if(n1t.ne.n1.or.n2t.ne.n2.or.n3t.ne.n3) then
+      if(n1t.ne.n1i.or.n2t.ne.n2i.or.n3t.ne.n3i) then
       write(6,*) "n1,n2,n3 in input dens file not right, stop"
       write(6,*) n1t,n2t,n3t
       stop
@@ -76,25 +85,25 @@ c     We assume iratio=2^n where n can be positive or negative.
 ccc         write(6,*)'ratio=',ratio
       endif
 ccccccccccccccccccccccccccccccc
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
       if(inode.eq.1) then
 
-         allocate(tempvr1(nr/nnodes))
-         allocate(tempvr2(nr/nodes))
+         allocate(tempvr1(nri/nnodes))
+         allocate(tempvr2(nri/nodes))
          if (ratio>=1.0d0) then
             iratio=int(ratio+1.0d-06)
             do isend=0,nnodes-1
                do iread=1,iratio
                   read(15) tempvr2
-                  tempvr1((iread-1)*nr/nodes+1:iread*nr/nodes)
+                  tempvr1((iread-1)*nri/nodes+1:iread*nri/nodes)
      &                 =tempvr2
                end do
                if (isend==0) then
-                  vr_n_tmp(1:nr/nnodes)=tempvr1
+                  vr_n_tmp(1:nri/nnodes)=tempvr1
                else
-                  call mpi_send(tempvr1,nr/nnodes,MPI_REAL8,isend,
-     &                 100,MPI_COMM_WORLD,ierr)
+                  call mpi_send(tempvr1,nri/nnodes,MPI_REAL8,isend,
+     &                 100,MPI_COMM_K,ierr)
                end if
             end do
          else
@@ -104,12 +113,12 @@ cc            write(6,*)'iratio = ',iratio
             do iloop=1,nodes
                read(15)tempvr2
                do i=1,iratio
-                  tempvr1=tempvr2((i-1)*nr/nnodes+1:i*nr/nnodes)
+                  tempvr1=tempvr2((i-1)*nri/nnodes+1:i*nri/nnodes)
                   if (isend==0) then
-                     vr_n_tmp(1:nr/nnodes)=tempvr1
+                     vr_n_tmp(1:nri/nnodes)=tempvr1
                   else
-                     call mpi_send(tempvr1,nr/nnodes,MPI_REAL8,isend,
-     &                    100,MPI_COMM_WORLD,ierr)
+                     call mpi_send(tempvr1,nri/nnodes,MPI_REAL8,isend,
+     &                    100,MPI_COMM_K,ierr)
                   end if
                   isend=isend+1
                end do
@@ -118,56 +127,61 @@ cc            write(6,*)'iratio = ',iratio
          deallocate(tempvr1)
          deallocate(tempvr2)
       else
-         call mpi_recv(vr_n_tmp,nr/nnodes,MPI_REAL8,0,100,
-     &        MPI_COMM_WORLD,status,ierr)
+         call mpi_recv(vr_n_tmp,nri/nnodes,MPI_REAL8,0,100,
+     &        MPI_COMM_K,status,ierr)
       end if
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
 234   continue
       if(inode.eq.1) close(15) 
 
-      return
-      endif   ! iflag=2, read
+      endif     ! icolor=0 group
+ccccccccc  send the data from icolor group to other groups
+      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_bcast(vr_n_tmp,nri/nnodes,MPI_REAL8,0,MPI_COMM_N,ierr)
 
+      return
+      endif     ! iflag=2, read
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       if(iflag.eq.1) then     ! write the charge 
+      if(icolor.eq.0) then
 
-       allocate(temp_rho(mr_n))
+       allocate(temp_rho(mr_ni))
 
        if(inode.eq.1) then
-       allocate(tempvr1(mr_n))
+       allocate(tempvr1(mr_ni))
        open(11,file=fdens_name,form="unformatted")
        rewind(11)
-       write(11) n1,n2,n3,nnodes
+       write(11) n1i,n2i,n3i,nnodes
        write(11) AL
-       write(11) (vr_n_tmp(i),i=1,n1*n2*n3/nnodes)
+       write(11) (vr_n_tmp(i),i=1,n1i*n2i*n3i/nnodes)
        endif
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        do i=1,nnodes-1
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
        if(inode==i+1) then
-        do iloop=1,mr_n
+        do iloop=1,mr_ni
         temp_rho(iloop)=vr_n_tmp(iloop)
         enddo
-        call  mpi_send(temp_rho,mr_n,MPI_REAL8,0,
-     &   100,MPI_COMM_WORLD,ierr)
+        call  mpi_send(temp_rho,mr_ni,MPI_REAL8,0,
+     &   100,MPI_COMM_K,ierr)
 
        endif
 
        if(inode==1) then
-        call mpi_recv(temp_rho,mr_n,MPI_REAL8,i,
-     &   100,MPI_COMM_WORLD,status,ierr)
-       do iloop=1,mr_n
+        call mpi_recv(temp_rho,mr_ni,MPI_REAL8,i,
+     &   100,MPI_COMM_K,status,ierr)
+       do iloop=1,mr_ni
        tempvr1(iloop)=temp_rho(iloop)
        end do
        write(11) tempvr1
        endif
        enddo
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
         deallocate(temp_rho)
 
@@ -175,9 +189,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         deallocate(tempvr1)
         close(11)
         endif
-
-        return
 *****************************************************
+        endif    ! icolor.eq.0
+        call mpi_barrier(MPI_COMM_WORLD,ierr)
         endif    ! iflag=1, write
 
         return

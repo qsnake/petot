@@ -1,5 +1,14 @@
       subroutine gen_G2_real()
 
+*******************************************************
+***  Written by Lin-Wang Wang, 2001
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
+
 ***   this subroutine is for real wavefunction program, escan_real.f only
 ***   calculates gkk_n, wg_n, length squared and weight factor for 
 ***   g vectors on my node also calculates index matrices  
@@ -17,10 +26,6 @@
       real*8 tmp(3)
 
       integer fmin
-
-c      inode = my_pe()+1
-       call mpi_comm_rank(MPI_COMM_WORLD,inode,ierr)
-       inode=inode+1
 
 *****************************************
 *     *  \sum_i AL(i,j1)*ALI(i,j2)= \delta_j1,j2
@@ -255,7 +260,7 @@ c     number of g vectors on my processor = ng_n
 c     
 c     write out load balancing info 
 c     
-         if(inode.eq.1) then
+         if(inode_tot.eq.1) then
             write(*,*) " load balancing info for potential sphere"
             write(*,*) "pe.  g's. cols. "
             do i = 1,nnodes

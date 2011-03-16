@@ -32,6 +32,7 @@ ccccccccc  Lin-Wang Wang, Feb. 28, 2001
             tpfive=2.5d0
             pi=4*datan(1.d0)
 
+cccccccccccccccccccccccccccccccccccccccccccc
 
             cdcp = (cdc(icore+1)-cdc(icore))/(r(icore+1)-r(icore))
             tanb = cdc(icore)/(r(icore)*cdcp-cdc(icore))

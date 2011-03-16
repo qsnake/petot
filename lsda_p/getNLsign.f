@@ -1,8 +1,12 @@
        subroutine getNLsign(iatom,ntype,is_ref,ip_ref,id_ref)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 
@@ -14,13 +18,15 @@ cc     The United States government retains a royalty free license in this work
 
        include 'param.escan_real'
        integer iatom(matom),iiatom(mtype),icore(mtype),numref(matom)
+       integer ityatom(matom)
        integer is_ref(mtype),ip_ref(mtype),id_ref(mtype)
        real*8 occ_t(mtype)
-       integer isNL(3,mtype),isNLa(9,matom)
+       integer isNL(3,mtype),isNLa(9,matom),ipsp_type(mtype)
+       real*8 Dij0(32,32,mtype),Qij(32,32,mtype)
 
        common /comisNL/isNL
-       common /comisNLa/isNLa
-       common /comNL2/occ_t,iiatom,icore,numref
+       common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
+       common /comNL2/occ_t,iiatom,icore,numref,ityatom
 ***********************************************
 
        do ia=1,natom

@@ -1,0 +1,48 @@
+1    4    5              | nnodes_k, num_group
+2   xatom.GaAs8at        | atom configuration input file   
+3   32,32,32, 32,32,32             | n1,n2,n3;n1L,n2L,n3L
+4   1, 0                 | islda (1:LDA; 2:LSDA), igga (0:no gga; 1: PBE-gga)
+5   25., 75., 75., 1.0       |Ecut (Ryd), Ecut2, Ecut2L, Smth 
+6   0,   0.   0.   0.         | icoul, xcoul1,xcoul2,xcoul3
+7   0, wg.in1,wg.in2     |iwg_in, wg_in1,2, if iwg_in=1, input ug from file wg_in
+8   0, wg.out1,wg.out2   |iwg_out, wg_out1,2, if iwg_out=1, output ug in file wg_out
+9   0, dens.in1,dens.in2 |irho_in, rho_in1,2, if irho_in=1, input dens from file rho_in
+10   0, dens.out1,dens.out2   |irho_out, rho_out1,2, if irho_out=1, output dens to file rho_out
+11   0, vr.in1,vr.in2     |ivr_in, vr_in1,2, if ivr_in=1, input vr from file vr_in
+12  0, vr.out1,vr_out2   |ivr_out, vr_out1,2, if ivr_out=1, output vr to file vr_out
+13  0, vext_file
+14  0, 1,2, 1,1, 120,125,  sumW2_out |idens_out,kpt_(i,f), ispin_(i,f) ,iw_(i,f), fcharge_out
+15   1, xforce           |iforce,xforce, if iforce=1, calculate force and output in xforce
+16   1, symm.file        |isymm, symm.file, if isymm=1, read symm info from symm.file
+17   1, kpt.file         |ikpt, kpt.file,  if ikpt=1, read k-point inform from kpt.file
+18   32.,18 1.E-5, 1.E-20    | totNel,mx,tolug,tolE
+19   12, 5, 5           | niter0,nline0, mCGbad0 (mCGbad0 used only for iCG=2).
+     1    0   0.02   1   | iCG, iscf, dE(eV)  
+     1    0   0.02   1   | iCG, iscf, dE(eV)  
+     1    0   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+     1    1   0.02   1   | iCG, iscf, dE(eV)  
+20   3, 1.E-5, 10., 0.4, xatom_out, 0  | num_mov, tolforce, dstart, fxatom_out 
+21   7, 6, 2            | niter,nline, mx, mCGbad1 (mCGbad1 used only for iCG=2).
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+     1    1   0.02   1   | iCG, iscf, dE   
+22   3                   |  ilocal:1,2,3-> local, real sp NL, q sp NL.
+23   3.8                 | rcut (A.U)
+24   2                    | ntype
+    vwr.Ga  1
+    vwr.As  1
+
+
+

@@ -26,26 +26,30 @@ c     AMC revised 21/6/97 hardwired for gamma point complex to real fft
 c     
 c     
       real*8,allocatable,dimension(:) :: worknr1,worknr2,worknr3
+      real*8,allocatable,dimension(:) :: psiy,combuf1,combuf2
       
-      real*8 combuf1(mr_n),combuf2(mr_n)
-      real*8 psi(mr_n)
-      real*8 psiy(mr_n)           ! work space
-      real*8 psidum(nr3)
-
       integer inode,nnodes
       integer ireq(nnodes)
+      integer inode_tot,nnodes_tot,icolor,num_group,MPI_COMM_K,
+     &       MPI_COMM_N
+
 
       integer jj
 
-      common /mpi_data/inode,nnodes
+      common /mpi_data/inode,nnodes,inode_tot,nnodes_tot,
+     &  icolor,num_group,MPI_COMM_K,MPI_COMM_N
+
       integer mpistatus(mpi_status_size)
 
 c     scalars used
 
       integer i,ib,ic,idum,ii,ilocadd,isc,isign,itar,itaradd,
      c     itnode,iw,ix,iy,izb,j,jcol,ngy,ngyadd,ngz,nr1,nr2,nr3,
-     c     nr3u,inode,iloc_dum,ierr
+     c     nr3u,iloc_dum,ierr
       integer nworknr1,nworknr2,nworknr3
+
+      real*8 psi(mr_n)
+      real*8 psidum(nr3)
 
       nworknr1 = 20000+2.28*nr1x
       nworknr2 = 20000+2.28*nr2x
@@ -54,9 +58,12 @@ c     scalars used
       allocate(worknr1(nworknr1))
       allocate(worknr2(nworknr2))
       allocate(worknr3(nworknr3))
+      allocate(psiy(mr_n))
+      allocate(combuf1(mr_n))
+      allocate(combuf2(mr_n))
 
 
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
 c     
 c     for gamma point fft
@@ -100,19 +107,19 @@ c
         enddo
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivpacn1l(i),mpi_real8,i-1,inode,
-     &                mpi_comm_world,ireq(i),ierr)
+     &                mpi_comm_k,ireq(i),ierr)
        idum = idum + ivpacn1l(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivunpn1l(i),mpi_real8,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivunpn1l(i)
       enddo
 
@@ -120,7 +127,7 @@ c
         call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
@@ -162,19 +169,19 @@ c     zero values of psi which we do not put into
         enddo
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivpacn2l(i),mpi_real8,i-1,inode,
-     &                mpi_comm_world,ireq(i),ierr)
+     &                mpi_comm_k,ireq(i),ierr)
        idum = idum + ivpacn2l(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivunpn2l(i),mpi_real8,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivunpn2l(i)
       enddo
 
@@ -182,7 +189,7 @@ c     zero values of psi which we do not put into
         call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
@@ -215,11 +222,14 @@ c
 
 
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       deallocate(worknr1)
       deallocate(worknr2)
       deallocate(worknr3)
+      deallocate(psiy)
+      deallocate(combuf1)
+      deallocate(combuf2)
 
       end
       

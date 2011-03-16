@@ -1,0 +1,76 @@
+Example for vwr.As
+-----------------------------------------------
+1142, 0, 33,  5.0, 3,  2.00,  3.00,  0.00, 0  |nrr,icor,iatom,z,spd_loc, occ_s,occ_p,occ_d,iso
+1 1 0   1 1 0   |<-iref_s,p,d,iTB_s,p,d; inform->|  pg tm2 ca n;rc=2.1 2.1 2.1 ;nc,nv=6 3;n,l,od,ou=4 0  2.0  0.0:4 1  3.0  0.0:4 2  0.0  0.0:
+0.94481406E-06 -.15731713E+01 -.27522894E+01 -.82861776E+01 0.35794610E+00 0.33903349E-06 0.10896261E-16
+0.19015124E-05 -.15731713E+01 -.27522894E+01 -.82861776E+01 0.35794610E+00 0.68233149E-06 0.44134999E-16
+.....
+.....
+0.11744754E+03 -.42572197E-01 -.42572197E-01 -.42572197E-01 0.69174753E-53 0.31105179E-33 0.17119206E-02
+0.11892485E+03 -.42043357E-01 -.42043357E-01 -.42043357E-01 0.15062110E-53 0.12135278E-33 0.16906547E-02
+ #r, vs(Hart.),vp,vd,phi_s/sqr(4pi),phi_p/sqr4pi,phi_d/sqr4pi
+---------------------------------------------------
+
+
+Document for a general vwr.As
+--------------------------------------------------
+nrr,icor,iatom,z,spd_loc,occ_s,occ_p,occ_d,iso   | annotation1
+iref_s,iref_p,iref_d,  iTB_s, iTB_p, iTB_d       | annotation2
+r, v_s, v_p, v_d, w_s, w_p, w_d, [v_loc], [core], [v_(p+1/2)-v_(p-1/2), v_(d+1/2)-v(d-1/2)]
+.....
+.....
+r, v_s, v_p, v_d, w_s, w_p, w_d, [v_loc], [core], [v_(p+1/2)-v_(p-1/2), v_(d+1/2)-v(d-1/2)]
+# final annotation3
+---------------------------------------------------
+
+Explanation:
+(1) nrr: the number of lines (following the first two lines)
+(2) icor: core correction. icor=0, no core correction  (the optional [core] 
+          does not exist), icore=1, with core correction ([core] exists).
+(3) iatom: the atomic number (znuc). In a PEtot calculation, this number must
+          match the atomic number used in xatom.config file. 
+(4) z: the pseudo core charge (i.e., znuc-zcore). 
+(5) spd_loc: the angular momentum +1 for the local potential. 
+            I.e, spd_loc=1,2,3 for s,p,d  (=llocal+1 of atomi.input). 
+            if spd_loc=0, use the [v_loc] column as the local potential.
+(6) occ_s,occ_p,occ_d: the occupation number for s,p,d wavefunction to generate
+            the initial atomic charge for PEtot (same as the value in atom.input).
+(6) iso: spin information. iso=0, no spin coupling (from "n","s", calculation for
+            non relativistic and LSDA in atom.input), the [v_(p+1/2)-v_(p-1/2),..]
+            does not exist. iso=1, (from "r", relativistic calculation), 
+            the [v_(p+1/2)-v_(p-1/2),..] exists, can be used in Escan for 
+            spin-orbit coupling calculations.  
+(7) iref_s,iref_p,iref_d: whether or not to evaluation the s,p,d KB projection.
+            If iref_l=0, turns that operator off (i.e, when it is the local 
+            potential).  
+            These are not used in the current PEtot program!, ie, always set iref_l=1
+(8) iTB_s,iTB_p,iTB_d: whether or not to use its atomic orbital for tight-binding
+            wavefunction initialization. These numbers, and the TB initialization
+            are not used in the current version of PEtot. 
+            iTB_l=0, not use this orbital, iTB_l=1, use this orbital. 
+
+(9) r, v_s, v_p, v_d, w_s, w_p, w_d, [v_loc], [core], [v_(p+1/2)-v_(p-1/2), v_(d+1/2)-v(d-1/2)]:
+            r: raduis, in the unit of Bohr. 
+            v_s,v_p,v_d: the s,p,d potentials, in the unit of Hartree. 
+               These three potentials are always
+               there in the file, even if you only used nval=2: s,p, in 
+               atom.input. In that case, v_d just equals the v_local, and 
+               iref_d=0. 
+               Note that, in spin calculation, v_l=(v_l_up+v_l_down)/2. 
+               in relativistic calculation: v_l=(v_(l+1/2)+v_(l-1/2))/2.
+            w_s,w_p,w_d: the s,p,d wavefunctions [actually psi(r)/sqrt(4pi)]. 
+               If w_d is not calculated in atom.input (i.e., nval=2: s,p), then
+               w_d=1. 
+            [v_loc], the local potential which is different from v_s,v_p,v_d. 
+                     Only exists when spd_loc=0.
+            [core], the core charge density, only exist when icor=1
+            [v_(p+1/2)-v_(p-1/2), v_(d+1/2)-v(d-1/2)]: the potential difference
+               for relavistic calculation. Can be used in Escan for spin-orbit 
+               coupling calculation. 
+(10) annotation1: obvious. 
+(11) annotation2: contains the information in atom.input, so we can regenerate
+                  it if we want. 
+(12) annotation3: obvious. 
+
+               
+

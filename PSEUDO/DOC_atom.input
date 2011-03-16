@@ -41,7 +41,7 @@
     ae ->0 all electron calculation  (better not use)
     pg ->1 pseudopotential generation w/o core correction
     pe ->2 pseudopotential generation w/  core correction exchange
-    ph ->3 pseudopotential generation w/  core correction hartree/exc (no supported by PEtot)
+    ph ->3 pseudopotential generation w/  core correction hartree/exc (not supported by PEtot)
     pt ->4 pseudopotential test  (don't use)
     pm ->5 pseudopotential test + valence charge modify (don't use)
  
@@ -78,8 +78,8 @@
                = pb: Perdue-Burke-Ernzerhof GGA 96 (used for PEtot GGA). 
                      (Ref: J.P.Perdew, K.Burke & M.Ernzerhof, PRL 77, 3865 (1996))
 
- (6) spin-inform: one character string, gives the spin information. 
-     spin-inform = n : no spin, just plain LDA calculation. 
+ (6) spin_inform: one character string, gives the spin information. 
+     spin_inform = n : no spin, just plain LDA calculation. 
                  = s : LSDA calculation. In the generation, it produces spin-up and down
                        potentials. But the final result takes a occupation weighted 
                        average of the two potentials, and use the averaged potential to 
@@ -150,7 +150,8 @@
                   (e.g, not for program atom.exe), it is only used for the information for
                   Kleiman-Bylander implementation, and placed directly in vwr.atom. It is
                   used in KB analysis program (atomkb.exe, kbconv.exe, etc). 
-                  llocal: the angular momentum for the local potential. In KB implementation
+                  llocal: the angular momentum for the local potential (llocal:0,1,2 for 
+                  s,p,d.  In KB implementation
                   from the v_s,v_p,v_d you produced, you have to choose one as the local
                   potential. The concern here is to choose the important one as the local
                   (because it is the most reliable), and to avoid the ghost state (very 

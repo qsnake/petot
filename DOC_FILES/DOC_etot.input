@@ -1,0 +1,618 @@
+1   4    5               | nnodes_k, num_group
+2   atom.config          | atom configuration input file   
+3   24,24,24,48,48,48    | n1,n2,n3, n1L,n2L,n3L
+4   1, 0                 | islda (1:LDA; 2:LSDA), igga (0:no gga; 1: PBE-gga)
+5   25., 80., 320, 1.0   |Ecut (Ryd), Ecut2, Ecut2L, Smth 
+6   0,  0., 0., 0.       | icoul, xcoul1, xcoul2, xcoul3
+7   0, wg.in1,wg.in2     |iwg_in, wg_in1,2, if iwg_in=1, input ug from file wg_in
+8   1, wg.out1,wg.out2   |iwg_out, wg_out1,2, if iwg_out=1, output ug in file wg_out
+9   0, dens.in1,dens.in2 |irho_in, rho_in1,2, if irho_in=1, input dens from file rho_in
+10  1, dens.out1,dens.out2   |irho_out, rho_out1,2, if irho_out=1, output dens to file rho_out
+11  0, vr.in1,vr.in2     |ivr_in, vr_in1,2, if ivr_in=1, input vr from file vr_in
+12  1, vr.out1,vr_out2   |ivr_out, vr_out1,2, if ivr_out=1, output vr to file vr_out
+13  0, vext_file         | iv_ext, vext_file
+14  0, 1,2, 1,1, 16,16, charge_out   |idens_out,kpt_(i,f),ispin_(i,f),iw_(i,f),fcharge_out
+15   1, xforce           |iforce,xforce, if iforce=1, calculate force and output in xforce
+16   1, symm.file        |isymm, symm.file, if isymm=1, read symm info from symm.file
+17   1, kpt.file         |ikpt, kpt.file,  if ikpt=1, read k-point inform from kpt.file
+18   32.,18, 1.E-5, 1.E-8    | totNel,mx,tolug,tolE
+19   10, 10, 2           | niter0,nline0, mCGbad0 (mCGbad0 used only for iCG=2).
+     1    0   0.02, 1    | iCG, iscf, dE(eV),itype  
+     1    0   0.02  1    | iCG, iscf, dE,    itype   
+     1    0   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+     1    1   0.02  1    | iCG, iscf, dE,    itype   
+20   5, 1.E-5, 10., 0.4, xatom_out,0     | num_mov,tolforce,dstart,d_max,fxatom_out,iHess 
+21   5, 10, 2            | niter,nline, mCGbad1 (mCGbad1 used only for iCG=2).
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+22   3                   |  ilocal:1,2,3-> local, real sp NL, q sp NL.
+23   3.7                 | rcut (A.U)
+24  2                    | ntype 
+   vwr.Ga  1             | pseudo_file, itype
+   vwr.As  1             | pseudo_file, itype
+***********************************************
+***********************************************
+
+            EXPLANATION
+
+   This file tells the PEtot what system to calculate, and what to calculate. 
+   We adopt a rigit input style here. That means a fixed input format like the
+   above will be used for different calculations. Some input variables might not
+   be used in one particular calculation, but they should not be omitted from the
+   above input file. So, to do a different calculation, one usually copy this file
+   and modify this file.  
+
+   The first column is just the line number. Actually the orders of the
+   lines are important, not the line numbers. So, don't swap the order of the
+   lines.  The "|xxxxxx" is an annotation of this line, just to remind the user the
+   meanings of the input variables on that line. We suggest the user to keep this
+   annotation within the input file. 
+
+   The following is a line by line interpretation of above. 
+
+   The syntex is:
+----------------------------------------
+line_num  example_of_variables...| symbles_of_variables ....
+----------------------------------------
+line:1   4    5               | nnodes_k, num_group
+
+   nnodes_k: the number of processors without each group working on each k-points 
+             (G-space parrallelization)
+   num_group:the number of groups to do k-point parallelization 
+
+   Note, the total number of processor is nnodes_k*num_group. If the calling command 
+   does not ask for this number of processors, the program will stop. 
+  
+   To not waste processors, the num_group should evenly divides the number of k-points in kpt.file.
+   If the machine has a node structure for the processors within one node to share memory, then 
+   it is better to place all the processors within one group inside one node. 
+
+----------------------------------------
+line:2   atom.config             |atom.config
+
+   The atomic position file. 
+   see DOC_atom.config for an explanation of atom.config
+----------------------------------------
+line:3   24,24,24,  48,48,48        | n1,n2,n3, n1L,n2L,n3L
+
+    These n1,n2,n3 are the fourier grid points (also the real space 
+    grid points) along 1, 2, 3 unit cell edge directions.
+
+    n1,n2,n3 are for the wavefunctions, and 
+    n1L,n2L,n3L are for the charge density. For norm conserving 
+    pseudopotential, one usually set n1L=n1,n2L=n2,n3L=n3. But for
+    ultrasoft pseudopotential, usually n1L=2*n1, n2L=2*n2, n3L=2*n3
+
+    They should depend on Ecut, Ecut2, Ecut2L (line 5) and the edge length. 
+    m_i=2*sqrt(2*Ecut)*d_AL(:,i)/pi
+    m2_i=sqrt(2*Ecut2)*d_AL(:,i)/pi
+    m2_iL=sqrt(2*Ecut2L)*d_AL(:,i)/pi
+
+
+    Note, d_AL(:,i)=sqrt(AL(1,i)**2+AL(2,i)**2+AL(3,i)**2) the length of the unit cell
+    ith lattice (in atomic unit Bohr). 
+    Note, n_i must be larger than m2_i, but could be smaller than m_i.  
+    Note, n_iL must be larger than m2_iL. 
+    If Ecut2=4*Ecut, m_i=m2_i. If n_i > m_i and m2_i, then further increase n_i
+    will essentially not change the result. 
+
+    If n1=n1L,n2=n2L,n3=n3L, then one should set Ecut2=Ecut2L on line 5. 
+
+    The recommended n1,n2,n3 using above formula are printed out as the 
+    first output from the program. 
+
+    n1,n2,n3 are manually input in this program, so the user will have some
+    control of them. 
+
+    Choose "nice" n_i for Fast Fourier Transformation (FFT), e.g, the factor of 
+    2,3,5, etc. For IBM SP machine, some n_i numbers are not allowed. See ESSL
+    library for the allowed number of n_i. Usually, all 2^i1*3^i2*5^i3 are allowed. 
+
+    The real space parallel processor dividing is along n1. So, usually, use the long 
+    unit cell edge as AL(:,1), and n1.  
+
+    n1*n2 should be able to be divided by nnodes_k 
+------------------------------------------------------------
+line:4  1, 0                  | islda (1:LDA; 2:LSDA), igga (0:no gga; 1: PBE-gga)   
+
+     islda=1: LDA calculation, there will be only one wavefunction, one charge density, etc. 
+          =2: LSDA calculation. So there will be two wavefunctions: spin up and down; 
+                                two charges densities, two potentials. 
+     igga =0: no GGA
+          =1: PBE-GGA
+           
+              Ceperley-Alder exchange correlation LDA and LSDA functionals are used. 
+              This corresponds to "ca" in PSEUDO package. 
+              For GGA calculation, GGA pseudopotentials should be used. This can be
+              generated from PSEUDO with "pb" option. 
+              One might use "s" in PSEUDO for a LSDA generated pseudopotential for
+              LSDA calculation in PEtot. But if you don't know the magnetic configuration
+              on the atom, you can just use "n" in PSEUDO (LDA). The difference is not
+              very significant. 
+------------------------------------------------------------
+line:5   25., 80., 320, 1.0   |Ecut (Ryd), Ecut2, Ecut2L, Smth 
+
+    Ecut: the plane wave cutoff energy for wavefunction (in Ryd). 
+
+          This is the most important parameter which controls the computation. 
+          It is used to select the G vectors of the planewaves used as the basis
+          of the wavefunctions. Larger Ecut, more accurate and converged calculation, 
+          but more costly. The Ecut is usually determined by the pseudopotentials. 
+          Check PSEUDO directory for pseudopotential generation, and see the suggested
+          Ecut. One pseudopotential will have a converged Ecut, so using much larger
+          Ecut will not necessarily help that much. To have a real confident, you have
+          to do PEtot calculations with different Ecut, and see how it is converging. 
+          Check convergence for the quantities you are interested, not always the 
+          absolute convergence (e.g, the energy difference between two structures might
+          converge much faster than the absolute energies of each individual structures).
+
+          Usually, for norm conserving pseudopotentials, 60-80 Ryd Ecut is needed for
+          for row elements and transition metal d elements, 20-35 Ryd Ecut is needed for
+          second, third and fourth row semiconductors. 
+           
+          
+    Ecut2: the cutoff energy for the soft charge density and the potential. 
+          Usually, Ecut2 should be 4*Ecut. 
+          But if you like, to reduce the computation, you can set Ecut2 smaller with
+          the danger of altering the results. If you are not sure, and you can afford
+          the computation, simply set Ecut2=4*Ecut.  
+
+          Notice above, it is the Ecut2 really determines the n1,n2,n3.
+
+    Ecut2L: the cutoff energy for the real charge density. This is used to determine
+          n1L,n2L,n3L, which can be larger than n1,n2,n3. This is true for ultrasoft
+          pseudopotential, where usually n1L=2*n1, n2L=2*n2, n3L=2*n3, as a result, 
+          one should set Ecut2L=4*Ecut2. However, if n1L=n1,n2L=n2, n3L=n3 (as in 
+          norm conserving pseudopotential), then one should set Ecut2L=Ecut2.
+
+    Smth:  smooth cutoff. Usually not used in LDA calc, but used in Escan. 
+           However, in some cases, for example to get a smooth band structure, or 
+           to generate a smooth Etot(lattice_const) curve, one can set Smth=0.8. This
+           can be used to smooth out the sudden change due to the change of G-basis set 
+           when some parameters (k-point, or lattice const) changed. 
+------------------------------------------------------------
+line:6   0,  0., 0., 0.       | icoul, xcoul1, xcoul2, xcoul3
+
+       icoul: the way to solve the Poisson equation (for the Coulomb interaction). 
+
+       icoul=0,    the periodic boundary condition. The usual crystal calculation. 
+                   xcoul1,xcoul2,xcoul3 are not used
+       icoul=1,    the isolated cluster boundary condition. This is used for isolated
+                   system calculation (e.g, one molecule in vacuum). This will not have
+                   the image potential as in the periodic boundary condition. 
+                   xcoul1,xcoul2,xcoul3 (within 0,1)  are the fractional coord. of 
+                   AL(:,1),AL(:,2),AL(:,3) used to define the surface of the 
+                   isolated box for the Poisson Eq. I.e, xcoulj should be at the vacuum. 
+
+       icoul=21,   A surface calculation along the first (n1) direction. The Poisson Eq. 
+                   is solved without the periodic boundary condition (e.g, with a free
+                   vacuum boundary condition) along the AL(:,1) direction. xcoul1 is used
+                   to define the cut for the boundary condition (i.e, it should be in the 
+                   vacuum region). xcoul2, xcoul3 are not used. 
+
+       icoul=22,   A surface calculation along the first (n2) direction. The Poisson Eq. 
+                   is solved without the periodic boundary condition (e.g, with a free
+                   vacuum boundary condition) along the AL(:,2) direction. xcoul2 is used
+                   to define the cut for the boundary condition (i.e, it should be in the 
+                   vacuum region). xcoul1, xcoul3 are not used. 
+
+       icoul=23,   A surface calculation along the first (n3) direction. The Poisson Eq. 
+                   is solved without the periodic boundary condition (e.g, with a free
+                   vacuum boundary condition) along the AL(:,3) direction. xcoul3 is used
+                   to define the cut for the boundary condition (i.e, it should be in the 
+                   vacuum region). xcoul1, xcoul2 are not used. 
+
+------------------------------------------------------------
+line:7    0, wg.in1,wg.in2           | iwg.in fwg.in1,fwg.in2
+
+    if iwg.in=1, input the starting wavefunction from file fwg.in1,2, which is usually 
+                 generated from previous runs. Currently, previous run and current
+                 run must have the same number of processors. 
+            
+                 If islda(line 3)=1, i.e, LDA calculation, only fwg.in1 is used. But the
+                 name of fwg.in2 must also be presented here, although not really used. 
+                 If islda(line 3)=2, i.e, LSDA calculation, both fwg.in1,fwg.in2 are used. 
+
+    if iwg.in=0, start the wavefunction from random. 
+                 The names of fwg.in1, fwg.in2 are not really used. But they must be
+                 presented here to be read by the program. 
+
+------------------------------------------------------------
+line:8     1, wg.out1,wg.out2          | iwg.out fwg.out1, fwg.out2
+
+    if iwg.out=1, output the final wavefunctions to fwg.out1,2. E.g., to be used
+                  as fwg.in1,2 in next run.
+    if iwg.out=0, do not output the final wavefunctions. 
+                 islda=1,2 for wg.out1 and wg.out2, same as in line 5. 
+--------------------------------------------------------------
+line:9     0, dens.in1,dens.in2         | irho_in, frho_in1, frho_in2
+
+    if irho_in=1, input real space charge density from frho_in1,2
+    if irho_in=0, generate real space charge density from atomic charge density
+                  if islda(line 3)=1, only dens.in1 is used, but dens.in2 must also 
+                                      be presented to be read by the program. 
+                  if islda(line 3)=2, both frho_in1,and frho_in2 with contains spin up 
+                                      and down components respectively, will be used. 
+--------------------------------------------------------------
+line:10     1, dens.out1,dens.out2       | irho_out, frho_out1, frho_out2
+
+    if irho_out=1, output the final real space charge density  into frho_out1,2 (e.g, 
+                   to be used for subsequent runs). 
+    if irho_out=0, do not output the final charge density. 
+--------------------------------------------------------------
+line:11     0, vr.in1,vr.in2              | ivr_in, fvr_in1, fvr_in2
+
+    if ivr_in=1, input the initial real space LDA potential from file fvr_in1,2
+    if ivr_in=0, generate the initial potential from the charge density.
+                 if islda=1, only fvr_in1 is used, but fvr_in2 must also be presented. 
+                 if islda=2, both fvr_in1 and fvr_in2 are used. 
+            if irho_out=1 and ivr_in=1, then the potential from fvr_in1,2 are used
+            as the starting potential, and the input charge densities are essentially
+            not used. 
+--------------------------------------------------------------
+line:12     1, vr.out1,vr.out2            | ivr_out, fvr_out1,fvr_ou2
+
+    if ivr_out=0, do not output the final potential
+    if ivr_out=1, output the final real space LDA potential to file fvr_out1,2
+    if ivr_out=2, before doing anything else, the program will calculate the potential
+                  from the charge density, then output into fvr_out1,2, then stop. 
+                  This can be used to calculate the LDA potential from a input charge
+                  density without doing anything else. 
+***********************************
+    For lines:9-12, and files: dens.in1,2, dens.out1,2, vr.in1,2, vr.out1,2, 
+    a real space function: d(i1,i2,i3) (i1=1,n1; i2=1,n2; i3=1,n3) 
+    is written unformattedly in the corresponding file in the following way:
+*******************
+      real*8 AL(3,3),d(n1,n2,n3),d_tmp(n1*n2*n3)
+      integer n1,n2,n3,nnodes,iproc
+
+      do i1=1,n1
+      do i2=1,n2
+      do i3=1,n3
+      i=i3+(i2-1)*n3+(i1-1)*n2*n3
+      d_tmp(i)=d(i1,i2,i3)           ! essential, change d(n1,n2,n3) to d_tmp(n3,n2,n1)
+      enddo
+      enddo
+      enddo
+
+      open(f_unit,file="f_output", form="unformatted")
+      write(f_unit) n1,n2,n3,nnodes_k
+      write(f_unit) AL
+      do iproc=0,nnodes-1
+      write(f_unit) (d_tmp(i+iproc*n1*n2*n3/nnodes), i=1,n1*n2*n3/nnodes)
+      enddo
+      close(f_unit)
+****************
+Here, nnodes_k is the number of processors used in the calculation. 
+This information can be used to read out the potential and charge densities in 
+these files. They are always in atomic units (electron/Bohr^3 for charge density, 
+Hartree for potential).
+---------------------------------------------------------------
+line:13  0, vext_file         | iv_ext, vext_file
+
+       iv_ext=0,  no input external potential, vext_file is not used
+       iv_ext=1,  input external potential from vext_file. 
+                  Both the total energy are forces are calculated using this 
+                  external potential. Note, vext_file should have the same format
+                  as in vr.in1. 
+---------------------------------------------------------------
+line:14  0, 1,2, 1,1, 16,16, charge_out   |idens_out,kpt_(i,f),ispin_(i,f),iw_(i,f),fcharge_out
+
+      idens_out=0, do not output the charge density in charge_out, the variables in the
+                   rest of the line will not be used, but must be placed here to be read. 
+      idens_out=1, output the following charge density at the end of the run, 
+                   after the program has finished the run according to the other 
+                   input variables. 
+      idens_out=2, output the following charge density at the beginning of the run, 
+                   in a formatted file fcharge_out, then stop the program.
+
+      idens_out=11, output the wavefunction at the end of the program run.  
+                    the wavefunction will not has the exp(ik*r) phase factor, 
+                    Thus it is the u_k(r). 
+
+      idens_out=12, output the wavefunction at the end of the program run.  
+                    the wavefunction has the exp(ik*r) phase factor, 
+                    thus it is the whole wavefunction psi(r). 
+
+      idens_out=21, output the wavefunction at the beginning of the program run, then stop.  
+                    the wavefunction will not has the exp(ik*r) phase factor, 
+                    Thus it is the u_k(r). 
+
+      idens_out=22, output the wavefunction at the beginning of the program run, then stop.   
+                    the wavefunction has the exp(ik*r) phase factor, 
+                    thus it is the whole wavefunction psi(r). 
+
+cccccccccccccccccccccccccccccccccccccccccccccccccc
+
+                   The output charge density is:
+
+      d_charge=\sum_(kpt=kpt_i,kpt_f)\sum_(spin=ispin_i,ispin_f) \sum_{m=iw_i,iw_f} 
+                 |wavefunct(m, kpt, spin)|^2
+
+                   This is used to view a group of wavefunctions. 
+                   e.g., to calculate the STM image. 
+
+      For idens_out=1,2, the format in fcharge_out is the same as in dens.in,dens.out. 
+****************
+      for idens_out=11,12,21,22, first, different k-points will be
+      output into different file, with the index of the k-points as 
+      a suffex in the file name: fcharge_out//kpt. 
+      Then, within each file, it is:
+********************************       
+      open(f_unit,file="fcharge_out"//kpt, form="unformatted")
+      write(f_unit) n1,n2,n3,nnodes,ispin_i,ispin_f,iw_i,iw_f
+      write(f_unit) AL(1,1),AL(2,1),AL(3,1)
+      write(f_unit) AL(1,2),AL(2,2),AL(3,2)
+      write(f_unit) AL(1,3),AL(2,3),AL(3,3)
+      
+      do iislda=ispin_i,ipsin_f
+      do m=iw_i,iw_f
+
+      do iproc=0,nnodes-1
+      write(f_unit,10(E10.4,1x)) 
+     &  (real(wr(i+iproc*n1*n2*n3/nnodes)), i=1,n1*n2*n3/nnodes),
+     &  (aimag(wr(i+iproc*n1*n2*n3/nnodes)), i=1,n1*n2*n3/nnodes),
+      enddo
+
+      enddo
+      enddo
+      close(f_unit)
+cccccccccccccccccccccccccccccccccccccccccccc
+
+-------------------------------------------------------------
+line:15     1, xforce         | iforce, xforce
+
+    if iforce=1, calculate the force, and output it in xforce
+    if iforce=0, do not calculate the force. 
+    however, if the program will move the atom (see line 17), the program
+    will always calculate the force, regardless of iforce. 
+
+-------------------------------------------------------------
+line:16  1, symm.file        | isym, symm.file
+
+    if isym=1, input symmetry operation from symm.file
+               The symmetry operation include only point groups around the 
+               origin. See DOC_symm.file for more information
+    if isym=0, no symmetry operaton
+            symm.file can be generated by running kpgen from Kpt_gen directory
+
+-------------------------------------------------------------
+line:17   1, kpt.file       | ikpt, kpt.file
+
+    if ikpt=1,  input k-points from file kpt.file
+    if ikpt=0,  calculate Gamma point only
+                See DOC_kpt.file for more information. 
+                kpt.file can be generated by running kpgen from Kpt_gen directory
+             
+-------------------------------------------------------------
+line:18  32., 18, 1.E-5, 1.E-8    | totNel,mx,tolug,tolE
+
+    totNel: the total number of valence electron in the system.
+           If totNel does not equal to the sum of z in pseudopotential files vwr.atoms, 
+           then the system is not charge neutral. In this case, the PEtot use a back ground
+           jellium charge to neutralize the system when the Coulomb energy is calculated, 
+           but does not include this jellium charge in the exchange-correlation energy
+           calculation.
+
+    mx:  the number of states to be calculated. 
+        (one state includes both spin up and down, for LDA calc.). Note, usually, 
+         mx > totNel/2, especially for metals. 
+
+    tolug: the error tolerance (convergence criterion) for the wavefunction (atomic unit).
+    tolE:  the error tolerance (convergence criterion) for the total energy (atomic unit).
+
+        Roughly, tolE should be proportional to tolug^2. 
+        The often used tolug,tolE are: 1.E-5, 1.E-8 (for very well convergence)
+
+-----------------------------------------------------------------
+line:19   10, 10, 2           | niter0,nline0, mCGbad0 (mCGbad0 used only for iCG=2).
+     1    0   0.02, 1    | iCG, iscf, dE(eV),itype
+     1    0   0.02  1    | iCG, iscf, dE,    itype
+     1    0   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+     1    1   0.02  1    | iCG, iscf, dE,    itype
+
+
+    The program runs some self-consistent iterations before moving the atoms. 
+    These parameters specifies the running conditions for these steps. 
+
+    These variables control the iteraction of the program in a very explicit 
+    way. This is designed to give you maximum flexibility. If you don't know
+    what variables to choose, you can just take the values from the examples here.
+
+    niter0: the number of self-consistent (charge mixing) iterations. 
+            There will be "niter0" lines [iCG,iscf,dE] after the line 16. 
+            Note, the iteration will stop before niter0 if it has reached tolE (of line 15).
+            Usually, niter0=10 will be enough to converge a small system. 
+ 
+    nline0: the number of line minimization steps for each
+            self-consistent iterations. 
+            Note, the iteration will stop before nline0 if it has reached tolug (of line 15). 
+            Usually nline0=5-10. 
+
+    mCGbad0: the number of safe-guard states (at the top of the states) for 
+             iCG=2 algorithm. Usually, mCGbad0 can be ~2-5, or 5% of mx.  
+             For iCG=1, this number is not used. 
+
+    iCG:    the type of electron state calculation algorithm. 
+            iCG=1, conventional conjugate gradient. Suggested for first few
+            steps and for all steps for small and mediate size systems.
+            iCG=2, the new pulay residue minimization scheme. This is suggested
+            for very large system (mx > 100), and only when the states are somewhat
+            converged. By using iCG=2, we should also include a few states for
+            mCGbad0. The advantage of this algorithm is that, it scales as O(N^2)
+            for its major parts (no orthogonalization). Sometime, when it is stable, 
+            iCG=2 is faster than iCG=1. 
+
+    iscf:   the type of charge mixing. Charge mixing is a scheme, which uses the 
+            output charge, mixed with the input charge (of the Kohn-Sham, or say
+            Schrodinger's equation), to obtain a new input charge
+            for next self-consistent iteration (within niter0). The self-consistency
+            is reached when the output charge equals the input charge.
+             
+    iscf=0, no charge mixing. I.e, the potential will not be updated. This
+            is for non-selfconsisten calculation. Or, for the first few iterations
+            right after the random wavefunction initialization, before using the 
+            wavefunction for charge mixing. 
+
+            This can also be used to calculate the electronic structure after a
+            self-consistent calculation has been done in a previous run (so their 
+            charge or potential output files are input in the current run). To calculate
+            the electronic structrure (band structure), the k-point can be specified 
+            manually in kpt.file (not from Kpt_gen), and the calculation should be done
+            without the use of symmetry operation. 
+
+    iscf=1, pulay charge mixing. This is the usual charge mixing for self
+            consistent calculation. 
+
+    iscf=2, Thomas Fermi charge mixing.This can be used for large system calculations, 
+            especially for inhomogeneous systems, like surfaces. It is found that in 
+            such cases, it significantly speed up the convergence.
+
+    dE:     The equivalent temperature (kT in eV) in Fermi-Dirac or generalized 
+            Gaussian distribution function for state occupation. Necessary, 
+            for metallic systems. 
+
+    itype=1  Fermi-Dirac distribution
+
+    itype=20  Gaussian distribution. 
+
+             Note, for "dE1,itype=1", is very similar to "dE2=2.5*dE1, itype=20". 
+    itype=21, MP method, first order   (M. Methfessel, A.T. Paxton, P.R.B, 40, 3616(1989)). 
+    itype=2m, MP method, mth order. 
+             For metallic system, for most cases, we recommend the use of itype=21. 
+             In many cases, dE can be 0.2 to 0.4 eV for itype=21.  
+            
+
+------------------------------------------------------------------:w
+line:20   5, 1.E-5, 10., 0.4,  xatom_out, 0 | num_mov, tolforce, dstart,dd_max, fxatom_out,iHess
+
+   This line controls the movement of the atom (atomic relaxation). 
+
+   num_mov: the number of steps for atomic movement (number of line minizations). 
+            It is using the hessian matrix BFGS algorithm. 
+            The algorithm might not be good if you have a crazy starting point. 
+            So, it is important for having a reasonable starting atomic positions 
+            in atom.config. 
+            If num_mov=0, do not move the atom, and line 18 will not be used (but
+            still must exist in etot.input file). 
+
+   tolforce:  force tolerance (atomic unit) to stop the atomic movement (before
+              num_mov). 
+
+   dstart:  the step size for the first line minization trial step in BFGS algorithm. 
+            Usually it should be between 1. and 10. Only affects the first step, not
+            critical. 
+
+   dd_max:  the maximum step size one step can move in the BFGS algorithm. It is in the 
+            atomic unit (Bohr). 
+
+   fxatom_out: the file to output the final atomic position. 
+             Actually, after each step of atomic movement, the program will 
+             output the results in fxatom_out, and all other outputs specified in 
+             lines: 6, 8, 10, 12. So, the program can be restarted after each 
+             atomic movements. 
+   iHess=0,  no input Hessian matrix in the current directory. It will output 
+             the Hessian matrix in the current directory as "Hessian_cont".  
+   iHsss=1,  the consequentive runs following the previous calculations. Using the 
+             Hassian matrix from file "Hessian_cont" from previous runs for the same 
+             problem. This is used so one can continue the previous runs without losing 
+             informations accumulated in the Hessian matrix. 
+
+------------------------------------------------------------------
+line:21   5, 10, 2            | niter,nline, mCGbad1 (mCGbad1 used only for iCG=2).
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+     1    1   0.02  1     | iCG, iscf, dE,   itype   
+
+     Same as in line 19. But here, it is for the calculations after each 
+     atomic movements. It starts with the wavefunctions and charge density from the 
+     previous atomic position. It does interpolations of them within each line
+     minizations. If num_mov=0 in line 17, these variables will not be used by
+     the program. But they must exist here in the etot.input file. 
+     Unlike in line:16, here the wavefunction is good enough from the start, so
+     iscf=1 or 2 (start mixing) from the first iteration. 
+     Usually niter=5 will be enough here. 
+     Usually nline=5-10. 
+
+------------------------------------------------------------------
+line:22   3            |  ilocal
+
+     nonlocal potential implementation flag. 
+
+     ilocal=1, no nonlocal potential. Then line 20-22 will not be used. But, as
+               usual, they must still be there in the etot.input file.
+               Usually, this should never be used, except for testing. 
+
+     ilocal=2, real space nonlocal potential (rcut is given in line 20). It uses
+               a new mask algorithm, with the mask file provided in File maskr (should
+               be in the running directory). For large system (e.g, number of atom >
+               ~50, the real space KB implementation will out perform the q-space
+               implementation.
+
+     ilocal=3, q space nonlocal potential (conventional). 
+
+------------------------------------------------------------------
+line:23   3.7          | rcut (a.u)
+
+     rcut for the ilocal=2 real space nonlocal potential. 
+     rcut should be at least 1.5 times of the range of nonlocal (difference
+     v_s,p,d-v_local) in pseudopotential file vwr.atom. For most case, 4.7
+     is a safe number. larger rcut, more accurate of the KB real space implementation,
+     but more costly in computation.
+     if ilocal.ne.2, this rcut is only used in w_line. 
+
+     Usually, rcut=3.7 will be good enough. 
+
+------------------------------------------------------------------
+line:24   2            | ntype
+     vwr.Ga  1             | pseudo_file, itype
+     vwr.As  1             | pseudo_file, itype
+
+
+     ntype:  number of the type of atoms. 
+             There should be ntype lines following this line
+
+     vwr.Ga  1:
+
+     The name of norm conserving pseudopotential files for the first atom type. 
+     The iatom in the vwr.atom must be the same as the iatom in atom.config. 
+     It is used to match the atoms.  
+
+     it can also be:
+
+     uspp.Ga  2: 
+     The name of ultrasoft pseudopotential file.  This is an unformatted file 
+     generated from D. Vanderbilt's package. 
+
+     itype=1:  norm conserving pseudopotential, can be generated from the 
+               PSEUDO package (from J.S. Martin). 
+     itype=2:  ultrasoft pseudopotential, can be generated from the 
+               Ultrasoft package (from D. Vanderbilt's group) 
+
+     It is okay to use both itype=1 and 2 in one etot.input.  
+
+     To run itype=2 atoms, you also need to place the graph.j file in your
+     running directory. This file is included in lsda_p_v2 (it is also in
+     DOC_graph.j).  
+
+********************************************************************************
+Lin-Wang Wang
+Dec. 10, 2004
+      

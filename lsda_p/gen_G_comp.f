@@ -1,5 +1,14 @@
       subroutine gen_G_comp(kpt,iflag)
 
+*************************************************************************
+*** Written by Lin-Wang Wang, 2001
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
+
 ***   calculates gkk_n, wg_n, length squared and weight factor for 
 ***   g vectors on my node also calculates index matrices  
 ***   wg(g): smooth cutoff truncation used in d3fft_comp.f
@@ -229,7 +238,7 @@ c     number of g vectors on my processor = ng_n
 c     
 c     write out load balancing info 
 c     
-         if(inode.eq.1.and.iflag.eq.0.and.ifirst.eq.0) then
+         if(inode_tot.eq.1.and.iflag.eq.0.and.ifirst.eq.0) then
             write(*,*) " load balancing of the first kpt"
             write(*,*) "kpt, pe.  g's. cols. "
             do i = 1,nnodes

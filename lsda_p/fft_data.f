@@ -1,3 +1,11 @@
+********************************************************************
+**   Written by Andrew Canning, 2001
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 c     Data for the Parallel FFT's
       
 c     ngcol: number of g vectors per column
@@ -49,6 +57,72 @@ c     izcol: z position of column izcol(ncol,node) ncol= local column number
       integer ncolx,ncoly,ncolz,ichunk,mnrx,mgz,ntabnr1,ntabnr2,ntabnr3
       integer ncolx2,ncoly2,ncolz2,ichunk2,mnr2x,mgz2
      
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccc the tables for the Large real fft
+      integer,allocatable,dimension(:,:) :: izcol_y2L,ixcol_y2L,ipe_y2L
+      integer,allocatable,dimension(:,:) :: ibca_y2L,iycol_z2L,ixcol_z2L
+      integer,allocatable,dimension(:,:) :: ipe_z2L,ibca_z2L,ivecadd2L
+      integer,allocatable,dimension(:)   :: izchb2L,ixch2L,ichw2L,
+     &     icount2L
+
+      real*8,allocatable,dimension(:)   :: tabnr1lfwL,tabnr2lfwL
+      real*8,allocatable,dimension(:)   :: tabnr1linL,tabnr2linL,
+     &   tabnr3lrcL,tabnr3lcrL
+
+      real*8,allocatable,dimension(:,:) :: vec2L
+
+! amc new
+      integer,allocatable,dimension(:) :: ivpacn1lL,ivunpn1lL,ivpacn2lL,
+     &                                    ivunpn2lL
+      integer,allocatable,dimension(:) :: ivpac1lL,ivunp1lL,ivpac2lL,
+     &                                    ivunp2lL
+      integer,allocatable,dimension(:) :: k0npacL,k0nunpL
+      integer,allocatable,dimension(:,:) :: k0iunpL
+
+! amc new
+
+      integer ntabnr1L,ntabnr2L,ntabnr3L
+      integer ncolx2L,ncoly2L,ncolz2L,ichunk2L,mnr2xL,mgz2L
+      integer ncolxL,ncolzL
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccc the tables for the Large real fft
+      integer,allocatable,dimension(:,:) :: 
+     &                 izcol_y2L2,ixcol_y2L2,ipe_y2L2
+      integer,allocatable,dimension(:,:) :: 
+     &                 ibca_y2L2,iycol_z2L2,ixcol_z2L2
+      integer,allocatable,dimension(:,:) :: 
+     &                 ipe_z2L2,ibca_z2L2,ivecadd2L2
+      integer,allocatable,dimension(:)   :: izchb2L2,ixch2L2,ichw2L2,
+     &     icount2L2
+
+      real*8,allocatable,dimension(:)   :: tabnr1lfwL2,tabnr2lfwL2
+      real*8,allocatable,dimension(:)   :: tabnr1linL2,tabnr2linL2,
+     &   tabnr3lrcL2,tabnr3lcrL2
+
+      real*8,allocatable,dimension(:,:) :: vec2L2
+
+! amc new
+      integer,allocatable,dimension(:) :: ivpacn1lL2,ivunpn1lL2,
+     &                                 ivpacn2lL2,ivunpn2lL2
+      integer,allocatable,dimension(:) :: ivpac1lL2,ivunp1lL2,
+     &                                ivpac2lL2,ivunp2lL2
+      integer,allocatable,dimension(:) :: k0npacL2,k0nunpL2
+      integer,allocatable,dimension(:,:) :: k0iunpL2
+
+! amc new
+
+      integer ntabnr1L2,ntabnr2L2,ntabnr3L2
+      integer ncolx2L2,ncoly2L2,ncolz2L2,ichunk2L2,mnr2xL2,mgz2L2
+      integer ncolxL2,ncolzL2
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+     
       contains
       
       subroutine fft_allocate(n1,n2,n3,nnodes)
@@ -56,7 +130,7 @@ c     izcol: z position of column izcol(ncol,node) ncol= local column number
       
       integer n1,n2,n3,nr1x,nr2x,nr3x,nnodes
 
-      nr1x=n1
+      nr1x=n1            ! here, nr1x,nr2x,nr3x are just local variables
       nr2x=n2
       nr3x=n3+2
       ntabnr1=20000+2.28*nr1x
@@ -152,6 +226,9 @@ c     Now the real*8 arrays
             
       end subroutine fft_allocate
 
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       subroutine fft_allocate2(k0nunp_max,nnodes)
       implicit none
@@ -159,6 +236,188 @@ c     Now the real*8 arrays
       allocate(k0iunp(k0nunp_max,nnodes)) 
       return
       end subroutine fft_allocate2
+
+
+
+      subroutine fft_allocateL(n1L,n2L,n3L,nnodes,iflag_fft2L)
+      implicit none
+      
+      integer nr1xL,nr2xL,nr3xL,n1L,n2L,n3L,nnodes
+      integer iflag_fft2L
+
+      nr1xL=n1L
+      nr2xL=n2L
+      nr3xL=n3L+2
+      ntabnr1L=20000+2.28*nr1xL
+      ntabnr2L=20000+2.28*nr2xL
+      ntabnr3L=20000+2.28*nr3xL
+
+      mnr2xL=nr1xL*nr2xL*nr3xL
+
+cccccccc I don't think the mnrx, and mnr2x are correct ! 
+cccccccc How can they be divided by nnodes again !! Needs to be clear out !
+
+      mnr2xL=8*(mnr2xL/nnodes+50)    ! the factor of 2 might be reduced to 1
+
+      ncolxL= nr2xL*nr3xL/nnodes
+      ncolzL=n1L*n2L/nnodes
+      
+c     Allocate the integer arrays
+
+      if(iflag_fft2L.eq.0) then
+      allocate(iycol_z2L((nr1xL*nr2xL)/nnodes,nnodes))   ! needed for real space manipulate
+      allocate(ixcol_z2L((nr1xL*nr2xL)/nnodes,nnodes))
+      endif
+
+      
+      if(iflag_fft2L.eq.1) then
+      allocate(izcol_y2L((nr1xL*nr3xL)/nnodes,nnodes))
+      allocate(ixcol_y2L((nr1xL*nr3xL)/nnodes,nnodes))
+      allocate(ipe_y2L(nr1xL,nr3xL))
+      allocate(ibca_y2L(nr1xL,nr3xL))
+      allocate(iycol_z2L((nr1xL*nr2xL)/nnodes,nnodes))
+      allocate(ixcol_z2L((nr1xL*nr2xL)/nnodes,nnodes))
+      allocate(ipe_z2L(nr2xL,nr1xL))
+      allocate(ibca_z2L(nr2xL,nr1xL))
+      allocate(ivecadd2L(mnr2xL/nnodes,nnodes))
+      allocate(icount2L(nnodes))
+
+
+c Arrays required for MPI version
+
+! amc new
+      allocate(ivpacn1lL(nnodes))
+      allocate(ivunpn1lL(nnodes))
+      allocate(ivpacn2lL(nnodes))
+      allocate(ivunpn2lL(nnodes))
+      allocate(ivpac1lL(mnr2xL))
+      allocate(ivunp1lL(mnr2xL))
+      allocate(ivpac2lL(mnr2xL))
+      allocate(ivunp2lL(mnr2xL))
+
+      allocate(k0npacL(nnodes))
+      allocate(k0nunpL(nnodes))
+cccc      allocate(k0iunpL(nr1xL*nr2xL,nnodes))  ! allocate seperately, too large
+!amc new stuff
+
+      
+c Arrays required for MPI version
+c     Now the real*8 arrays
+      
+      allocate(tabnr1lfwL(ntabnr1L))
+      allocate(tabnr2lfwL(ntabnr2L))
+      allocate(tabnr1linL(ntabnr1L))
+      allocate(tabnr2linL(ntabnr2L))
+
+
+      allocate(tabnr3lrcL(ntabnr3L))
+      allocate(tabnr3lcrL(ntabnr3L))
+
+
+      allocate(vec2L(mnr2xL/(nnodes),nnodes))
+
+      endif
+            
+      end subroutine fft_allocateL
+
+
+      subroutine fft_allocate2L(k0nunp_maxL,nnodes)
+      implicit none
+      integer k0nunp_maxL,nnodes
+      allocate(k0iunpL(k0nunp_maxL,nnodes)) 
+      return
+      end subroutine fft_allocate2L
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      subroutine fft_allocateL2(n1L2,n2L2,n3L2,nnodes)
+      implicit none
+      
+      integer nr1xL2,nr2xL2,nr3xL2,n1L2,n2L2,n3L2,nnodes
+
+      nr1xL2=n1L2
+      nr2xL2=n2L2
+      nr3xL2=n3L2+2
+      ntabnr1L2=20000+2.28*nr1xL2
+      ntabnr2L2=20000+2.28*nr2xL2
+      ntabnr3L2=20000+2.28*nr3xL2
+
+      mnr2xL2=nr1xL2*nr2xL2*nr3xL2
+
+cccccccc I don't think the mnrx, and mnr2x are correct ! 
+cccccccc How can they be divided by nnodes again !! Needs to be clear out !
+
+      mnr2xL2=8*(mnr2xL2/nnodes+50)    ! the factor of 2 might be reduced to 1
+
+      ncolxL2= nr2xL2*nr3xL2/nnodes
+      ncolzL2=n1L2*n2L2/nnodes
+      
+c     Allocate the integer arrays
+      
+      allocate(izcol_y2L2((nr1xL2*nr3xL2)/nnodes,nnodes))
+      allocate(ixcol_y2L2((nr1xL2*nr3xL2)/nnodes,nnodes))
+      allocate(ipe_y2L2(nr1xL2,nr3xL2))
+      allocate(ibca_y2L2(nr1xL2,nr3xL2))
+      allocate(iycol_z2L2((nr1xL2*nr2xL2)/nnodes,nnodes))
+      allocate(ixcol_z2L2((nr1xL2*nr2xL2)/nnodes,nnodes))
+      allocate(ipe_z2L2(nr2xL2,nr1xL2))
+      allocate(ibca_z2L2(nr2xL2,nr1xL2))
+      allocate(ivecadd2L2(mnr2xL2/nnodes,nnodes))
+      allocate(icount2L2(nnodes))
+
+
+c Arrays required for MPI version
+
+! amc new
+      allocate(ivpacn1lL2(nnodes))
+      allocate(ivunpn1lL2(nnodes))
+      allocate(ivpacn2lL2(nnodes))
+      allocate(ivunpn2lL2(nnodes))
+      allocate(ivpac1lL2(mnr2xL2))
+      allocate(ivunp1lL2(mnr2xL2))
+      allocate(ivpac2lL2(mnr2xL2))
+      allocate(ivunp2lL2(mnr2xL2))
+
+      allocate(k0npacL2(nnodes))
+      allocate(k0nunpL2(nnodes))
+cccc      allocate(k0iunpL2(nr1xL2*nr2xL2,nnodes))  ! allocate seperately, too large
+!amc new stuff
+
+      
+c Arrays required for MPI version
+c     Now the real*8 arrays
+      
+      allocate(tabnr1lfwL2(ntabnr1L2))
+      allocate(tabnr2lfwL2(ntabnr2L2))
+      allocate(tabnr1linL2(ntabnr1L2))
+      allocate(tabnr2linL2(ntabnr2L2))
+
+
+      allocate(tabnr3lrcL2(ntabnr3L2))
+      allocate(tabnr3lcrL2(ntabnr3L2))
+
+
+      allocate(vec2L2(mnr2xL2/(nnodes),nnodes))
+            
+      end subroutine fft_allocateL2
+
+
+      subroutine fft_allocate2L2(k0nunp_maxL2,nnodes)
+      implicit none
+      integer k0nunp_maxL2,nnodes
+      allocate(k0iunpL2(k0nunp_maxL2,nnodes)) 
+      return
+      end subroutine fft_allocate2L2
+
+
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
+
 
       
       subroutine fft_deallocate()
@@ -228,5 +487,88 @@ c     Now the real*8 arrays
           deallocate(k0iunp)
 
       end subroutine fft_deallocate
+
+cccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccc
+
+      subroutine fft_deallocateL()
+      implicit none
+
+      deallocate(izcol_y2L)
+      deallocate(ixcol_y2L)
+      deallocate(ipe_y2L)
+      deallocate(ibca_y2L)
+      deallocate(iycol_z2L)
+      deallocate(ixcol_z2L)
+      deallocate(ipe_z2L)
+      deallocate(ibca_z2L)
+      deallocate(ivecadd2L)
+      deallocate(icount2L)
+
+      deallocate(ivpacn1lL)
+      deallocate(ivunpn1lL)
+      deallocate(ivpacn2lL)
+      deallocate(ivunpn2lL)
+      deallocate(ivpac1lL)
+      deallocate(ivunp1lL)
+      deallocate(ivpac2lL)
+      deallocate(ivunp2lL)
+
+      deallocate(k0npacL)
+      deallocate(k0nunpL)
+      deallocate(tabnr1lfwL)
+      deallocate(tabnr2lfwL)
+      deallocate(tabnr1linL)
+      deallocate(tabnr2linL)
+
+      deallocate(tabnr3lrcL)
+      deallocate(tabnr3lcrL)
+
+      deallocate(vec2L)
+      deallocate(k0iunpL)
+            
+      end subroutine fft_deallocateL
+
+ccccccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccccccc
+
+      subroutine fft_deallocateL2()
+      implicit none
+
+      deallocate(izcol_y2L2)
+      deallocate(ixcol_y2L2)
+      deallocate(ipe_y2L2)
+      deallocate(ibca_y2L2)
+      deallocate(iycol_z2L2)
+      deallocate(ixcol_z2L2)
+      deallocate(ipe_z2L2)
+      deallocate(ibca_z2L2)
+      deallocate(ivecadd2L2)
+      deallocate(icount2L2)
+
+      deallocate(ivpacn1lL2)
+      deallocate(ivunpn1lL2)
+      deallocate(ivpacn2lL2)
+      deallocate(ivunpn2lL2)
+      deallocate(ivpac1lL2)
+      deallocate(ivunp1lL2)
+      deallocate(ivpac2lL2)
+      deallocate(ivunp2lL2)
+
+      deallocate(k0npacL2)
+      deallocate(k0nunpL2)
+      deallocate(tabnr1lfwL2)
+      deallocate(tabnr2lfwL2)
+      deallocate(tabnr1linL2)
+      deallocate(tabnr2linL2)
+
+      deallocate(tabnr3lrcL2)
+      deallocate(tabnr3lcrL2)
+
+      deallocate(vec2L2)
+      deallocate(k0iunpL2)
+            
+      end subroutine fft_deallocateL2
+
 
       end module fft_data

@@ -1,8 +1,14 @@
       subroutine gen_Gstar_ind(smatr,nrot,AL)
 ******************************************
+cccccccc  Now, everything is in n1L,n2L,n3L
+******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ccccccc This subroutine generates mynode index arrays: ig_star(i),ig_local(i), and
@@ -12,8 +18,16 @@ ccccccc  e.g, rho_g(ig_local(i)). ig_star(i) is the
 ccccccc index of global g_star for which the ig_local(i) belong.
 ccccccc ig_star(i) is in ascending order. ig_lenstar(i) is the total number of g-vec
 ccccccc in this g-star
+ccccccccccccccccccccccccccccccccccccccccccc
+ccc  num_gstar: the total number of gstar from all nodes (same for all nodes, global)
+ccc  ng_ig_local: the total number of g in this node  =< 2*ngtotnod2L(inode)
+ccc  ig_star(ng_ig_local): the index of gstar this g belongs to.
+ccc  ig_lenstar(ng_ig_local): the num of equivalent g-point of the gstar=ig_star(ng_ig_local)
+ccc  ig_local(ng_ig_local): the local ig index (within ngtotnod2L) of this g. 
 
 ccccccc ALI is passed in through param.escan_real
+
+ccccccc Very slow !!  
 
 
       use fft_data
@@ -61,43 +75,46 @@ cccccccc generate the sym op for Cartesian Coord.
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
       one2pi=1.0002d0/(2*4*datan(1.d0))
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
-      ng2_n=ngtotnod2(inode)
+      ng2_nL=ngtotnod2L(inode)
       ig_treat_loc=0
 
-      allocate(itreat(mr_n))
-      itreat=.false.
+      allocate(itreat(mr_nL))
+      itreat=.false.       ! false, this g-point has not been sweeped
       num_gstar=0
       ig_loc_count=0
 
+
       do 200 iproc=1,nnodes
 
-      if(iproc.eq.inode) ng2_tmp=ng2_n
+      if(iproc.eq.inode) ng2_tmp=ng2_nL
 
-      call mpi_bcast(ng2_tmp,1,MPI_INTEGER,iproc-1,MPI_COMM_WORLD,ierr)
+      call mpi_bcast(ng2_tmp,1,MPI_INTEGER,iproc-1,MPI_COMM_K,ierr)
 
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
+
 
       do 100 i=1,ng2_tmp   ! all the processor doing the same loop as iproc
 
       if(iproc.eq.inode) then
-      inew_gstar =.not.itreat(i)
+      inew_gstar =.not.itreat(i)      ! inew_gstar-> true, new point. 
       endif
 
+cccccc  very time consuming on IBM SP !
       call mpi_bcast(inew_gstar,1,MPI_LOGICAL,iproc-1,
-     &        MPI_COMM_WORLD,ierr)
+     &        MPI_COMM_K,ierr)
 
-      call mpi_barrier(MPI_COMM_WORLD,ierr)
 
       if(inew_gstar) then    ! doing the new gstar
       num_gstar=num_gstar+1
 
       if(iproc.eq.inode) then
-      akxyz(1)=gkx2_n(i)
-      akxyz(2)=gky2_n(i)
-      akxyz(3)=gkz2_n(i)
+      akxyz(1)=gkx2_nL(i)
+      akxyz(2)=gky2_nL(i)
+      akxyz(3)=gkz2_nL(i)
       endif
 
-      call mpi_bcast(akxyz,3,MPI_REAL8,iproc-1,MPI_COMM_WORLD,ierr)
+cccccc  very time consuming on IBM SP !
+      call mpi_bcast(akxyz,3,MPI_REAL8,iproc-1,MPI_COMM_K,ierr)
           
 cccccccc now, all the processor are doing the same thing: to generate gstar
 
@@ -112,6 +129,7 @@ cccccccc now, all the processor are doing the same thing: to generate gstar
            
 ccccccc a small double loop, to find out whether this new ak is already in the
 ccccccc n_gstar group
+
               inew=.true.
               do j=1,len_gstar     
               if(dabs(akxyz_sym(1,j)-akxn)+dabs(akxyz_sym(2,j)-akyn)+
@@ -128,9 +146,13 @@ ccccccc n_gstar group
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccc  note that, all the processors have the same information for
 ccccccc  num_gstar,len_gstar, akxyz_sym. 
+ccccc num_gstar: the number of gstar
+ccccc len_gstar: the num of equivalent (but not the same) g-points generated for a given gstar
+ccccc akxyz_sym(3,len_gstar): the x,y,z of the equivalent g-point within each gstar
 
 ccccccccc now, each processor to find whether akxyz belongs to one of their g-vect, 
 ccccccccc if yes, write it into ig_star, ig_local, and mark itreat.
+
 
             ncount_tmp=0
 
@@ -152,16 +174,19 @@ ccccccccccc but for akxyz=0, only one k (positive one) is returned)
           write(6,*) "shouldn't be here, stop, gen_gstar_ind,itreat"
               stop
               endif
-            itreat(ig)=.true.
+            itreat(ig)=.true.     ! this ig has been sweeped over
             ig_treat_loc=ig_treat_loc+1
             endif
             endif
 60          continue
           
+ccccc ig_loc_count: the index of g-point belonging to gstar: ig_star(ig_loc_count)
 cccccccccccc  check whether all g-star has found its and only its g-vect
 
-          call mpi_allreduce(ncount_tmp,ncount_tmp,1,
-     &        MPI_INTEGER,MPI_SUM,MPI_COMM_WORLD,ierr)
+cccccc  very time consuming on IBM SP !
+          call mpi_allreduce(ncount_tmp,nctmp,1,
+     &        MPI_INTEGER,MPI_SUM,MPI_COMM_K,ierr)
+          ncount_tmp = nctmp
 
           if(ncount_tmp.ne.len_gstar) then    ! not all gstar has found its g-vect
           write(6,*) "not all gstar has found its g-vect, stop",
@@ -175,23 +200,33 @@ cccccccccccc  check whether all g-star has found its and only its g-vect
 100      continue
 200      continue
 
-ccccccc  note that ig_loc_count can be larger than ngtotnod2(inode), 
+
+ccccccc  note that ig_loc_count can be larger than ngtotnod2L(inode), 
 ccccccc  because -k can also be in ig_loc_count, (however, not all -k are 
-ccccccc  are necessarily in ig_loc_count)
+ccccccc  necessarily in ig_loc_count)
 
 ccccccc  ig_loc_count will be retained as ng_ig_local (data.f) in each processor
 ccccccc  num_gstar will also be retained in data.f
 
          ng_ig_local=ig_loc_count
 
-         if(ig_treat_loc.ne.ngtotnod2(inode)) then
+         if(ig_treat_loc.ne.ngtotnod2L(inode)) then
          write(6,*) "ig_treat_loc.ne.ngtotnod2,stop",
-     &      ig_treat_loc, ngtotnod2(inode)
+     &      ig_treat_loc, ngtotnod2L(inode)
          call mpi_abort(MPI_COMM_WORLD,ierr)
          endif
 
-         if(inode.eq.1) write(6,*) "num_gstar=",num_gstar
+         if(ng_ig_local.gt.2*ngtotnod2L(inode)) then
+         write(6,*) "ng_ig_local.gt.2*ngtotnod2L,stop",
+     &      ng_ig_local, ngtotnod2L(inode)
+         call mpi_abort(MPI_COMM_WORLD,ierr)
+         endif
+
+         if(inode_tot.eq.1) write(6,*) "num_gstar=",num_gstar
+
          deallocate(itreat)
+
+       call gen_ig_star_stop()
          
       return
 
@@ -216,22 +251,22 @@ ccccccc this is reversion gen_G2_real, i.e, from akx,y,z, to find ig,jnode
        nzt=one2pi*(AL(1,3)*akxyzt(1)+AL(2,3)*akxyzt(2)+
      &             AL(3,3)*akxyzt(3))
 
-       if(nxt.lt.0) nxt=nxt+n1
-       if(nyt.lt.0) nyt=nyt+n2
-       if(nzt.lt.0) nzt=nzt+n3
+       if(nxt.lt.0) nxt=nxt+n1L
+       if(nyt.lt.0) nyt=nyt+n2L
+       if(nzt.lt.0) nzt=nzt+n3L
        nxt=nxt+1
        nyt=nyt+1
        nzt=nzt+1
-       if(nxt.gt.n1.or.nyt.gt.n2.or.nzt.gt.n3) then
+       if(nxt.gt.n1L.or.nyt.gt.n2L.or.nzt.gt.n3L) then
        write(6,*) "nxt,nyt,nzt out of range, stop, find_gindex",
      &          nxt,nyt,nzt
        stop
        endif
 
-       if(jjnode2(nyt,nzt).eq.inode) then
-        jjcol2_t=jjcol2(nyt,nzt)
-        do ig_t=igstar_jjcol2(jjcol2_t),igfin_jjcol2(jjcol2_t)     ! short loop
-        if(n1p2_n(ig_t).eq.nxt) then
+       if(jjnode2L(nyt,nzt).eq.inode) then
+        jjcol2_t=jjcol2L(nyt,nzt)
+        do ig_t=igstar_jjcol2L(jjcol2_t),igfin_jjcol2L(jjcol2_t)     ! short loop
+        if(n1p2_nL(ig_t).eq.nxt) then
         iflag2=1
         ig2=ig_t
         if(imink.eq.2) ig2=-ig_t
@@ -254,5 +289,62 @@ ccccccc this is reversion gen_G2_real, i.e, from akx,y,z, to find ig,jnode
 
        end subroutine find_gindex
 
+      subroutine gen_ig_star_stop()
+ccccccccccccccccccccccc
+cccc This subroutine went through one symmop, get the ig_star_stop for
+cccc future symmop runs. 
+
+      implicit double precision (a-h,o-z)
+
+      nlarge=1000000000
+
+      iloc=0
+      ig_star_stop=0
+
+      do 100 igstar=1,num_gstar    ! one g_star at a time, cross all the processors
+
+      if(iloc.lt.ng_ig_local) then
+      ig_min=ig_star(iloc+1)
+      else
+      ig_min=nlarge
+      endif
+
+      ig_min_own=ig_min
+
+ccccccc  this is to prevent jump. For some nodes, it will not have this igstar, 
+ccccccc  as a result, its ig_star(iloc+1) (next igstar) will be larger than others.
+
+      call mpi_allreduce(ig_min,ig_mintmp,1,MPI_INTEGER,
+     &  MPI_MIN,MPI_COMM_K,ierr)     ! ig_min, the minimum index gstar
+      ig_min = ig_mintmp
+
+      if(ig_min_own.gt.ig_min) then
+      ig_star_stop(iloc+1)=ig_star_stop(iloc+1)+1
+      endif
+
+ccccc if(ig_star_stop(iloc+1)=0) then ig_min_own is the minimum one, 
+ccccc  then get involved in this ig_star, otherwise not, reduce ig_star_stop by 1
+
+ccccc this "do while" should be only a short loop, less then ig_lenstar
+ccccc The overall operation is O(N)
+
+      do while (iloc.lt.ng_ig_local.and.ig_star(iloc+1).eq.ig_min)
+       iloc=iloc+1
+      enddo
+
+100    continue
+
+       return
+       end  subroutine gen_ig_star_stop
+
        end
+
+
+
       
+
+      
+
+
+
+       

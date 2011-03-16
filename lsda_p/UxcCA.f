@@ -1,4 +1,4 @@
-      Function UxcCA(rho,Uxc2)
+      Function UxcCA(rho_tmp,Uxc2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
 
@@ -9,7 +9,7 @@
       DATA RC/0.02258D0/,EPS/1.0D-20/
 C-----------------------------------------------------------------------
 C
-      RH3=max(rho,1.d-16)
+      RH3=max(rho_tmp,1.d-16)
 
 C.
 C. KOHN-SHAM EXCHANGE

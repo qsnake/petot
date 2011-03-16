@@ -24,14 +24,17 @@ c for setups.
       include "mpif.h"
 
       real*8,allocatable,dimension(:) :: worknr1,worknr2,worknr3
+      complex*16,allocatable,dimension(:) :: psiy,combuf1,combuf2
       
-      complex*16 combuf1(mr_n),combuf2(mr_n)
       complex*16 psi(mr_n)
-      complex*16 psiy(mr_n)           ! work space
 
       integer inode,nnodes
+      integer inode_tot,nnodes_tot,icolor,num_group,MPI_COMM_K,
+     &       MPI_COMM_N
 
-      common /mpi_data/inode,nnodes
+      common /mpi_data/inode,nnodes,inode_tot,nnodes_tot,
+     &  icolor,num_group,MPI_COMM_K,MPI_COMM_N
+
       integer mpistatus(mpi_status_size)
       integer ireq(nnodes)
 
@@ -39,7 +42,7 @@ c scalars used
 
       integer i,ib,ic,idum,ii,iloc,ilocadd,isc,isign,itar,itaradd,
      c        itnode,iw,ix,iy,izb,j,jcol,ngy,ngyadd,ngz,nr1,nr2,nr3,
-     c        nr3u,inode,iloc_dum,ierr
+     c        nr3u,iloc_dum,ierr
       integer nworknr1,nworknr2,nworknr3
 
       real*8 fac,s
@@ -52,11 +55,13 @@ c
       allocate(worknr1(nworknr1))
       allocate(worknr2(nworknr2))
       allocate(worknr3(nworknr3))
+      allocate(psiy(mr_n))
+      allocate(combuf1(mr_n))
+      allocate(combuf2(mr_n))
 
-      call mpi_barrier(mpi_comm_world,ierr)
 
-      call mpi_comm_rank(MPI_COMM_WORLD,inode,ierr)
-      inode=inode+1
+
+      call mpi_barrier(mpi_comm_k,ierr)
 
 c
       isign = 1
@@ -81,6 +86,7 @@ c    &                tabnr3, ntabnr3, worknr3, nworknr3)
 
        enddo
 
+
 c
 c now transpose nz,ny,nx to ny,nz,nx in the two slice mode
 c into psiy. Each PE will have ncoly columns in psiy 
@@ -94,19 +100,19 @@ c
         enddo
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivunpn2(i),mpi_double_complex,i-1,
-     &                inode,mpi_comm_world,ireq(i),ierr)
+     &                inode,mpi_comm_k,ireq(i),ierr)
        idum = idum + ivunpn2(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivpacn2(i),mpi_double_complex,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivpacn2(i)
       enddo
 
@@ -114,7 +120,7 @@ c
          call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
@@ -137,6 +143,9 @@ c    &                psiy(ilocadd), 1, 0,
 c    &                nr2, 1, -isign, 1.0,
 c    &                tabnr2, ntabnr2, worknr2, nworknr2)
        enddo
+
+
+
 c 
 c now transpose back to format of program into psi 
 c ie into x columns load balanced 
@@ -149,19 +158,19 @@ c
         enddo
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivunpn1(i),mpi_double_complex,i-1,
-     &                inode,mpi_comm_world,ireq(i),ierr)
+     &                inode,mpi_comm_k,ireq(i),ierr)
        idum = idum + ivunpn1(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivpacn1(i),mpi_double_complex,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivpacn1(i)
       enddo
 
@@ -169,7 +178,7 @@ c
          call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       idum = 1
       do i = 1,nnodes
@@ -178,6 +187,7 @@ c
           idum = idum + 1
         enddo
       enddo
+
 c
 c for psi in the x direction 
 c
@@ -192,6 +202,7 @@ c    &                psi(ilocadd), 1, 0,
 c    &                nr1, 1, -isign, 1.0,
 c    &                tabnr1, ntabnr1, worknr1, nworknr1)
        enddo !i
+
 c
 c now do the scaling of the FFT
 c
@@ -201,11 +212,14 @@ c
         psi(i) = psi(i)*fac
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(mpi_comm_k,ierr)
 
       deallocate(worknr1)
       deallocate(worknr2)
       deallocate(worknr3)
+      deallocate(psiy)
+      deallocate(combuf1)
+      deallocate(combuf2)
 
       end
 

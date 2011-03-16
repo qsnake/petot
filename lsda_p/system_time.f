@@ -3,10 +3,10 @@
 cccccccc wall aclock time
 
 ccccccc for T3E
-       system_time=rtc()
+c       system_time=rtc()
 
 cccccc  for IBM SP2
-cc       system_time=rtc()
+       system_time=rtc()
 
       return
       end

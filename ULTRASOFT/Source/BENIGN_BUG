@@ -1,0 +1,52 @@
+There is still a numerical instability in the program that it
+would be good to fix.  It shows up especially in the s channel
+for the case of Pb in the input_examples directory, and shows up
+in the matrices printed in the output file just after the line
+`after transformation', and later as well.  Basically, this
+transformation is determined (by subroutine scpgef) in order to:
+(i) make the beta functions orthonormal; and (ii), to resolve
+the remaining freedom, a unitary rotation is applied to make a
+certain matrix 'ttt' diagonal.  This matrix is some kind of
+kinetic-energy matrix.  (The idea is to make the first beta look
+smooth, the second one more wavy, etc.)
+
+It seems that, at least for the case of the s channel of the Pb
+example, this ttt matrix has a lot of numerical instability
+associated with it.  If ttt is printed out, it is seen to depend
+supersensitively on all kinds of strange things: the degree of
+convergence of the previous all-electron calculation, whether
+the calculation is run on a Sun or a Dec Alpha, etc.  Thus, the
+unitary transformation, and other subsequently determined
+quantities, also have this supersensitive dependence.
+
+Luckily, the choice of this unitary rotation has no influence at
+all on the actual action of the ultrasoft pseudopotential; one
+really gets the same potential, just with a different internal
+representation.  Moreover, the nasty ttt matrix is never used
+for any other purpose than for determining this unitary
+transformation.  Thus, this `bug' is really benign.
+
+Still, it does make it problematic to compare the outputs of
+two different runs that ought to give the same results, and
+so it probably ought to be fixed.  Here is what I learned so far.
+The problem appears to come because the chi function is noisy,
+especially at small radii.  Try printing out a list of slopes
+(chi(i+1)-chi(i))/(r(i+1)-r(i)) for i=1,20 and you will see what
+I mean.  When calculating matrix elements of ttt, the numerical
+second derivative of chi is taken using a spline fit, and this
+seems to aplify the noise a lot.  I guess the computation of the
+ttt matrix is dominated by this noise in the case of the s channel
+of Pb, but the noise seems to be there in other cases as well.
+
+As far as I can tell, the noise in chi comes from the call to
+`difinv' in subroutine `scpgef'.  It looks to me as though the
+inputs to difinv are pretty smooth, but the output is noisy.
+I don't recall the details of what difinv is supposed to be
+trying to do, and I ran out of time to work on this.  So I'm
+leaving it alone for now; but I would very much appreciate it
+if somebody else could follow up on this and fix it.  To get
+started, you may wish to uncomment the comment lines surrounded
+by `CCCCCCC' in scpgef to see what is going on.
+
+					David Vanderbilt
+					20 August 1997

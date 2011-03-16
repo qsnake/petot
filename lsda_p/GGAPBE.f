@@ -107,7 +107,12 @@ c vcdn=lsd down correlation potential
 c h=gradient correction to correlation energy
 c dvcup=gradient correction to up correlation potential
 c dvcdn=gradient correction to down correlation potential
-      if(rho.lt.1.d-18)return
+      if(rho.lt.1.d-18) then      ! modified, LWW
+      vcuppbe=0.d0
+      vcdnpbe=0.d0
+      ecpbe=0.d0
+      return
+      endif
       zet=(up-dn)/rho
       g=((1.d0+zet)**thrd2+(1.d0-zet)**thrd2)/2.d0
       fk=(pi32*rho)**thrd

@@ -3,9 +3,9 @@
 ccccccc flush the buffer of output file: ifile
 
 ccccc for T3E
-      call flush(ifile)
+c      call flush(ifile)
 ccccc for IBM SP
-cc      call flush_(ifile)
+      call flush_(ifile)
 
       return
       end

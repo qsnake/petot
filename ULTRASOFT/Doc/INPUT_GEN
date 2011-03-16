@@ -1,0 +1,302 @@
+======================================================
+DOCUMENTATION FOR TYPICAL PSEUDO GENERATION INPUT FILE
+======================================================
+
+As a second stage, one usually runs the pseudopotential generation
+using an input file like this.  It directs the program to read the
+all-electron data that was generated in the first-stage run
+(see INPUT_AE).
+
+    0    2    1    1    4             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+   3.001    -6.0       2.0       80   rlogd,emin,emax,nnt (3f10.5,i5)
+   1.0d-10   1.0d-09   0.5            thresh,tol,damp,maxit (2e10.1,f10.5,i5)
+lead                                  title (a20)
+   12    3    3                       ncores,nvales,nang (3i5)
+ 10.0      30.0       40.0        5.0    besrmax,besemin,besemax,besde (4f10.5)
+    3    0   1.0                      keyps,ifpcor,rinner1,rpcor (2i5,2f10.5)
+    6   2.3                           nbeta,rcloc (i5,f10.5)
+   2.5        2.5       2.3           rc (3f10.5)
+    0    2   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    0    0   1.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    1    3   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    1    0   2.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    2    1   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    2    0   0.5        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+    8  10.0                           npf,ptryc (i5,f10.5)
+    3    0   0.0        1             lloc,keyee,eloc,iploctype(2i5,f10,5,i5)
+    2    8  10.0        5             ifqopt,nqf,qtryc,nfix (2i5,f10.5,i5)
+    2   0.94486  -0.035               ibfix,rfix,qfix (i5,2f10.5)
+    3   0.22164   0.010               ibfix,rfix,qfix (i5,2f10.5)
+    4   0.20054   0.010               ibfix,rfix,qfix (i5,2f10.5)
+    5   0.26402   0.010               ibfix,rfix,qfix (i5,2f10.5)
+    6   0.27756   0.010               ibfix,rfix,qfix (i5,2f10.5)
+
+The items on the right are the names and formats of the input
+variables (they are not actually read by the program; we are just
+in the habit of keeping them there as a reminder of what's what).
+Thus, in this example, ifae=0, ifpsp=2, etc.
+
+************************************************************************
+    0    2    1    1    4             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+************************************************************************
+
+ifae:    0  read all-electron (ae) data file
+         1  do ae from scratch and write ae data file
+
+ifpsp:   0  stop after ae part
+         1  read pseudo data file and compare to ae
+         2  generate pseudopotential and compare to ae
+
+ifprt:      increasing the value of 'ifprt' generates more printout
+        -1  very little printout
+         0  minimal useful printout
+         1  standard for archived output files
+       2-4  range normally used while generating potentials;
+              experiment to see what is produced at different levels
+         5  all available detail
+
+ifplw:   if generate data file for wf plots
+         0  no generation of wf plots
+         1  generation of wf plots
+         2  generation of data for input of second ref state
+         3  print out pseudopotential with current wavefunctions	
+
+ilogd:   num l values for which log derivs calc'd and output
+
+
+************************************************************************
+   3.001    -6.0       2.0       80   rlogd,emin,emax,nnt (3f10.5,i5)
+************************************************************************
+
+rlogd is radius at which log derivs are calc'd
+energy mesh spans (emin,emax) with nnt intervals
+
+************************************************************************
+   1.0d-10   1.0d-09   0.5            thresh,tol,damp,maxit (2e10.1,f10.5,i5)
+************************************************************************
+
+thresh specifies the threshold for deciding convergence of energy
+   eigenvalues when solving the radial schroedinger (etc) equation
+
+tol,damp,maxit control self-consistent iteration process
+   tol:   the tolerance used to decide when self-consistency is achieved
+   damp:  damping parameter used in mixing
+   maxit: maximum number of iterations allowed
+
+defaults are used if input values are zero:
+      if ( thresh .eq. 0.0d0 ) thresh = 1.0d-06
+      if ( tol    .eq. 0.0d0 )    tol = 1.0d-05
+      if ( damp   .eq. 0.0d0 )   damp = 5.0d-01
+      if ( maxit  .eq. 0     )  maxit = 250
+
+I recommend smaller values for thresh and tol than the defaults, as
+in the example above.  --dv
+
+************************************************************************
+lead                                  title (a20)
+************************************************************************
+
+title: name of element
+
+---------------------------------------------------------------------
+NOTE: AT THIS STAGE, THE PROGRAM READS THE AE INPUT FILE AND GETS
+VALUES FOR MANY PARAMETERS SUCH AS:
+    z,xion,exfact
+    rmax,aasf,bbst
+    ncspvs,irel
+ETC.  SEE INPUT_AE FOR DETAILS
+---------------------------------------------------------------------
+
+************************************************************************
+   12    3    3                       ncores,nvales,nang (3i5)
+************************************************************************
+
+ncores:  number of states to be treated as core states
+nvales:  number of states to be treated as valence states
+nang:    lmax+1, where lmax is the maximum angular momentum for which
+           pseudization is done (ie, max angular momentum of projectors)
+
+See sample input file for titanium for a more non-trivial example
+where nvales=4 (s,p,s,d) while nang=3.
+
+************************************************************************
+ 10.0      30.0       40.0        5.0    besrmax,besemin,besemax,besde (4f10.5)
+************************************************************************
+
+Get information for the besselfunction calculation for
+diagonalizing the hamiltonian to get information on ghoststates.
+
+      besrmax : the radius for the zero of the bessel function
+
+That is, one solves the schroeding equation with boundary conditions
+for which the wavefunction vanishes at this sphere radius.
+
+The calculation is done for several different cutoff values, to
+make sure things are not sensitive to cutoff, going from besemin
+to besemax in intervales of besde:
+
+      besemin, besemin+besde, besemin+2*besde, .., besemax
+
+************************************************************************
+    3    0   1.0                      keyps,ifpcor,rinner1,rpcor (2i5,2f10.5)
+************************************************************************
+
+keyps:  Specify what kind of pseudopotential is wanted
+
+      keyps = 0 --> standard hsc pseudopotential with exponent 4.0
+      keyps = 1 --> standard hsc pseudopotential with exponent 3.5
+      keyps = 2 --> vanderbilt modifications using defaults
+      keyps = 3 --> new generalized eigenvalue pseudopotentials
+      keyps = 4 --> frozen core all-electron case
+
+   Here, `vanderbilt modifications' refers to an older vanderbilt
+   paper, ``Optimally Smooth Norm-Conserving Pseudopotentials,''
+   Phys. Rev.  B 32, 8412 (1985), having nothing to do with ultrasoft
+   potentials.  Here, we almost always use keyps=3.
+
+ifpcor:  Specify whether "partial core correction" of louie, froyen,
+         & cohen is to be used (yes if 1, no if 0)
+
+rinner1: Determines the inner radii `rinner' that are used
+         for pseudizing the q-functions.
+
+         In general, there is a different rinner for each `total
+         angular momentum' L resulting from the angular momentum
+         addition rules.  Normally, they are all set equal to
+         rinner1.  However, if rinner1=0.0, then the rinner values
+         are read in on a separate following input line:
+
+            read (input,335) (rinner(i),i=1,nang*2-1)
+
+rpcor:   Pseudization radius used for partial core.  The partial core
+         is pseudized the same way as the qfunctions.
+
+NOTE:    IT IS POSSIBLE TO DO TRUE FROZEN-CORE CALCULATIONS BY
+         SPECIFYING keyps=4, ifpcor=1, rinner=0.
+
+************************************************************************
+    6   2.3                           nbeta,rcloc (i5,f10.5)
+************************************************************************
+
+nbeta = number of beta's (no of l-epsilon combinations)
+rcloc = core radius used to pseudize the local potential
+
+************************************************************************
+   2.5        2.5       2.3           rc (3f10.5)
+************************************************************************
+
+Cut-off radii for each angular momentum channel (s,p,d)
+
+NOW THE PROGRAM ENTERS A LOOP OVER NBETA AND READS ONE OF THE
+FOLLOWING INPUT LINES FOR EACH BETA.  NOTE THAT ANGULAR MOMENTA
+HAVE TO BE GIVEN IN NON-DESCENDING ORDER: S, THEN P, THEN D.
+
+************************************************************************
+    0    2   0.0        2             lll,keyee,eeread,iptype (2i5,f10.5,i5)
+************************************************************************
+
+lll:    Angular momentum l
+
+keyee:  An input key specifying how to get the reference energy for the
+        construction of this beta function.
+
+        keyee = 0 : read in reference energy epsilon
+        keyee > 0 : set reference energy epsilon equal to the
+                    keyee'th ae eigenvalue
+        keyee < 0 : activates new feature added by Kurt Stokbro which
+		    makes it possible to construct a pseudopotential
+		    using pseudowavefunctions taken from different
+		    atomic reference configurations. An example of how
+		    this feauture is used can be obtained by mailing
+		    stokbro@mic.dtu.dk
+
+eeread: Reference energy.
+
+iptype: Choose method for generating pseudo wavefunction:
+
+   iptype = 0    original polynomial pseudization
+   iptype = 1    exponential pseudization
+   iptype = 2    soft pseudization
+   iptype = 3    enforce norm conservation constraint; no augmentation
+                    charge
+   iptype = 4    enforce norm conservation constraint; with augmentation
+                    charge
+
+   Note that for iptype=2, the program does an optimal pseudization
+   to make the pseudo wavefunction optimally smooth, as governed by
+   the parameters:
+     npf:    number of Taylor terms in the radial expansion
+     ptryc:  cutoff in q-space for otpimal smoothness
+
+************************************************************************
+    8  10.0                           npf,ptryc (i5,f10.5)
+************************************************************************
+
+if iptype=2 for any of the above beta's, then read this line.
+
+   npf   = number of components in polynomial
+   ptryc = q-space cutoff for smoothness optimization
+
+(these play the same role as 'nqf,qtryc' for the q-functions)
+
+************************************************************************
+    3    0   0.0        1             lloc,keyee,eloc,iploctype(2i5,f10,5,i5)
+************************************************************************
+
+specify where to get the local potential from:
+
+lloc .eq. -1 :  simply match polynomial inside rcloc to ae potential outside
+
+lloc .ge.  0 :  choose local potential so that log deriv is correct at
+                a specified reference energy in angular momentum
+                channel lloc for the local potential alone.
+
+     keyee .le. 0:  use reference energy eloc
+     keyee .gt. 0:  set ref energy equal to keyee'th valence eigenvalue
+
+iploctype = 1 : use pswf1 to generate pseudo wf
+          = 2 : use pswf2 to generate pseudo wf (not currently impl?)
+          = 3 : use pswfnormc to generate pseudo wf
+     and then, in any case, invert schroedinger equation to get vloc
+
+************************************************************************
+    2    8  10.0        5             ifqopt,nqf,qtryc,nfix (2i5,f10.5,i5)
+************************************************************************
+
+specify how to pseudize the q_ij function:
+
+     ifqopt  subrout  action
+     ------  -------  ------------------------------------
+     0       psqf     original polynomial expansion
+     1       psqf1    optimize to nqf,qtryc; 3 constraints
+     2       psqf2    optimize to nqf,qtryc; 3 constraints
+                        plus optional nfix,ifix
+     3       psqf2    optimize to nqf,qtryc; 5 constraints
+                        plus optional nfix,ifix
+
+   nqf   = number of components in polynomial
+   qtryc = q-space cutoff for smoothness optimization
+   nfix  = number of extra constraints to read
+
+   Note that input files intended for gga runs have to be
+   modified to set ifqopt=3 instead of 2.
+
+IF NFIX.GT.0, THE FOLLOWING INPUT LINES ARE READ:
+
+************************************************************************
+    2   0.94486  -0.035               ibfix,rfix,qfix (i5,2f10.5)
+************************************************************************
+
+ibfix:  specifies which beta function this applies to
+rfix:   radius at which the constraint acts
+qfix:   specified value of the q-function that must occur at rfix
+
+NOTES:
+
+1. this only applies to diagonal elements, ibeta=jbeta
+2. rfix must be .lt. rinner
+3. one normally runs without these constraints first; then,
+     if negative charge density problems are ocurring, one
+     can look at the plots of the q-functions, pick what looks
+     like a reasonable constraint, try it, and look at the
+     result; and repeat until it looks reasonable.

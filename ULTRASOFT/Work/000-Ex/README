@@ -1,0 +1,42 @@
+This directory contains three dummy working subdirectories that
+illustrate what such a subdirectory should contain, and in particular,
+giving sample Makefile's, that can be used as templates.
+
+000-ex-ca-sp-notest : A version which allows for the generation and
+                      installation of the potential.  However, no
+                      transferability test is provided.
+
+000-ex-ca-sp-test   : A standard version which allows for the generation
+                      and installation of the potential, with one optional
+                      transferability test.
+
+000-ex-ca-sp-tests  : A version which allows for the generation and
+                      installation of the potential, with two optional
+                      transferability tests.
+
+It is recommended that at least one transferability test be provided,
+so the 'test' version is considered the 'standard' one.
+
+For each configuration to be tested, two input files are needed:
+  XX_ae_YYYY.adat
+  XX_test_YYYY.adat
+These are used to run the all-electron calculation and the
+transferability test, respectively.  The configuration to be tested is
+specified in the former ones (XX_ae_YYYY.adat).  Note that the latter
+ones (XX_test_YYYY.adat) can often be identical in practice.
+
+Note that the output files "*.out" from the 000-ex-ca-sp-test
+runs have been copied to subdirectory Sample_output/ so that
+a first-time user can check whether the executions are generating
+the expected results.
+
+					David Vanderbilt
+					February 2002
+
+------------------------------------------------------------------------
+Prof. David Vanderbilt               Phone: (732) 445-2514
+Department of Physics and Astronomy  Fax:   (732) 445-4400
+Rutgers University                   Email:  dhv@physics.rutgers.edu
+136 Frelinghuysen Road               http://www.physics.rutgers.edu/~dhv
+Piscataway, NJ 08854-8019   USA
+------------------------------------------------------------------------

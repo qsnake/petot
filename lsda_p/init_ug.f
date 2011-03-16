@@ -1,8 +1,12 @@
       subroutine init_ug(AL,iwg_in,workr_n,kpt,iranm)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ****************************************
@@ -46,7 +50,7 @@ cc        workr_n(i)=dcmplx(x1-0.5d0,0.d0)
 	enddo
 ************************************************
 
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_barrier(MPI_COMM_K,ierr)
 
         call d3fft_comp(ug_n(1,m),workr_n,1,kpt)
 
@@ -55,9 +59,11 @@ cc        workr_n(i)=dcmplx(x1-0.5d0,0.d0)
 *************************************************
 **** end generate the initial wavefunction from random
 *************************************************
-        do m=1,mx
-         call orth_comp(ug_n(1,m),ug_n,m-1,1,kpt)
-	enddo
+ccccccc it is not necessary to have the orthogonalization here
+c        do m=1,mx
+c        call orth_comp(ug_n(1,m),ug_n,m-1,1,kpt,
+c     &   sug_n,swg,1,0,fnorm)     ! ipsp_all always be 1 here, since sug_n is not known yet
+c	enddo
 *************************************************
       return
       contains
@@ -67,7 +73,7 @@ cc        workr_n(i)=dcmplx(x1-0.5d0,0.d0)
 
        complex*16,allocatable,dimension(:) :: ugtemp
 
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_barrier(MPI_COMM_K,ierr)
 cccccc  file (11) should have been opened before the do loop for kpt=1,nkpt
 
 ccccccccccccc check the header.
@@ -101,13 +107,13 @@ ccccccccccccc check the header.
          endif
 
          if(nnodes_o.ne.nnodes) then
-           write(6,*) "nnodes_o changed, stop", nnodes_o
+           write(6,*) "nnodes_o changed, stop", nnodes_o,nnodes
          call mpi_abort(MPI_COMM_WORLD,ierr)
          endif
 
       endif     ! check the header, make sure it is the same
 ccccccccccccccccccccccccccccccccccccccccc
-         call mpi_barrier(MPI_COMM_WORLD,ierr)
+         call mpi_barrier(MPI_COMM_K,ierr)
 
          if(inode==nnodes) then
             allocate(ugtemp(mg_nx))
@@ -120,7 +126,7 @@ ccccccccccccccccccccccccccccccccccccccccc
 
 
           call mpi_send(ug_n,mg_nx*mx,MPI_DOUBLE_COMPLEX,i,
-     &            102,MPI_COMM_WORLD,ierr)
+     &            102,MPI_COMM_K,ierr)
             end do
 c     Now read in the data for node nnodes
             do iwavefun=1,mx
@@ -132,7 +138,7 @@ c     Now read in the data for node nnodes
          else   ! for other nodes
 
          call mpi_recv(ug_n,mg_nx*mx,MPI_DOUBLE_COMPLEX,nnodes-1,
-     &       102,MPI_COMM_WORLD,status,ierr)
+     &       102,MPI_COMM_K,status,ierr)
 
          end if
 

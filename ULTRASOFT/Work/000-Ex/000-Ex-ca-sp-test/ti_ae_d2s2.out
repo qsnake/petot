@@ -1,0 +1,173 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   1    ifpsp =   0    ifprt =   1    ifplw =   1    ilogd =   3
+ rlogd=   1.80000     emin=  -2.40000     emax=   1.60000     nnt=   40
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .500    maxit = 250
+
+          *************************************************************
+          Ti                        ceperley-alder exchange-correlation
+          *************************************************************
+
+ z =  22.    xion =  .00    exfact =    .00000    irel=   2
+ ncspvs =    7
+ rmax = 200.00000    aasf =   6.00000    bbsf =  59.00000
+
+ value of mesh generated in rinit is   851
+ rlogd =  1.80000 generated klogd =  573 with r(klogd) =  1.82908
+
+          logarimic radial mesh values:
+
+     index            r                  rab
+
+       1          .00000000           .00000191
+       2          .00000193           .00000194
+       3          .00000388           .00000198
+       4          .00000588           .00000201
+       5          .00000790           .00000204
+       6          .00000996           .00000208
+       7          .00001206           .00000211
+       8          .00001419           .00000215
+       9          .00001636           .00000219
+      10          .00001857           .00000222
+       .          .                   .
+       .          .                   .
+       .          .                   .
+     841       171.78522872          2.91161596
+     842       174.72165939          2.96138597
+     843       177.70828424          3.01200673
+     844       180.74596127          3.06349278
+     845       183.83556315          3.11585891
+     846       186.97797747          3.16912017
+     847       190.17410697          3.22329186
+     848       193.42486984          3.27838953
+     849       196.73119997          3.33442903
+     850       200.09404720          3.39142644
+     851       203.51437761          3.44939814
+ subroutine setnuc - nuclear core radius =     .71524E-04
+ irel = 2 so all electron calculations use koelling-harmon equations
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+
+                         the system has converged with
+                                 delta=  .8119395D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -356.90564
+           200                   2.00             -39.35587
+           210                   6.00             -32.63227
+           300                   2.00              -4.57605
+           310                   6.00              -2.85066
+           400                   2.00               -.33810
+           320                   2.00               -.32802
+ etot=  -1703.41977 ryd ;     -23175.02513 ev            ebsr,ehar,emvxc=  -1015.90499    713.39206     25.87729
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv

@@ -1,0 +1,30 @@
+ (0)   You first need to compile the executable runatom.x, and place 
+       that in the Bin directory. (if you use IBM SP machine, you don't
+       need to recompile, the executable in this package should work 
+       for you).    
+
+ (1)   Go to D. Vanderbilt's ultrasoft pp Website: 
+       http://www.physics.rutgers.edu/~dhv/uspp/#CONTRIB
+ (2)   Double click on one element of the (green/blue) periodic table. 
+ (3)   Now, you might see a few subdirectories, corresponding to a few 
+       possible uspp's for this element. Click on the one you like to use 
+       (however, for most of the elements, there is only one choice). 
+ (4)   Download the Makefile and all the xxx.adat file, and place them 
+       in a directory: Work/xxx_atom/sub_xxx_atom/. Note xxx_atom (xxx is 
+       the atomic number, atom is the atom name, e.g, 047-Ag) is a directory
+       for this element; sub_xxx_atom is a subdirectory for one particular uspp 
+       for this element. It is a good idea to keep the original name (from the
+       website) for sub_xxx_atom. For example: 047-Ag-gpw-n-campos). Note this
+       directory structure cannot be changed, since that is used in the Makefile. 
+ (5)   Inside this subdirectory, just type >make,  it will make the xxx.uspp 
+       pseudopotential file for you. You can copy the uspp.atom in the Pot file 
+       for you future use. Only the atom_ae_ref.adat (e.g, ag_ae_ref.adat) and 
+       atom_ps.adat (e.g, ag_ps.adat) are used in >make. All the other files are 
+       used in >make test. But it is a good idea to download all the files.  
+
+       You can also try: >make install, >make clean, >make test.   
+
+   Lin-Wang Wang, Dec. 10, 2004. 
+       
+
+

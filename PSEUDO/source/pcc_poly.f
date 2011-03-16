@@ -17,6 +17,8 @@ ccccccccc  Lin-Wang Wang, Feb. 28, 2001
 
       DIMENSION R(NR),CDC(NR)
 
+cccccccccccccccccccccccccccccccccccccccccccc
+
             v0=cdc(icore)/r(icore)**2
 
             vp2=cdc(icore+2)/r(icore+2)**2

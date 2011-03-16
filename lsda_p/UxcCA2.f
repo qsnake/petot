@@ -1,4 +1,4 @@
-      subroutine UxcCA2(rho1,rho2,vxc1,vxc2,uxc1,uxc2)
+      subroutine UxcCA2(rho1_tmp,rho2_tmp,vxc1,vxc2,uxc1,uxc2)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 
 
@@ -32,8 +32,8 @@ cccc B1=B-A/3, C1=2/3*C, D1=(2*D-C)/3
      &                                            -0.006866667d0/
 
 ************************************************
-      rho1=max(rho1,1.d-16)
-      rho2=max(rho2,1.d-16)
+      rho1=max(rho1_tmp,1.d-16)
+      rho2=max(rho2_tmp,1.d-16)
 
       rho=rho1+rho2
 

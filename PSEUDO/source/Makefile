@@ -5,12 +5,16 @@
 ############################################################
 
 # For Cray T3E
-F77=f90 
-FCOPTS =  -dp -O2 -c  
-FCOPZE =  -dp -O2 -c
+#F77=f90 
+#FCOPTS =  -dp -O2 -c  
+#FCOPZE =  -dp -O2 -c
+
+# For IBM SP
+F77=xlf
+FCOPTS =  -O2 -c  
+FCOPZE =  -O2 -c
 
 # For HP 
-
 #F77 = f77
 #FCOPTS = +O2 -c
 #FCOPZE = +e -c

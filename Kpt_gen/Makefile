@@ -5,10 +5,10 @@ SHELL = /bin/sh
 
 PARAM = param.h
 
-FFLAGS = -dp 
+FFLAGS = -O2 
 PRECISION =
-CPP = /opt/ctl/bin/cpp -P -DPARAM_H=\"$(PARAM)\"
-FC = f90
+CPP = /usr/ccs/lib/cpp -P -DPARAM_H=\"$(PARAM)\"
+FC = xlf
 COMPRESS = | compress -v
 SHAR = shar
 TAR = tar cvf -

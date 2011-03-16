@@ -1,10 +1,14 @@
       subroutine atomMV(mov,line_step,xatom,fatom,Etot,
-     & E_pred,dt,istop_line,ave_dx,AL,imov_at,
-     & convergE,message,dt_fact_nextlinemin)
+     & E_pred,dt,istop_line,dd_max,dd_limit,AL,imov_at,
+     & convergE,message,dt_fact_nextlinemin,xatom_old,imv_cont)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ***********************************************
@@ -15,6 +19,9 @@ cc     The United States government retains a royalty free license in this work
 *******************************************************
 ***** This subroutine contains many units, the values of mov and line_step
 ***** determine whether to perform each of these (logic) units.
+******************************************
+*****   $$$$$$$$$
+***** fatom is the derivative of total energy, thus is the minus actual force
 ******************************************
        use data
 
@@ -27,11 +34,15 @@ cc     The United States government retains a royalty free license in this work
        real*8 px_u(3*matom)
        real*8 dsx(3*matom)
        real*8 E_tot_st(0:200),dt_st(0:200)
+       real*8 f_max,dd_max_prev
 ********************************************
        real*8 AL(3,3)
 ********************************************
        real*8 xatom(3,matom),fatom(3,matom)
        real*8 xatom_old(3,matom),fatom_old(3,matom)
+       integer iatom(matom),ityatom(matom)
+       integer smatr(3,3,48),nrot
+       real*8 Ealpha(mtype)
 *************************************************
 cc       real*8 HessI(3*matom,3*matom)
        real*8,allocatable,dimension(:,:) :: HessI
@@ -40,8 +51,11 @@ cc       real*8 HessI(3*matom,3*matom)
        real*8 dE_dt
        character*60 message
 **************************************************
-       save HessI,xatom_old,fatom_old,E_tot_st,dt_st,
-     & px,px_u,dE_dt
+       save HessI,fatom_old,E_tot_st,dt_st,
+     & px,px_u,dE_dt,f_max,dd_max_prev
+
+       common /comMainEtot/iatom,totNel,
+     &     smatr,nrot,ilocal,Ealpha,Ealphat
 
 *******************************************************
 **** for line_step=0, all the saved quantities will be updated. 
@@ -53,22 +67,45 @@ cc       real*8 HessI(3*matom,3*matom)
       if(line_step.gt.0) goto 3000
 
 
-
       if(mov.eq.1.and.line_step.eq.0) then
 
       allocate(HessI(3*natom,3*natom))
 
+      if(imv_cont.eq.0) then
       HessI=0.d0
       do i1=1,3*natom
       HessI(i1,i1)=1.d0
       enddo
+      else
+        if(inode_tot.eq.1) then
+        open(10,file="Hessian_cont",form="unformatted")
+        rewind(10)
+        read(10) natomt
+        if(natomt.ne.natom) then
+        write(6,*) "natomt.ne.natom,stop"
+        stop
+        endif
+        read(10) HessI
+        read(10) ((xatom_old(i,j),i=1,3),j=1,natom)
+        read(10) ((fatom_old(i,j),i=1,3),j=1,natom)
+        close(10)
+        endif
+
+        call mpi_bcast(HessI,9*natom**2,
+     $   MPI_REAL8, 0, MPI_COMM_WORLD,ierr)     ! all the proc (including diff icolor) are doing the same
+        call mpi_bcast(xatom_old,3*natom,
+     $   MPI_REAL8, 0, MPI_COMM_WORLD,ierr)
+        call mpi_bcast(fatom_old,3*natom,
+     $   MPI_REAL8, 0, MPI_COMM_WORLD,ierr)
+       endif
+
       endif
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccc determine the search direction, CG or BFGS
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccc  move.gt.1 updating the Hess matrix using BFGS
 
-      if(mov.gt.1.and.line_step.eq.0) then
+      if((mov.gt.1.or.imv_cont.eq.1).and.line_step.eq.0) then
       do ia=1,natom
       ian=(ia-1)*3
       px(1+ian)=(fatom(1,ia)-fatom_old(1,ia))*imov_at(1,ia)
@@ -91,8 +128,11 @@ cccc  move.gt.1 updating the Hess matrix using BFGS
 
       ss=0.d0
       do i1=1,3*natom
-      ss=ss+dsx(i1)*px(i1)
+      ss=ss+dsx(i1)*px(i1)     ! This formula is correct, fatom is +dE/dx, not -phy.force
       enddo
+
+      if(abs(ss).lt.1.D-25) goto 341
+
       ssI=1.d0/ss
 
       do i1=1,3*natom
@@ -107,6 +147,9 @@ cccc  move.gt.1 updating the Hess matrix using BFGS
       do i1=1,3*natom
       ss2=ss2+px1(i1)*px(i1)
       enddo
+
+      if(abs(ss2).lt.1.D-25) goto 341
+
       ss2I=1.d0/ss2
 
       do i1=1,3*natom
@@ -122,6 +165,8 @@ cccccccccc  BFGS formula
       enddo
 
       endif
+
+341   continue
 ccccccccccc end of updating HessI  ccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  
@@ -137,6 +182,16 @@ ccccccccc line_step.eq.0  generate the searching direction and calc. dE_dt
       fatom_old(2,ia)=fatom(2,ia)
       fatom_old(3,ia)=fatom(3,ia)
       enddo
+
+        if(inode_tot.eq.1) then
+        open(10,file="Hessian_cont",form="unformatted")
+        rewind(10)
+        write(10) natom
+        write(10) HessI
+        write(10) ((xatom_old(i,j),i=1,3),j=1,natom)
+        write(10) ((fatom_old(i,j),i=1,3),j=1,natom)
+        close(10)
+        endif
 cccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       do ia=1,natom
@@ -152,7 +207,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccc
       do i2=1,3*natom
       s=s+HessI(i1,i2)*px(i2)
       enddo
-      px1(i1)=-s
+      px1(i1)=-s      ! px1 is the search dir. Note, it is -fatom, and fatom=+dE/dx
       enddo
 
       s1=0.d0
@@ -181,7 +236,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccc
      & px(3+ian)*fatom(3,ia)
       enddo
 
-      if(dE_dt.gt.0.d0) then
+      if(dE_dt.gt.0.d0) then     ! usually, this will not happen. 
       dE_dt=-dE_dt
       do i1=1,3*natom
       px(i1)=-px(i1)
@@ -202,6 +257,16 @@ cccccccc change the unit
       enddo
 
       endif
+
+cccccccccccccccc
+
+       f_max=0.d0
+       do ia=1,natom
+       ian=(ia-1)*3
+       f_tmp=px(1+ian)**2+px(2+ian)**2+px(3+ian)**2
+       if(f_tmp.gt.f_max) f_max=f_tmp
+       enddo
+       f_max=dsqrt(f_max)
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccc end of search direction 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -216,17 +281,14 @@ ccccccccc istop_line=1, stop this line miniz at this line_step
 ccccccccc istop_line=0, continue line miniz along this direction.
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
        if(line_step.eq.0) then      ! determine dt for a initial probing run
        istop_line=0
        dt=dt*dt_fact_nextlinemin         ! using the dt of previous mov
-       d_max=0.d0
-       do ia=1,natom
-       ian=(ia-1)*3
-       d_t=px(1+ian)**2+px(2+ian)**2+px(3+ian)**2
-       if(d_t.gt.d_max) d_max=d_t
-       enddo
-       d_max=dsqrt(d_max)
-ccc       if(dt.lt.0.1/d_max) dt=0.1/d_max   ! crazy assignment ?
+        if(mov.gt.1.and.dabs(dd_max_prev-dd_limit).lt.0.1*dd_limit) then
+        dt=dd_limit/f_max
+        endif
        endif
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccc E=E_0+ a*t + b*t^2
@@ -235,6 +297,7 @@ cccccc E=E_0+ a*t + b*t^2
        a=dE_dt
        b=(E_tot_st(1)-E_tot_st(0)-a*dt_st(1))/dt_st(1)**2
        dt=-a/(2*b)
+
 
        E_pred=E_tot_st(0)+a*dt+b*dt**2
 
@@ -297,6 +360,17 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        call  mpi_abort(MPI_COMM_WORLD,ierr)
        endif
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+       if(f_max*dt.gt.dd_limit) then
+       dt=dd_limit/f_max
+         message="dd_max.gt.dd_limit,use dd_limit"
+       if(line_step.eq.0) then
+       E_pred=0.d0
+       else
+       E_pred=E_tot_st(0)+a*dt+b*dt**2
+       endif
+       endif
+       dd_max=dt*f_max
+       dd_max_prev=dd_max
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
        line_step=line_step+1
        dt_st(line_step)=dt
@@ -310,16 +384,48 @@ ccccccccccc Etot calculation
       xatom(3,ia)=xatom_old(3,ia)+dt*px_u(3+ian)
       enddo
 
-      ave_dx=0.d0
+      ave_dd=0.d0
       num=0.d0
       do ia=1,natom
       ian=(ia-1)*3
-      ave_dx=ave_dx+dabs(px_u(1+ian))+dabs(px_u(2+ian))+
-     &      dabs(px_u(3+ian))
-      num=num+imov_at(1,ia)+imov_at(2,ia)+imov_at(3,ia)
+      sum=(AL(1,1)*px_u(1+ian)+AL(1,2)*px_u(2+ian)+
+     &     AL(1,3)*px_u(2+ian))**2
+     &   +(AL(2,1)*px_u(1+ian)+AL(2,2)*px_u(2+ian)+
+     &     AL(2,3)*px_u(2+ian))**2
+     &   +(AL(3,1)*px_u(1+ian)+AL(3,2)*px_u(2+ian)+
+     &     AL(3,3)*px_u(2+ian))**2
+      ave_dd=ave_dd+dsqrt(sum)
+      if(imov_at(1,ia).eq.1.or.imov_at(2,ia).eq.1.or.
+     &     imov_at(3,ia).eq.1) then
+      num=num+1
+      endif
       enddo
-      ave_dx=dt*ave_dx/num
+      ave_dd=dt*ave_dd/num
 ccccccccccccccccccccccccccccccccccccccccccccccccc
+ccccc write out the xatom information in xatom.log
+ccccc file 23 should be opened now
+      if(inode_tot.eq.1) then
+      write(23,*) "**********************************"
+      write(23,*) "***  mov, line_step=", mov, line_step
+      write(23,*) natom
+      write(23,203) AL(1,1),AL(2,1),AL(3,1)
+      write(23,203) AL(1,2),AL(2,2),AL(3,2)
+      write(23,203) AL(1,3),AL(2,3),AL(3,3)
+      do i=1,natom
+      write(23,204) iatom(i),xatom(1,i),xatom(2,i),xatom(3,i),
+     &   imov_at(1,i),imov_at(2,i),imov_at(3,i)
+      enddo
+      write(23,*) "**********************************"
+      endif
+203   format(3(f12.6,1x))
+204   format(i3,2x,3(f12.6,1x),2x,3(i2,1x))
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccc making sure the xatom for all the nodes are the same
+
+        call mpi_bcast(xatom,3*natom,
+     $   MPI_REAL8, 0, MPI_COMM_WORLD,ierr)
+      
 
       return       ! return to calculate Etotcalc at the new xatom
        

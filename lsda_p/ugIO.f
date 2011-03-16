@@ -1,8 +1,12 @@
       subroutine ugIO(ug_n_tmp,kpt,iflag,istep,iislda)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ****************************************
@@ -38,6 +42,7 @@ ccccc iflag=1, write, iflag=2, read
      & fname//char(iislda+48)//char(istep+48)//char(kpt4+48)//
      &  char(kpt3+48)//char(kpt2+48)//char(kpt1+48),
      &       form="unformatted")
+        rewind(10)
 
             allocate(ugtemp(mg_nx))
 
@@ -49,7 +54,7 @@ ccccc iflag=1, write, iflag=2, read
 
 
           call mpi_send(ug_n_tmp,mg_nx*mx,
-     & MPI_DOUBLE_COMPLEX,i,102,MPI_COMM_WORLD,ierr)
+     & MPI_DOUBLE_COMPLEX,i,102,MPI_COMM_K,ierr)
             end do
 c     Now read in the data for node nnodes
             do iwavefun=1,mx
@@ -62,7 +67,7 @@ c     Now read in the data for node nnodes
          else   ! for other nodes
 
          call mpi_recv(ug_n_tmp,mg_nx*mx,
-     & MPI_DOUBLE_COMPLEX,nnodes-1,102,MPI_COMM_WORLD,status,ierr)
+     & MPI_DOUBLE_COMPLEX,nnodes-1,102,MPI_COMM_K,status,ierr)
 
          endif    ! for the nodes
         endif     ! for the iflag, read
@@ -81,6 +86,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      & fname//char(iislda+48)//char(istep+48)//char(kpt4+48)//
      &  char(kpt3+48)//char(kpt2+48)//char(kpt1+48),
      &       form="unformatted")
+       rewind(10)
 
             allocate(ugtemp(mg_nx))
 
@@ -90,24 +96,24 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             end do
         endif    ! inode==1
 
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_barrier(MPI_COMM_K,ierr)
 
         do i=1,nnodes-1
          do iwavefun=1,mx
 
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_barrier(MPI_COMM_K,ierr)
            if(inode==i+1) then
            call mpi_send(ug_n_tmp(1,iwavefun),mg_nx,
-     &  MPI_DOUBLE_COMPLEX,0,102,MPI_COMM_WORLD,ierr)
+     &  MPI_DOUBLE_COMPLEX,0,102,MPI_COMM_K,ierr)
            endif
 
            if(inode==1) then
            call mpi_recv(ugtemp,mg_nx,
-     & MPI_DOUBLE_COMPLEX,i,102,MPI_COMM_WORLD,status,ierr)
+     & MPI_DOUBLE_COMPLEX,i,102,MPI_COMM_K,status,ierr)
            write(10) ugtemp   
            endif
 
-        call mpi_barrier(MPI_COMM_WORLD,ierr)
+        call mpi_barrier(MPI_COMM_K,ierr)
 
           enddo  ! do iwavefun
          enddo    ! do inode
@@ -119,6 +125,16 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         endif     ! for the iflag, write
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+cccccc This barrier is necessary, especially when the program 
+cccccc write (or read) something in the file ugiofilexxx immediately
+cccccc after it read (or write) (for example in interpolation). 
+cccccc The open in write is done in inode.eq.1
+cccccc while the open in read is done in inode.eq.nnodes
+cccccc so, it could be that the previous operation has not close the file
+cccccc before the second operation try to open it.
+
+        call mpi_barrier(MPI_COMM_K,ierr)
 
 
         return

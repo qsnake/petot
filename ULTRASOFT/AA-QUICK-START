@@ -1,0 +1,68 @@
+       ---------------------------------------------
+       USPP 7.3.3 PSEUDOPOTENTIAL GENERATION PACKAGE
+       ---------------------------------------------
+
+This file contains concise directions for compiling and running
+the program in order to generate the library of pseudopotentials:
+
+---------------------------------------------------------------------
+
+1. Change your working directory to Source/
+
+2. Check the Makefile to see if you should specify any f77 compiler
+   options for your environment, etc.
+
+3. Run
+
+      make
+      make install
+      make clean
+
+   This should have the effect of putting an executable 'runatom.x'
+   into the Bin/ directory.
+
+4. Now look through the Work/ directory to find the atom you are
+   interested in.  See Work/README for an explanation of the
+   subdirectory structure.  When you have moved down the tree to
+   the case of interest, run
+
+      make
+      make install
+      make clean
+
+   This should have the effect of putting a pseudopotential datafile
+   for the case of interest into the Pot/ directory.
+
+   Optionally, to inspect the results of the pseudopotential generation,
+   do the following before the 'make install' step:
+   
+      A.  View the *ps*out file.
+
+      B.  If there is one or more *test*adat files, type 'make test'
+          and view the resulting *test*out files.
+
+   Note:
+
+   First-time users who wish to check whether the code compiles and
+   executes correctly may wish to go first to the subdirectory
+   Work/000-Ex/000-Ex-ca-sp-test/, run 'make' and 'make test', and
+   compare the resulting '*.out' outputs with those that have been
+   stored in Work/Sample_output/ for this purpose.
+
+---------------------------------------------------------------------
+
+Users who wish to experiment with generating their own
+pseudopotentials should start by consulting the file Doc/DETAILS.
+However, there is nothing like a "User Manual," so beware that
+this process may not be entirely painless.
+
+					David Vanderbilt
+					February 2002
+
+------------------------------------------------------------------------
+Prof. David Vanderbilt               Phone: (732) 445-2514
+Department of Physics and Astronomy  Fax:   (732) 445-4400
+Rutgers University                   Email:  dhv@physics.rutgers.edu
+136 Frelinghuysen Road               http://www.physics.rutgers.edu/~dhv
+Piscataway, NJ 08854-8019   USA
+------------------------------------------------------------------------

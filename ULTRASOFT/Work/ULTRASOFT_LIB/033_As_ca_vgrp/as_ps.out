@@ -1,0 +1,299 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  0 -  0 -    0
+========================================================================
+
+ ifae =   0    ifpsp =   2    ifprt =   0    ifplw =   1    ilogd =   3
+ rlogd=   2.40000     emin=  -6.00000     emax=   2.00000     nnt=   40
+ thresh, tol =   1.000E-10   1.000E-09    damp =  .500    maxit = 250
+ ncores =    6    nvales =    2    nang =    2
+ core charge = 28.00000 and valence charge =  5.00000
+ besrmax = 10.00    besemin = 30.00    besemax = 40.00    besde=  5.00
+ keyps =    3   ifpcor =    0   rinner =    .80000   rpcor =    .00000
+ nbeta =  4     rcloc =   1.800
+ rc for s, p, d, f =   1.80000      1.80000
+ ib, lll, eee, iptype =   1   0  -1.047   0
+ ib, lll, eee, iptype =   2   0    .000   0
+ ib, lll, eee, iptype =   3   1   -.395   0
+ ib, lll, eee, iptype =   4   1    .400   0
+ lloc =  1     eloc =  -1.10000     iploctype=  1
+ ifqopt =  1     nqf =  5     qtryc =  10.00000     nfix =  0
+
+ value of mesh generated in rinit is   821
+ irel = 0 so all electron calculations use schroedinger equations
+
+
+                         the system has converged with
+                                 delta=  .1424683D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -846.65489
+           200                   2.00            -106.18454
+           210                   6.00             -95.05624
+           300                   2.00             -13.46057
+           310                   6.00              -9.70281
+           320                  10.00              -3.08487
+           400                   2.00              -1.04745
+           410                   3.00               -.39541
+ etot=  -4464.99184 ryd ;     -60746.21196 ev            ebsr,ehar,emvxc=  -2595.28415   1921.40741     51.69972
+
+ subroutine prwf: writing wavefunctions to unit iplot
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv
+
+ -----------------------------------------------
+ begin subroutine scpgef
+ -----------------------------------------------
+
+   rcmax, rbeta, rlogd =    1.80000   2.65924   2.40000
+          kkbeta,klogd =                  619       613
+   lloc = 1 so new pseudization scheme for vloc with eloc =   -1.100
+
+   generating vloc with lloc  1 eloc = -1.10000
+   calling phase
+   calling pswf1
+
+   subroutine pswf1
+   leaving pswf1
+   calling phase
+
+   -------------------------------------------
+   constructing ibeta = 1
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    1    0 -1.0475    0
+   calling phase
+   calling pswf - polynomial pseudization
+
+   subroutine pswf
+   leaving pswf
+
+   -------------------------------------------
+   constructing ibeta = 2
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    2    0   .0000    0
+   calling phase
+   calling pswf - polynomial pseudization
+
+   subroutine pswf
+   leaving pswf
+
+   -------------------------------------------
+   constructing ibeta = 3
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    3    1  -.3954    0
+   calling phase
+   calling pswf - polynomial pseudization
+
+   subroutine pswf
+   leaving pswf
+
+   -------------------------------------------
+   constructing ibeta = 4
+   -------------------------------------------
+
+   ibeta,lcur,ecur,ipsu    4    1   .4000    0
+   calling phase
+   calling pswf - polynomial pseudization
+
+   subroutine pswf
+   leaving pswf
+
+   -------------------------------------------
+   construct beta functions and matrices
+   -------------------------------------------
+
+    matrix b(i,j)
+
+       1.72464       1.10144        .00000        .00000
+       1.71089       1.09492        .00000        .00000
+        .00000        .00000       2.18719       1.51056
+        .00000        .00000       5.47032       4.35793
+
+    matrix q(i,j)
+
+       -.81837       -.58182        .00000        .00000
+       -.58182       -.41201        .00000        .00000
+        .00000        .00000      -4.96658      -4.97737
+        .00000        .00000      -4.97737      -4.88898
+
+    matrix d(i,j)
+
+       2.58184       1.71086        .00000        .00000
+       1.71089       1.09492        .00000        .00000
+        .00000        .00000       4.15103       3.47866
+        .00000        .00000       3.47937       2.40234
+
+    matrix d(i,j)
+
+       2.58184       1.71087        .00000        .00000
+       1.71087       1.09492        .00000        .00000
+        .00000        .00000       4.15103       3.47902
+        .00000        .00000       3.47902       2.40234
+
+    matrix i(i,j)
+
+     280.14685    -281.81495        .00000        .00000
+    -437.74857     441.26841        .00000        .00000
+        .00000        .00000       3.43584      -1.19094
+        .00000        .00000      -4.31285       1.72440
+
+   -------------------------------------------
+   transform so betas are orthogonal
+   -------------------------------------------
+ 
+  after transformation :
+
+    matrix q(i,j)
+
+       -.52625        .35272        .00000        .00000
+        .35272       -.18297        .00000        .00000
+        .00000        .00000       -.38326        .17907
+        .00000        .00000        .17907        .08304
+
+    matrix d(i,j)
+
+        .70617        .65994        .00000        .00000
+        .65994      -2.37314        .00000        .00000
+        .00000        .00000      -1.26058       2.00115
+        .00000        .00000       2.00115      -2.95754
+
+   -------------------------------------------
+   pseudize q-functions
+   -------------------------------------------
+ 
+
+   subroutine psqf1, ifinit =  F
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+   subroutine psqf1, ifinit =  T
+
+ -----------------------------------------------
+ end subroutine scpgef
+ -----------------------------------------------
+
+   intermed rsvale for lp= 1  2.22622118
+     alpha=  -.64781021  -.26356243
+     integrated rsvale after lp 1  1.99999986
+   intermed rsvale for lp= 2  5.04022524
+     alpha=  -.34787054  -.22953136
+     integrated rsvale after lp 2  4.99999977
+   balancing valence density, asum =  4.99999977 wwsum =  5.00000000
+
+ subroutine descrn: descreen the psp
+
+ value of screened s potential at origin =    -1.6606581
+
+ total energy = -12.2643944
+ leaving descrn
+
+ pseudopotential has been written out
+
+    ============================================================
+    |  pseudopotential report: version  7.3.3 date  0- 0-   0  |
+    ------------------------------------------------------------
+    |  arsenic                   ceperley-alder exchange-corr  |
+    |  z =  33.    zv =   5.    exfact =    .00000             |
+    |                            etot  = -12.26439             |
+    |  index    orbital      occupation    energy              |
+    |    1        400           2.00       -1.05               |
+    |    2        410           3.00        -.40               |
+    |  keyps = 3     ifpcor = 0     rpcor =    .00000          |
+    |  rinner =       .80     for L=    1                      |
+    |  rinner =       .80     for L=    2                      |
+    |  rinner =       .80     for L=    3                      |
+    |    new generation scheme:                                |
+    |    nbeta =  4     kkbeta =  619     rcloc =    1.8000    |
+    |    ibeta      l    epsilon   rcut iptype                 |
+    |       1      0      -1.05   1.80      0                  |
+    |       2      0        .00   1.80      0                  |
+    |       3      1       -.40   1.80      0                  |
+    |       4      1        .40   1.80      0                  |
+    |  lloc   = 1  eloc   =  -1.100                            |
+    |  ifqopt = 1  nqf    = 5  qtryc =  10.000                 |
+    |  all electron calculation used schroedinger equation     |
+    |         ************logarithmic mesh************         |
+    ============================================================
+
+ subroutine prwf: writing wavefunctions to unit iplot
+
+   all electron and pseudo energies
+
+                       400                      410
+
+                    full     pseudo          full     pseudo  
+    energy    -1.0474502 -1.0474501     -.3954112  -.3954111
+
+ subroutine lderiv: pass   2
+
+ leaving lderiv
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 30.00
+ -------------------------------------------------
+
+   eigenvalues of local potential 
+   l= 0      -1.599747   -.041270
+   l= 1       -.406728    .142424
+
+   eigenvalues of US hamiltonian 
+   l= 0      -1.047413    .010821    .463916   1.182795
+   l= 1       -.395273    .144909    .644234   1.398639
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 35.00
+ -------------------------------------------------
+
+   eigenvalues of local potential 
+   l= 0      -1.599928   -.041271
+   l= 1       -.406749    .142419
+
+   eigenvalues of US hamiltonian 
+   l= 0      -1.047413    .010821    .463916   1.182794
+   l= 1       -.395300    .144903    .644223   1.398624
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 40.00
+ -------------------------------------------------
+
+   eigenvalues of local potential 
+   l= 0      -1.599995   -.041271
+   l= 1       -.406752    .142418
+
+   eigenvalues of US hamiltonian 
+   l= 0      -1.047430    .010819    .463912   1.182789
+   l= 1       -.395302    .144902    .644221   1.398622

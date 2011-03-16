@@ -26,22 +26,27 @@ c     AMC revised 21/6/97 hardwired for gamma point complex to real fft
 c     
 c     
       real*8,allocatable,dimension(:) :: worknr1,worknr2,worknr3
+      complex*16,allocatable,dimension(:) :: psiy,combuf1,combuf2
       
-      complex*16 combuf1(mr_n),combuf2(mr_n)
       complex*16 psi(mr_n)
-      complex*16 psiy(mr_n)           ! work space
 
-      integer inode,nnodes
       integer ireq(nnodes)
 
-      common /mpi_data/inode,nnodes
+      integer inode,nnodes
+      integer inode_tot,nnodes_tot,icolor,num_group,MPI_COMM_K,
+     &       MPI_COMM_N
+
+
+      common /mpi_data/inode,nnodes,inode_tot,nnodes_tot,
+     &  icolor,num_group,MPI_COMM_K,MPI_COMM_N
+
       integer mpistatus(mpi_status_size)
 
 c     scalars used
 
       integer i,ib,ic,idum,ii,ilocadd,isc,isign,itar,itaradd,
      c     itnode,iw,ix,iy,izb,j,jcol,ngy,ngyadd,ngz,nr1,nr2,nr3,
-     c     nr3u,inode,iloc_dum,ierr
+     c     nr3u,iloc_dum,ierr
       integer nworknr1,nworknr2,nworknr3
 
 
@@ -52,9 +57,9 @@ c     scalars used
       allocate(worknr1(nworknr1))
       allocate(worknr2(nworknr2))
       allocate(worknr3(nworknr3))
-
-      call mpi_comm_rank(MPI_COMM_WORLD,inode,ierr)
-      inode=inode+1
+      allocate(psiy(mr_n))
+      allocate(combuf1(mr_n))
+      allocate(combuf2(mr_n))
 
 c     
       isign = -1
@@ -96,14 +101,14 @@ c
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivpacn1(i),mpi_double_complex,i-1,
-     &                inode,mpi_comm_world,ireq(i),ierr)
+     &                inode,mpi_comm_k,ireq(i),ierr)
        idum = idum + ivpacn1(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivunpn1(i),mpi_double_complex,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivunpn1(i)
       enddo
 
@@ -157,14 +162,14 @@ c
       idum = 1
       do i = 1,nnodes
        call mpi_isend(combuf1(idum),ivpacn2(i),mpi_double_complex,i-1,
-     &                inode,mpi_comm_world,ireq(i),ierr)
+     &                inode,mpi_comm_k,ireq(i),ierr)
        idum = idum + ivpacn2(i)
       enddo
 
       idum = 1
       do i = 1,nnodes
        call mpi_recv(combuf2(idum),ivunpn2(i),mpi_double_complex,i-1,i,
-     &               mpi_comm_world,mpistatus,ierr)
+     &               mpi_comm_k,mpistatus,ierr)
        idum = idum + ivunpn2(i)
       enddo
 
@@ -200,6 +205,9 @@ c    &                tabnr3, ntabnr3, worknr3, nworknr3)
       deallocate(worknr1)
       deallocate(worknr2)
       deallocate(worknr3)
+      deallocate(psiy)
+      deallocate(combuf1)
+      deallocate(combuf2)
 
       end
       

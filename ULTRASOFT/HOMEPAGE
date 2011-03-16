@@ -1,0 +1,9 @@
+ www.physics.rutgers.edu/~dhv/uspp
+
+  It contains a lib for most of the elements. 
+  Down load then, and move then into Work/ULTRASOFT_LIB, 
+  each element will have a directory in the ULTRASOF_LIB, 
+  within that directory,  do >make
+                             >make install
+                             >make clean
+  The potential will be installed in Pot directory 

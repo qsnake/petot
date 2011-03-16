@@ -2,8 +2,12 @@
      &    ityatom,ewald)
 ***************************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ccccc This program needs some fine tunning.
@@ -17,7 +21,7 @@ ccccc This program needs some fine tunning.
       include "mpif.h"
 
       real*8 AL(3,3)
-      real*8 xatom(3,matom),fatom(3,matom)
+      real*8 xatom(3,matom),fatom(3,matom),fatomtmp(3,matom)
       real*8 zatom(mtype)
       integer ityatom(matom)
       integer, allocatable, dimension(:) :: ncount_tmp
@@ -180,12 +184,15 @@ ccccc factor 2 for the sum 1,ng2, is only half the sphere
 
 
 
-      call mpi_allreduce(sq,sq,1,MPI_REAL8,
-     & MPI_SUM,MPI_COMM_WORLD,ierr)
-      call mpi_allreduce(ewald,ewald,1,MPI_REAL8,
-     & MPI_SUM,MPI_COMM_WORLD,ierr)
-      call mpi_allreduce(fatom,fatom,3*natom,MPI_REAL8,
-     & MPI_SUM,MPI_COMM_WORLD,ierr)
+      call mpi_allreduce(sq,sqtmp,1,MPI_REAL8,
+     & MPI_SUM,MPI_COMM_K,ierr)
+      sq = sqtmp
+      call mpi_allreduce(ewald,ewaldtmp,1,MPI_REAL8,
+     & MPI_SUM,MPI_COMM_K,ierr)
+      ewald = ewaldtmp
+      call mpi_allreduce(fatom,fatomtmp,3*natom,MPI_REAL8,
+     & MPI_SUM,MPI_COMM_K,ierr)
+      fatom = fatomtmp
 
 
       sq=sq-ch*pi/beta**2/vol

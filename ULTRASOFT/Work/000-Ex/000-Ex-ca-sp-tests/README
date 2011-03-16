@@ -1,0 +1,49 @@
+------------------------------
+Author and contact information
+------------------------------
+
+David Vanderbilt
+dhv@physics.rutgers.edu
+January 2002
+
+------------------------
+Introductory information
+------------------------
+
+This Ti potential was generated in the early 1990's by some member
+of my group at the time.  I believe it has been used successfully
+in a number of studies of TiO2 and of perovskite ferroelectrics.
+
+--------------------
+Intended environment
+--------------------
+
+Mostly for Ti in oxides where it is in the 4+ formal oxidation
+state.  It should probably be OK for metallic Ti too, but I don't
+think we ever tried it for that.
+
+---------------------------------------
+Summary of atomic transferability tests
+---------------------------------------
+
+Nothing to report.
+
+-----------------
+Solid-state tests
+-----------------
+
+** Report here any tests of the potential in molecular or solid-state
+** environments.  Tests of bond length, lattice constant, bulk modulus,
+** etc. as a function of plane-wave cutoff are especially useful.
+
+Nothing to report.
+
+-------------
+Miscellaneous
+-------------
+
+** Guidelines or warnings about use.
+** Relations to other submitted pseudopotentials.
+** Etc.
+
+Nothing to report.

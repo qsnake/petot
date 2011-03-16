@@ -1,0 +1,246 @@
+      --------------------------------------------------------
+      README FOR USPP 7.3.3 PSEUDOPOTENTIAL GENERATION PROGRAM
+      --------------------------------------------------------
+
+Version uspp-733 should be functionally identical to the previous
+distribution known as a7.3.2.
+
+Regarding the fortran programs, the only changes are very minor
+(some small bug fixes and changes to ensure problem-free
+compilation on a wider variety of platforms).
+
+The change from the 'aX.X.X' series to the 'uspp-XXX' series
+involves a significant reworking of the "packaging," i.e., the
+directory structure, the Makefiles, the sample files, etc.  Two
+important modifications are that:
+
+-- The GNU GPL License is now explicitly included as a header
+   of each source file.  See Source/LICENSE.
+
+-- The Work subdirectory contains a library of input files that
+   can be used to generate a library of pseudopotentials.
+   Hopefully this will grow to cover many atoms of the periodic
+   table.
+
+These changes were made with the intention that uspp-733 and
+subsequent versions will be posted publically on the Web at
+www.physics.rutgers.edu/~dhv/uspp/ .
+
+       -------------------------------------------------------
+       README FOR A7.3.2 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+Cosmetic changes: Fixed minor problem that made reported "target
+and achieved values of dqfunc" appear to differ more than they
+should, and overhauled 'ifprt' print control.
+
+*** June 4 2001: A minor bug fix has been incorporated, without ***
+*** generating a new version of the program with a new version  ***
+*** number.  See file 'REFORM_BUG' for details.                 ***
+
+       -------------------------------------------------------
+       README FOR A7.3.1 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+Mainly minor changes: add makefile support for IBM; add ability
+to plot beta and chi functions; add example directory for
+generating potentials needed for CUSP tutorials.
+
+       -------------------------------------------------------
+       README FOR A7.3 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+This version can handle f-states (modifications provided by Chris
+Pickard).
+
+In addition, changes have been made to improved the stability of
+the convergence of the eigenvalue ecur in subroutines schsol,
+dirsol, koesol.  Also, the initialization of the inhomogenous
+solution 'eta' of the radial schroedinger equation has been changed
+in subroutine schgef, again to improve numerical stability of the
+solution.  (As a result of the latter change, some wavefunction
+solutions may change sign relative to previous versions; this
+should have no significant consequences.)
+
+A few minor cosmetic changes were made as well.
+
+       -------------------------------------------------------
+       README FOR A7.2.1 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+This version fixes a benign bug in the pseudopotential report (that
+entered somehow in going from a5.0 to a5.1); fixes a bug in
+aesubs.f that affects the xc energy in the pbe case; has some
+cosmetic improvements; and has a sample makefile for Si showing how
+to do pseudopotential transferability tests on excited
+configurations.
+
+***  Finally, it also fixes a bug in pswf1 that has been      ***
+***  present since a3.0.  Egad!  This bug affects the pseudo  ***
+***  wavefunctions when iptype=1 (exponential pseudization).  ***
+***  Since this style of pseudization is also used in         ***
+***  generating the local potential for a certain angular     ***
+***  momentum channel, the bug also affects the local         ***
+***  potential, except when lloc=-1.  So, this also destroys  ***
+***  backward compatibility:  the new version, when run on    ***
+***  an old input file, can give a different pseudopotential. ***
+
+       -------------------------------------------------------
+       README FOR A7.2.0 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+This version introduces variables nqf,ptryc that are distinct
+from nqf,qtryc (these govern the smooth pseudization of the
+pseudo wavefunctions and q-functions, respectively).
+
+***  This destroys compatibility with input files of previous  ***
+***  versions, but the program will issue a warning and        ***
+***  terminate if it thinks it is reading an old-style         ***
+***  input file.                                               ***
+
+       -------------------------------------------------------
+       README FOR A7.1.0 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+Ah, finally, this one is successfully backwards compatible with
+a5.1.4.  In this version, ifqopt=2 generates the old-style
+pseudization of the q-functions, while ifqopt=3 does it
+Stokbro's way.
+
+       -------------------------------------------------------
+       README FOR A7.0.3 PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+This is intended to be a 'cleaned-up' version of Stokbro's a7.0.
+Relative to A7.0.2_NG, it has a few bug fixes and cosmetic fixes,
+but it still generates pseudopotentials the way Stokbro intended.
+
+However, it is *** NOT BACKWARDS COMPATIBLE *** with a5.1.3
+versions, since it pseudizes the q-functions differently in the
+case ifqopt=2.  Thus, when ifqopt=2, it generates DIFFERENT
+pseudopotentials than a5.1.3 when run on IDENTICAL input files.
+
+       -------------------------------------------------------
+       README FOR A7.0.2_NG PSEUDOPOTENTIAL GENERATION PROGRAM
+       -------------------------------------------------------
+
+Additions by Keith Ng:
+
+   included PBE-GGA in the call, by choosing exfact=5.
+   in the input file .   ( by Keith Ng 2/10/97)
+   
+   bessel.f,  initsubs.f, trou.f from a7.0.2.dv/ version
+
+Apparently does not run for all cases.
+
+       ----------------------------------------------------
+       README FOR A7.0.2 PSEUDOPOTENTIAL GENERATION PROGRAM
+       ----------------------------------------------------
+
+This distribution contains version a7.0.2 of the ultrasoft
+pseudopotential generation codes from the group of D. Vanderbilt,
+Rutgers University.  Please do not pass it on to third parties
+without permission.
+
+This will be 7.0.1 plus some clean-up operations:
+(a) get rid of nag routines in favor of eispack routines
+(b) make sure it compiles without error messages, at least on Sun
+
+                                        D. Vanderbilt 21 June 1996
+                                        dhv@physics.rutgers.edu
+
+       ----------------------------------------------------
+       README FOR A7.0.1 PSEUDOPOTENTIAL GENERATION PROGRAM
+       ----------------------------------------------------
+
+This distribution contains version a7.0.1 of the ultrasoft
+pseudopotential generation codes from the group of D. Vanderbilt,
+Rutgers University.  Please do not pass it on to third parties
+without permission.
+
+This is a temporary version.  It was sent by Kurt Stokbro 20 June
+1996.  Basically all I did was to change the README file, the
+comments at the top of runatom.f, and the version setting (`iver')
+in runatom.f.  The program has not yet been tested by anybody in my
+immediate group.  Note that some minor improvements incorporated in
+going from a5.1.1 to a5.1.3 are not yet incorporated in this
+version.  These will soon be incorporated in a new version a7.1.
+
+                                        D. Vanderbilt 20 June 1996
+                                        dhv@physics.rutgers.edu
+
+       ----------------------------------------------------
+       README FOR A7.0 PSEUDOPOTENTIAL GENERATION PROGRAM
+       ----------------------------------------------------
+
+Several features have been added to the 5.0 program, especially the
+generation of GGA pseudopotentials and mixed normconserved/ultrasoft 
+pseudopotentials. For a list of features see the runatom.f file. A
+more extended list of input_examples is given in the input_examples
+subdirectory. See also the file INPUTs which gives a description
+of the input file format.
+
+                                        Kurt Stokbro,
+	                            Email: stokbro@mic.dtu.dk
+                                        16 February 1996
+
+       ----------------------------------------------------
+       README FOR A5.1 PSEUDOPOTENTIAL GENERATION PROGRAM
+       ----------------------------------------------------
+
+This distribution contains version a5.1 of the ultrasoft
+pseudopotential generation codes from the group of D. Vanderbilt,
+Rutgers University.  Please do not pass it on to third parties
+without permission.
+
+The distribution is not very well documented at the moment.  Here
+is a quick summary.
+
+The main directory where this README file resides contains several
+fortran files which are needed to compile the executable runatom.x,
+and one file needed to compile the auxiliary executable reform.x.
+The latter is only used to convert the pseudopotential data files
+from unformatted (default) to formatted form, or vice versa, for
+moving pseudopotentials between different computer systems.
+Issuing the command "make" should automatically compile both
+executables (see the Makefile).
+
+Example input files are provided in the subdirectory
+input_examples.  Change your working directory to this
+subdirectory, make sure you have execute permission on the shell
+script 'run_allatom', and issue 'make'.  If all goes well it will
+run the all-electron calculation and then the pseudopotential
+generation for each each of the three elements O, Ti, and Pb.  (You
+can see that for Pb we had to 'fiddle' in order to avoid negative
+charge densities in the core region when pseudizing the charge
+augmentation function.)
+
+The program is also capable of running "transferability tests" in
+which a pseudopotential generated in one configuration is used to
+calculate eigenvalues etc. in a second configuration, and the
+result is compared with an all-electron calculation in that
+second configuration.  However, an example of this type is not
+yet provided in the input_examples subdirectory.
+
+Please direct questions, comments, or (especially) concrete
+suggestions for improvement of the documentation, to David
+Vanderbilt at dhv@physics.rutgers.edu.
+
+					David Vanderbilt
+					11 March 1994
+
+
+c     ------------------------------------------------------
+c     note: in this program:
+c     potentials, e.g. rucore, are really r*v(r)
+c     wave funcs, e.g. snl, are really proportional to r*psi(r)
+c       and are normalized so int dr (snl**2) = 1
+c     thus psi(r-vec)=(1/r)*snl(r)*y_lm(theta,phi)
+c     conventions carry over to beta, etc
+c     charge dens, e.g. rscore, really 4*pi*r**2*rho
+c     ------------------------------------------------------
+c
+c     rydberg units are used throughout this program
+c
+c     ------------------------------------------------------
+c

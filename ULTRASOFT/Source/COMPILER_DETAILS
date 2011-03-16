@@ -1,0 +1,15 @@
+The program is designed to work correctly either with 'static' or
+'automatic' allocation of arrays.  Most compilers use one of these
+modes by default, but the other can be specified by an appropriate
+compiler flag.  It is recommended to use the default choice.
+
+There is a known problem with this version of the program when
+compiling with the non-default 'automatic' allocation mode on the
+DEC Alphas (ie, when using the "-automatic" flag to f77).  The
+code seems to die by a segmentation fault upon entry into subroutine
+besdiag at the very end of the program.  It is suspected to be a
+compiler bug.  Alternatively it could be a bug in the program, but
+it would have to be a strange one, as it has not shown up in tests
+on other vendors' compilers.
+
+					David Vanderbilt 9/17/98

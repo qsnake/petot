@@ -1,9 +1,18 @@
-      subroutine diag_comp(ilocal,E_st,err_st,vr,workr_n,kpt)
+      subroutine diag_comp(ilocal,E_st,err_st,vr,workr_n,kpt,iislda)
 *************************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
+***  Note for subspace diagonalization, the purpose is to make:
+****  ug_m1 * H * ug_m2 = delta_m1,m2. 
+****  as a result, the S operation is not really needed here. 
+****  We will diagonalize h(m1,m2), find U.  We don't need to call the
+****  general eigen vector solver for h*psi=e s*psi
 
 
       use fft_data
@@ -23,7 +32,12 @@ cc     The United States government retains a royalty free license in this work
       real*8 workrx(3*mst)
 
       real*8 vr(mr_n)
-      complex*16 workr_n(mg_nx)
+      complex*16 workr_n(mr_n)
+
+      real*8 Dij0(32,32,mtype),Qij(32,32,mtype)
+      integer isNLa(9,matom),ipsp_type(mtype)
+      complex*16 sumdum(32,matom)
+
 
 
 ******* extra due to djacobi()
@@ -32,6 +46,9 @@ cc     The United States government retains a royalty free license in this work
 
       complex*16 ctmp(mst),c
 
+      common /comisNLa/isNLa,Dij0,Qij,ipsp_all,ipsp_type
+
+
 **********************************************
 **** prepare the matrix
 **********************************************
@@ -39,7 +56,8 @@ cc     The United States government retains a royalty free license in this work
 
       do 100 m1=1,mx
 
-      call Hpsi_comp(ug_n(1,m1),ugh,ilocal,vr,workr_n,kpt)
+      call Hpsi_comp(ug_n(1,m1),ugh,ilocal,vr,workr_n,kpt,1,
+     &  sug_n(1,m1),sumdum,iislda)
 
 
       do 100 m2=1,m1
@@ -62,13 +80,14 @@ cc     The United States government retains a royalty free license in this work
      &  lwork,workrx,info)
 ************************************
 ********* the unitary rotation
+
       do 200 i=1,ng_n
 
       do m=1,mx
        c=dcmplx(0.d0,0.d0)
 
        do m1=1,mx
-       c=c+h(m1,m)*ug_n(i,m1)
+       c=c+h(m1,m)*ug_n(i,m1)    ! terrible operation
        enddo
 
        ctmp(m)=c
@@ -76,35 +95,61 @@ cc     The United States government retains a royalty free license in this work
       enddo
 
       do m=1,mx
-      ug_n(i,m)=ctmp(m)
+      ug_n(i,m)=ctmp(m)       ! terrible operation
       enddo
-
 200   continue
 *********************************
-ccccccccccccccccccccccccccccccccccccccccccccccccccccc
-cccc   test
+      if(ipsp_all.eq.2) then
+      do 201 i=1,ng_n
+
       do m=1,mx
+       c=dcmplx(0.d0,0.d0)
 
-      call Hpsi_comp(ug_n(1,m),ugh,ilocal,vr,workr_n,kpt)
+       do m1=1,mx
+       c=c+h(m1,m)*sug_n(i,m1)    ! terrible operation
+       enddo
 
-      s=0.d0
+       ctmp(m)=c
 
-      do i=1,ng_n
-      s=s+cdabs(ugh(i)-E_st(m)*ug_n(i,m))**2
       enddo
 
-      call global_sumr(s)
-
-      s=s*vol
-      err_st(m)=dsqrt(s)
+      do m=1,mx
+      sug_n(i,m)=ctmp(m)         ! terrible operation
       enddo
+201   continue
+      endif
+*********************************
+ccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccc   test   ! we should not do this one !!!
+c      do m=1,mx
+c
+c      call Hpsi_comp(ug_n(1,m),ugh,ilocal,vr,workr_n,kpt,1,sug_n(1,m),iislda)
+c
+c      s=0.d0
+c
+c      if(ipsp_all.eq.1) then
+c      do i=1,ng_n
+c      s=s+cdabs(ugh(i)-E_st(m)*ug_n(i,m))**2
+c      enddo
+c       else
+c      do i=1,ng_n
+c      s=s+cdabs(ugh(i)-E_st(m)*sug_n(i,m))**2
+c      enddo
+c      endif
+c
+c
+c      call global_sumr(s)
+c
+c      s=s*vol
+c      err_st(m)=dsqrt(s)
+c      enddo
 ***********************************
-      if(inode.eq.1) then
+      if(inode_tot.eq.1) then
        write(6,*) "*********************************"
-       write(6,*) "kpt= ", kpt
+       write(6,*) "*****kpt= ", kpt
        write(6,*) "report from diag_real"
-       write(6,*) "err of each states, A.U"
-       write(6,102) (err_st(i), i=1,mx)
+c       write(6,*) "err of each states, A.U"
+c       write(6,102) (err_st(i), i=1,mx)
        write(6,*) "eigen energies, in eV"
        write(6,103) (E_st(i)*27.211396d0, i=1,mx)
        write(6,*) "*********************************"

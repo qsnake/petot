@@ -58,8 +58,10 @@ c
 
       integer i,j,ic,ico,idum,inodec,itaradd,itnode,ix,iy,iz,
      c        jcol,ngy,ngyadd,ngz,igdum,nr1,nr2,nr3,inode,nr3u,ierr,
-     c        ilocadd,izb,iw,ib,itar,isc,ii
-      integer inode,nnodes
+     c        ilocadd,izb,iw,ib,itar,isc,ii,mgztemp
+      integer nnodes
+      integer inode_tot,nnodes_tot,icolor,num_group,MPI_COMM_K,
+     &       MPI_COMM_N
 
       integer ifirst
       data ifirst/0/
@@ -72,9 +74,11 @@ c
       integer ivdum(mnrx),ivpacn_cum(nnodes)
       integer ireq(nnodes)
 
-      common /mpi_data/inode,nnodes
+      common /mpi_data/inode,nnodes,inode_tot,nnodes_tot,
+     &  icolor,num_group,MPI_COMM_K,MPI_COMM_N
 
-      call mpi_barrier(mpi_comm_world,ierr)
+
+      call mpi_barrier(MPI_COMM_K,ierr)
 
 c     nr3u = nr3/2+1
 c
@@ -102,11 +106,12 @@ ccccccc modified by Lin-Wang, for odd number nr3
         if(ngz.gt.mgz.and.ngz.lt.(nr3+1)/2) mgz = ngz
       enddo 
 c
-      call mpi_allreduce(mgz,mgz,1,mpi_integer,mpi_max,
-     &                    mpi_comm_world, ierr)
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_allreduce(mgz,mgztemp,1,mpi_integer,mpi_max,
+     &                    MPI_COMM_K, ierr)
+      mgz = mgztemp
+      call mpi_barrier(MPI_COMM_K,ierr)
 
-      if(inode.eq.1.and.ifirst.eq.0) then
+      if(inode_tot.eq.1.and.ifirst.eq.0) then
          write(*,*)
          write(*,*) 'minimum possible value of mgz = ',mgz
       endif
@@ -116,7 +121,7 @@ c
          goto 100
       endif
  
-      if(inode.eq.1.and.ifirst.eq.0) then
+      if(inode_tot.eq.1.and.ifirst.eq.0) then
          write(*,*) 'optimal (and used) value of mgz = ',mgz
 cc         if(mgz.gt.(nr3/2)) then 
          if(mgz.gt.(nr3+1)/2) then 
@@ -126,7 +131,7 @@ cc         if(mgz.gt.(nr3/2)) then
  
 c     ncolnz = ico
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 c
 c now decide on blocking structure for the y dir FFT
 c We have two slabs of mgz*nr1 y columns 
@@ -142,7 +147,7 @@ c
         stop
        endif
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 c 
 c
        if(mod(nr1*nr2,nnodes).ne.0) then
@@ -150,7 +155,7 @@ c
         stop
        endif
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 c 
 c  choose data layout for  slab  for y dir FFT
 c  each PE will take (nr1*mgz)/nnodes consecutive 
@@ -255,7 +260,7 @@ c check no more than nofchks chunks on each PE
 c
        if(ichunk.gt.ncoly) then
        write(*,*) 'More than ncoly chunks on PEs '
-       call mpi_abort(mpi_comm_world,ierr)
+       call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
 
 
@@ -311,11 +316,11 @@ c
         if(icount(i).gt.idum) then
          write(*,*) 'ERROR not enough memory allocated for vec,ivecadd'
          write(*,*) ' array dim = ',idum,' min dim = ',icount(i)
-         call mpi_abort(mpi_comm_world,ierr)
+         call mpi_abort(MPI_COMM_WORLD,ierr)
         endif
        enddo
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 c
 c put ivecadd into 1 dim array  ivdum
 c
@@ -332,7 +337,7 @@ c
 
       if(idum.gt.mnrx) then
         write(*,*) " ivpac,ivdum arrays not large enough "
-        call mpi_abort(mpi_comm_world,ierr)
+        call mpi_abort(MPI_COMM_WORLD,ierr)
       endif
 
 c
@@ -348,7 +353,7 @@ c
 
       if(idum.gt.mnrx) then
         write(*,*) " ivpac,ivdum arrays not large enough "
-        call mpi_abort(mpi_comm_world,ierr)
+        call mpi_abort(MPI_COMM_WORLD,ierr)
       endif
 
 c   
@@ -379,31 +384,31 @@ c   ie transformation of cylinder
 c
        do i = 1,nnodes
         call mpi_isend(ivpacn1(i),1,mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
        enddo
 
        do i = 1,nnodes
         call mpi_recv(ivunpn1(i),1,mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
        enddo
 
        do i = 1, nnodes
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        idum = 1
        do i = 1,nnodes
         call mpi_isend(ivdum(idum),ivpacn1(i),mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
         idum = idum + ivpacn1(i)
        enddo
 
        idum = 1
        do i = 1,nnodes
         call mpi_recv(ivunp1(idum),ivunpn1(i),mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
         idum = idum + ivunpn1(i)
        enddo
 
@@ -411,7 +416,7 @@ c
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        ivunp1 = ivunp1 + 1
 
@@ -475,31 +480,31 @@ c communicate scatter indexes for mpi second send
 c
        do i = 1,nnodes
         call mpi_isend(ivpacn2(i),1,mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
        enddo
 
        do i = 1,nnodes
         call mpi_recv(ivunpn2(i),1,mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
        enddo
 
        do i = 1, nnodes
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        idum = 1
        do i = 1,nnodes
         call mpi_isend(ivdum(idum),ivpacn2(i),mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
         idum = idum + ivpacn2(i)
        enddo
 
        idum = 1
        do i = 1,nnodes
         call mpi_recv(ivunp2(idum),ivunpn2(i),mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
         idum = idum + ivunpn2(i)
        enddo
 
@@ -509,7 +514,7 @@ c
 
        if(ifirst.eq.0) ifirst=1
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        return
        end

@@ -1,0 +1,2040 @@
+========================================================================
+pseudopotential program version  7.3.3   date:  2 - 19 - 2002
+========================================================================
+
+ ifae =   0    ifpsp =   1    ifprt =   1    ifplw =   0    ilogd =   3
+ rlogd=   1.80000     emin=  -6.00000     emax=   2.00000     nnt=   80
+ thresh, tol =   1.000E-10   1.000E-09    damp = 0.500    maxit = 250
+ ncores =    3    nvales =    4    nang =    3
+ core charge = 10.00000 and valence charge = 12.00000
+ besrmax = 10.00    besemin = 30.00    besemax = 40.00    besde=  5.00
+
+ value of mesh generated in rinit is   851
+ rlogd =  1.80000 generated klogd =  573 with r(klogd) =  1.82908
+
+          logarimic radial mesh values:
+
+     index            r                  rab
+
+       1         0.00000000          0.00000191
+       2         0.00000193          0.00000194
+       3         0.00000388          0.00000198
+       4         0.00000588          0.00000201
+       5         0.00000790          0.00000204
+       6         0.00000996          0.00000208
+       7         0.00001206          0.00000211
+       8         0.00001419          0.00000215
+       9         0.00001636          0.00000219
+      10         0.00001857          0.00000222
+       .          .                   .
+       .          .                   .
+       .          .                   .
+     841       171.78522872          2.91161596
+     842       174.72165939          2.96138597
+     843       177.70828424          3.01200673
+     844       180.74596127          3.06349278
+     845       183.83556315          3.11585891
+     846       186.97797747          3.16912017
+     847       190.17410697          3.22329186
+     848       193.42486984          3.27838953
+     849       196.73119997          3.33442903
+     850       200.09404720          3.39142644
+     851       203.51437761          3.44939814
+ subroutine setnuc - nuclear core radius =    0.71524E-04
+ irel = 2 so all electron calculations use koelling-harmon equations
+
+ subroutine rsae: construct charge density
+ leaving rsae
+
+
+                         the system has converged with
+                                 delta= 0.5427054D-09
+
+
+                             the eigenvalues are
+
+
+          orbital          occupation          energy
+           100                   2.00            -357.88581
+           200                   2.00             -40.39584
+           210                   6.00             -33.66668
+           300                   2.00              -5.53032
+           310                   6.00              -3.78675
+           400                   2.00              -0.89044
+           320                   1.00              -1.18524
+ etot=  -1702.68625 ryd ;     -23165.04636 ev            ebsr,ehar,emvxc=  -1035.31068    692.99920     25.62364
+
+ subroutine lderiv: pass   1
+
+ leaving lderiv
+
+ pseudopotential has been read in
+
+    ============================================================
+    |  pseudopotential report: version  7.3.3 date  2-19-2002  |
+    ------------------------------------------------------------
+    |  titanium                  ceperley-alder exchange-corr  |
+    |  z =  22.    zv =  12.    exfact =   0.00000             |
+    |                            etot  =-116.04374             |
+    |  index    orbital      occupation    energy              |
+    |    1        300           2.00       -4.58               |
+    |    2        310           6.00       -2.85               |
+    |    3        400           2.00       -0.34               |
+    |    4        320           2.00       -0.33               |
+    |  keyps = 3     ifpcor = 0     rpcor =   0.00000          |
+    |  rinner =      1.00     for L=    1                      |
+    |  rinner =      1.00     for L=    2                      |
+    |  rinner =      1.00     for L=    3                      |
+    |  rinner =      1.00     for L=    4                      |
+    |  rinner =      1.00     for L=    5                      |
+    |    new generation scheme:                                |
+    |    nbeta =  6     kkbeta =  585     rcloc =    1.8000    |
+    |    ibeta      l    epsilon   rcut iptype                 |
+    |       1      0      -4.58   1.80      2                  |
+    |       2      0      -0.34   1.80      2                  |
+    |       3      1      -2.85   1.80      2                  |
+    |       4      1       1.00   1.80      2                  |
+    |       5      2      -0.33   1.80      2                  |
+    |       6      2       0.30   1.80      2                  |
+    |  npf    = 5  ptryc =  10.000                             |
+    |  lloc   = 3  eloc   =   0.000                            |
+    |  ifqopt = 2  nqf    = 5  qtryc =  10.000                 |
+    |  all electron calculation used koelling-harmon equation  |
+    |         ************logarithmic mesh************         |
+    ============================================================
+
+    matrix d(i,j)
+
+       0.08657      -0.22739       0.00000       0.00000       0.00000       0.00000
+      -0.22739       3.79020       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -5.02079       8.34961       0.00000       0.00000
+       0.00000       0.00000       8.34961      -2.89459       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -5.20410      -3.80005
+       0.00000       0.00000       0.00000       0.00000      -3.80005      18.75163
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur  -11.06063476  0.1521E+02
+      ecur,decur  -10.83942206  0.1469E+02
+      ecur,decur  -10.62263362  0.1417E+02
+      ecur,decur  -10.41018095  0.1366E+02
+      ecur,decur  -10.20197733  0.1315E+02
+      ecur,decur   -9.99793778  0.1264E+02
+      ecur,decur   -9.79797903  0.1213E+02
+      ecur,decur   -9.60201945  0.1162E+02
+      ecur,decur   -9.40997906  0.1111E+02
+      ecur,decur   -9.22177948  0.1060E+02
+      ecur,decur   -9.03734389  0.1009E+02
+      ecur,decur   -8.85659701  0.9572E+01
+      ecur,decur   -8.67946507  0.9052E+01
+      ecur,decur   -8.50587577  0.8527E+01
+      ecur,decur   -8.33575825  0.7996E+01
+      ecur,decur   -8.16904309  0.7460E+01
+      ecur,decur   -8.00566223  0.6918E+01
+      ecur,decur   -7.84554898  0.6369E+01
+      ecur,decur   -7.68863800  0.5815E+01
+      ecur,decur   -7.53486524  0.5257E+01
+      ecur,decur   -7.38416794  0.4695E+01
+      ecur,decur   -7.23648458  0.4133E+01
+      ecur,decur   -7.09175489  0.3574E+01
+      ecur,decur   -6.94991979  0.3024E+01
+      ecur,decur   -6.81092139  0.2490E+01
+      ecur,decur   -6.67470297  0.1978E+01
+      ecur,decur   -6.54120891  0.1499E+01
+      ecur,decur   -6.41038473  0.1065E+01
+      ecur,decur   -6.28217703  0.6857E+00
+      ecur,decur   -6.15653349  0.3733E+00
+      ecur,decur   -6.03340282  0.1375E+00
+      ecur,decur   -5.91273477 -0.1455E-01
+      ecur,decur   -5.92728663 -0.6838E-03
+      ecur,decur   -5.92797043 -0.1199E-05
+      ecur,decur   -5.92797163  0.3283E-09
+      ecur,decur   -5.92797163  0.8304E-14
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -7.57350742  0.9018E+01
+      ecur,decur   -7.42203727  0.8639E+01
+      ecur,decur   -7.27359652  0.8263E+01
+      ecur,decur   -7.12812459  0.7889E+01
+      ecur,decur   -6.98556210  0.7518E+01
+      ecur,decur   -6.84585086  0.7149E+01
+      ecur,decur   -6.70893384  0.6783E+01
+      ecur,decur   -6.57475517  0.6418E+01
+      ecur,decur   -6.44326006  0.6055E+01
+      ecur,decur   -6.31439486  0.5695E+01
+      ecur,decur   -6.18810696  0.5336E+01
+      ecur,decur   -6.06434482  0.4980E+01
+      ecur,decur   -5.94305793  0.4627E+01
+      ecur,decur   -5.82419677  0.4277E+01
+      ecur,decur   -5.70771283  0.3930E+01
+      ecur,decur   -5.59355858  0.3588E+01
+      ecur,decur   -5.48168741  0.3250E+01
+      ecur,decur   -5.37205366  0.2919E+01
+      ecur,decur   -5.26461258  0.2596E+01
+      ecur,decur   -5.15932033  0.2281E+01
+      ecur,decur   -5.05613393  0.1977E+01
+      ecur,decur   -4.95501125  0.1685E+01
+      ecur,decur   -4.85591102  0.1407E+01
+      ecur,decur   -4.75879280  0.1146E+01
+      ecur,decur   -4.66361695  0.9044E+00
+      ecur,decur   -4.57034461  0.6835E+00
+      ecur,decur   -4.47893772  0.4859E+00
+      ecur,decur   -4.38935896  0.3139E+00
+      ecur,decur   -4.30157178  0.1691E+00
+      ecur,decur   -4.21554035  0.5313E-01
+      ecur,decur   -4.13122954 -0.3324E-01
+      ecur,decur   -4.16446746 -0.2565E-02
+      ecur,decur   -4.16703270 -0.1278E-04
+      ecur,decur   -4.16704548  0.2124E-08
+      ecur,decur   -4.16704548 -0.4699E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -1.78087966  0.1167E+01
+      ecur,decur   -1.74526207  0.1109E+01
+      ecur,decur   -1.71035683  0.1053E+01
+      ecur,decur   -1.67614969  0.9971E+00
+      ecur,decur   -1.64262670  0.9428E+00
+      ecur,decur   -1.60977416  0.8896E+00
+      ecur,decur   -1.57757868  0.8376E+00
+      ecur,decur   -1.54602711  0.7867E+00
+      ecur,decur   -1.51510656  0.7371E+00
+      ecur,decur   -1.48480443  0.6886E+00
+      ecur,decur   -1.45510834  0.6414E+00
+      ecur,decur   -1.42600618  0.5954E+00
+      ecur,decur   -1.39748605  0.5507E+00
+      ecur,decur   -1.36953633  0.5072E+00
+      ecur,decur   -1.34214561  0.4650E+00
+      ecur,decur   -1.31530269  0.4241E+00
+      ecur,decur   -1.28899664  0.3845E+00
+      ecur,decur   -1.26321671  0.3462E+00
+      ecur,decur   -1.23795237  0.3093E+00
+      ecur,decur   -1.21319332  0.2738E+00
+      ecur,decur   -1.18892946  0.2396E+00
+      ecur,decur   -1.16515087  0.2068E+00
+      ecur,decur   -1.14184785  0.1755E+00
+      ecur,decur   -1.11901089  0.1456E+00
+      ecur,decur   -1.09663068  0.1172E+00
+      ecur,decur   -1.07469806  0.9032E-01
+      ecur,decur   -1.05320410  0.6494E-01
+      ecur,decur   -1.03214002  0.4109E-01
+      ecur,decur   -1.01149722  0.1881E-01
+      ecur,decur   -0.99126728 -0.1901E-02
+      ecur,decur   -0.99316806 -0.5669E-05
+      ecur,decur   -0.99317373 -0.8860E-09
+      ecur,decur   -0.99317373 -0.1289E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -2.37048449  0.1400E+01
+      ecur,decur   -2.32307480  0.1304E+01
+      ecur,decur   -2.27661331  0.1211E+01
+      ecur,decur   -2.23108104  0.1121E+01
+      ecur,decur   -2.18645942  0.1034E+01
+      ecur,decur   -2.14273023  0.9509E+00
+      ecur,decur   -2.09987563  0.8704E+00
+      ecur,decur   -2.05787812  0.7931E+00
+      ecur,decur   -2.01672055  0.7190E+00
+      ecur,decur   -1.97638614  0.6479E+00
+      ecur,decur   -1.93685842  0.5801E+00
+      ecur,decur   -1.89812125  0.5153E+00
+      ecur,decur   -1.86015883  0.4537E+00
+      ecur,decur   -1.82295565  0.3951E+00
+      ecur,decur   -1.78649654  0.3396E+00
+      ecur,decur   -1.75076661  0.2872E+00
+      ecur,decur   -1.71575127  0.2377E+00
+      ecur,decur   -1.68143625  0.1913E+00
+      ecur,decur   -1.64780752  0.1477E+00
+      ecur,decur   -1.61485137  0.1071E+00
+      ecur,decur   -1.58255434  0.6935E-01
+      ecur,decur   -1.55090326  0.3438E-01
+      ecur,decur   -1.51988519  0.2172E-02
+      ecur,decur   -1.48948749 -0.2734E-01
+      ecur,decur   -1.51683106 -0.8866E-03
+      ecur,decur   -1.51771764 -0.8254E-06
+      ecur,decur   -1.51771847  0.3927E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.89743977
+     alpha=  0.94850969 -0.01772677
+     integrated rsvale after lp 1  1.99999739
+   intermed rsvale for lp= 2  6.04283159
+     alpha=  0.75757193  0.05139318
+     integrated rsvale after lp 2  7.99999245
+   intermed rsvale for lp= 1  9.97843864
+     alpha=  0.09172425 -0.18767832
+     integrated rsvale after lp 1  9.99999194
+   intermed rsvale for lp= 3 10.56329253
+     alpha= -0.53335440 -0.22698904
+     integrated rsvale after lp 3 10.99999168
+   balancing valence density, asum = 10.99999168 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08797      -0.27076       0.00000       0.00000       0.00000       0.00000
+      -0.27076       3.84534       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.70172       7.49933       0.00000       0.00000
+       0.00000       0.00000       7.49933      -0.76848       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.80243      -6.65197
+       0.00000       0.00000       0.00000       0.00000      -6.65197      22.10112
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.92797163  0.5685E+00
+      ecur,decur   -5.35951167 -0.6925E-01
+      ecur,decur   -5.42876649 -0.8722E-01
+      ecur,decur   -5.51598313 -0.6962E-01
+      ecur,decur   -5.58560324 -0.2377E-01
+      ecur,decur   -5.60937733 -0.1810E-02
+      ecur,decur   -5.61118760 -0.8700E-05
+      ecur,decur   -5.61119630  0.2061E-08
+      ecur,decur   -5.61119630 -0.5054E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -4.16704548  0.4527E+00
+      ecur,decur   -3.71434554 -0.1073E+00
+      ecur,decur   -3.82163435 -0.4000E-01
+      ecur,decur   -3.86163263 -0.3500E-02
+      ecur,decur   -3.86513262 -0.2222E-04
+      ecur,decur   -3.86515484  0.3112E-08
+      ecur,decur   -3.86515484 -0.5714E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.99317373  0.8706E-01
+      ecur,decur   -0.90611257 -0.9212E-02
+      ecur,decur   -0.91532507 -0.1555E-03
+      ecur,decur   -0.91548060 -0.6438E-07
+      ecur,decur   -0.91548066 -0.9265E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.51771847  0.3249E+00
+      ecur,decur   -1.21417477 -0.3759E-01
+      ecur,decur   -1.25176830 -0.1494E-02
+      ecur,decur   -1.25326238 -0.2111E-05
+      ecur,decur   -1.25326449  0.6639E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90297549
+     alpha=  0.94787192 -0.00888430
+     integrated rsvale after lp 1  1.99999748
+   intermed rsvale for lp= 2  6.09835063
+     alpha=  0.75907750  0.05533869
+     integrated rsvale after lp 2  7.99999272
+   intermed rsvale for lp= 1  9.98018961
+     alpha=  0.09937186 -0.17032624
+     integrated rsvale after lp 1  9.99999226
+   intermed rsvale for lp= 3 10.60392856
+     alpha= -0.52673143 -0.23211752
+     integrated rsvale after lp 3 10.99999203
+   balancing valence density, asum = 10.99999203 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08877      -0.27948       0.00000       0.00000       0.00000       0.00000
+      -0.27948       3.85548       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.64094       7.33826       0.00000       0.00000
+       0.00000       0.00000       7.33826      -0.36928       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.34744      -7.18975
+       0.00000       0.00000       0.00000       0.00000      -7.18975      22.72912
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.61119630  0.7292E-01
+      ecur,decur   -5.53827476 -0.1022E-01
+      ecur,decur   -5.54849797 -0.3016E-03
+      ecur,decur   -5.54879959 -0.1719E-06
+      ecur,decur   -5.54879976  0.4427E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.86515484  0.6632E-01
+      ecur,decur   -3.79883427 -0.6337E-02
+      ecur,decur   -3.80517085 -0.7364E-04
+      ecur,decur   -3.80524449  0.3340E-08
+      ecur,decur   -3.80524448 -0.6238E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.91548066  0.1827E-01
+      ecur,decur   -0.89720993 -0.5467E-03
+      ecur,decur   -0.89775659 -0.6162E-06
+      ecur,decur   -0.89775720 -0.8860E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.25326449  0.5474E-01
+      ecur,decur   -1.19852605 -0.2516E-02
+      ecur,decur   -1.20104170 -0.5929E-05
+      ecur,decur   -1.20104763  0.1519E-09
+      ecur,decur   -1.20104763  0.3807E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90384137
+     alpha=  0.94772548 -0.00750891
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10769742
+     alpha=  0.75924946  0.05597612
+     integrated rsvale after lp 2  7.99999276
+   intermed rsvale for lp= 1  9.98059340
+     alpha=  0.10040759 -0.16690658
+     integrated rsvale after lp 1  9.99999232
+   intermed rsvale for lp= 3 10.61159331
+     alpha= -0.52488405 -0.23263631
+     integrated rsvale after lp 3 10.99999209
+   balancing valence density, asum = 10.99999209 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08910      -0.28130       0.00000       0.00000       0.00000       0.00000
+      -0.28130       3.85726       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62918       7.30742       0.00000       0.00000
+       0.00000       0.00000       7.30742      -0.29417       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.26015      -7.29199
+       0.00000       0.00000       0.00000       0.00000      -7.29199      22.84713
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.54879976  0.1346E-01
+      ecur,decur   -5.53533612 -0.4643E-03
+      ecur,decur   -5.53580038 -0.4718E-06
+      ecur,decur   -5.53580085  0.1211E-09
+      ecur,decur   -5.53580085 -0.1138E-14
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.80524448  0.1301E-01
+      ecur,decur   -3.79223683 -0.2942E-03
+      ecur,decur   -3.79253103 -0.1045E-06
+      ecur,decur   -3.79253113  0.1867E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89775720  0.4800E-02
+      ecur,decur   -0.89295731 -0.4005E-04
+      ecur,decur   -0.89299736 -0.8605E-08
+      ecur,decur   -0.89299737 -0.1226E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.20104763  0.1161E-01
+      ecur,decur   -1.18944062 -0.1239E-03
+      ecur,decur   -1.18956449 -0.1061E-07
+      ecur,decur   -1.18956450  0.2241E-12
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90393236
+     alpha=  0.94770204 -0.00736686
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10883058
+     alpha=  0.75925407  0.05604732
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98070414
+     alpha=  0.10045744 -0.16615617
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61279812
+     alpha= -0.52449557 -0.23263652
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08923      -0.28176       0.00000       0.00000       0.00000       0.00000
+      -0.28176       3.85760       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62642       7.30029       0.00000       0.00000
+       0.00000       0.00000       7.30029      -0.27723       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23985      -7.31546
+       0.00000       0.00000       0.00000       0.00000      -7.31546      22.87378
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53580085  0.3400E-02
+      ecur,decur   -5.53240128 -0.3191E-04
+      ecur,decur   -5.53243319  0.5445E-08
+      ecur,decur   -5.53243319 -0.1360E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.79253113  0.3395E-02
+      ecur,decur   -3.78913647 -0.2123E-04
+      ecur,decur   -3.78915769  0.2980E-08
+      ecur,decur   -3.78915769 -0.5458E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89299737  0.1569E-02
+      ecur,decur   -0.89142823 -0.4212E-05
+      ecur,decur   -0.89143245 -0.6310E-09
+      ecur,decur   -0.89143245 -0.8660E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18956450  0.3208E-02
+      ecur,decur   -1.18635653 -0.9711E-05
+      ecur,decur   -1.18636624  0.2122E-09
+      ecur,decur   -1.18636624 -0.7143E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90392757
+     alpha=  0.94769908 -0.00737572
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10885022
+     alpha=  0.75924570  0.05604535
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98074290
+     alpha=  0.10041517 -0.16594151
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61297614
+     alpha= -0.52440035 -0.23260454
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08927      -0.28190       0.00000       0.00000       0.00000       0.00000
+      -0.28190       3.85768       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62559       7.29819       0.00000       0.00000
+       0.00000       0.00000       7.29819      -0.27234       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23380      -7.32238
+       0.00000       0.00000       0.00000       0.00000      -7.32238      22.88154
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53243319  0.1094E-02
+      ecur,decur   -5.53133879 -0.3541E-05
+      ecur,decur   -5.53134233  0.8795E-09
+      ecur,decur   -5.53134233 -0.2948E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78915769  0.1117E-02
+      ecur,decur   -3.78804055 -0.2453E-05
+      ecur,decur   -3.78804300  0.4279E-09
+      ecur,decur   -3.78804300 -0.9195E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89143245  0.5822E-03
+      ecur,decur   -0.89085025 -0.5315E-06
+      ecur,decur   -0.89085078 -0.7602E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18636624  0.1100E-02
+      ecur,decur   -1.18526596 -0.1170E-05
+      ecur,decur   -1.18526713  0.3492E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391911
+     alpha=  0.94769918 -0.00738961
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10878369
+     alpha=  0.75924059  0.05603934
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98075874
+     alpha=  0.10038625 -0.16586314
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300019
+     alpha= -0.52437074 -0.23258603
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28195       0.00000       0.00000       0.00000       0.00000
+      -0.28195       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62530       7.29744       0.00000       0.00000
+       0.00000       0.00000       7.29744      -0.27062       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23163      -7.32486
+       0.00000       0.00000       0.00000       0.00000      -7.32486      22.88430
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53134233  0.4058E-03
+      ecur,decur   -5.53093656 -0.5545E-06
+      ecur,decur   -5.53093711  0.1423E-09
+      ecur,decur   -5.53093711  0.2482E-13
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78804300  0.4199E-03
+      ecur,decur   -3.78762306 -0.3944E-06
+      ecur,decur   -3.78762345  0.7027E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89085078  0.2270E-03
+      ecur,decur   -0.89062378 -0.6133E-07
+      ecur,decur   -0.89062384 -0.8714E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18526713  0.4248E-03
+      ecur,decur   -1.18484231 -0.1828E-06
+      ecur,decur   -1.18484250  0.5683E-11
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391466
+     alpha=  0.94769956 -0.00739679
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10874200
+     alpha=  0.75923821  0.05603588
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98076569
+     alpha=  0.10037168 -0.16583032
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300242
+     alpha= -0.52435984 -0.23257740
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62518       7.29716       0.00000       0.00000
+       0.00000       0.00000       7.29716      -0.26995       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23078      -7.32583
+       0.00000       0.00000       0.00000       0.00000      -7.32583      22.88538
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53093711  0.1596E-03
+      ecur,decur   -5.53077751 -0.1109E-06
+      ecur,decur   -5.53077762  0.2863E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78762345  0.1668E-03
+      ecur,decur   -3.78745669 -0.8023E-07
+      ecur,decur   -3.78745677  0.1433E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89062384  0.8926E-04
+      ecur,decur   -0.89053459 -0.1804E-08
+      ecur,decur   -0.89053459 -0.2549E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18484250  0.1721E-03
+      ecur,decur   -1.18467043 -0.3319E-07
+      ecur,decur   -1.18467046  0.9866E-12
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391272
+     alpha=  0.94769985 -0.00739989
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10872125
+     alpha=  0.75923719  0.05603422
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98076882
+     alpha=  0.10036484 -0.16581572
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300207
+     alpha= -0.52435548 -0.23257361
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28197       0.00000       0.00000       0.00000       0.00000
+      -0.28197       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62514       7.29704       0.00000       0.00000
+       0.00000       0.00000       7.29704      -0.26968       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23043      -7.32623
+       0.00000       0.00000       0.00000       0.00000      -7.32623      22.88583
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53077762  0.6375E-04
+      ecur,decur   -5.53071388 -0.2757E-07
+      ecur,decur   -5.53071390  0.7092E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78745677  0.6719E-04
+      ecur,decur   -3.78738958 -0.2021E-07
+      ecur,decur   -3.78738960  0.3586E-11
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89053459  0.3467E-04
+      ecur,decur   -0.89049992  0.2738E-08
+      ecur,decur   -0.89049992  0.3738E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18467046  0.7066E-04
+      ecur,decur   -1.18459980 -0.6891E-08
+      ecur,decur   -1.18459980  0.1943E-12
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391192
+     alpha=  0.94770003 -0.00740114
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10871150
+     alpha=  0.75923676  0.05603346
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077025
+     alpha=  0.10036168 -0.16580907
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300168
+     alpha= -0.52435370 -0.23257199
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28197       0.00000       0.00000       0.00000       0.00000
+      -0.28197       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62512       7.29699       0.00000       0.00000
+       0.00000       0.00000       7.29699      -0.26957       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23028      -7.32640
+       0.00000       0.00000       0.00000       0.00000      -7.32640      22.88602
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53071390  0.2533E-04
+      ecur,decur   -5.53068857 -0.8295E-08
+      ecur,decur   -5.53068858  0.2207E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78738960  0.2697E-04
+      ecur,decur   -3.78736263 -0.6145E-08
+      ecur,decur   -3.78736263  0.1085E-11
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89049992  0.1311E-04
+      ecur,decur   -0.89048680  0.1550E-08
+      ecur,decur   -0.89048680  0.2217E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18459980  0.2900E-04
+      ecur,decur   -1.18457080 -0.1692E-08
+      ecur,decur   -1.18457080  0.2249E-12
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391161
+     alpha=  0.94770014 -0.00740162
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870697
+     alpha=  0.75923659  0.05603312
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077091
+     alpha=  0.10036024 -0.16580601
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300146
+     alpha= -0.52435296 -0.23257130
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28197       0.00000       0.00000       0.00000       0.00000
+      -0.28197       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29697       0.00000       0.00000
+       0.00000       0.00000       7.29697      -0.26952       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23023      -7.32647
+       0.00000       0.00000       0.00000       0.00000      -7.32647      22.88610
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53068858  0.9908E-05
+      ecur,decur   -5.53067867 -0.2826E-08
+      ecur,decur   -5.53067867  0.7217E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78736263  0.1069E-04
+      ecur,decur   -3.78735195 -0.2119E-08
+      ecur,decur   -3.78735195  0.3647E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89048680  0.4755E-05
+      ecur,decur   -0.89048205  0.6342E-09
+      ecur,decur   -0.89048205  0.7774E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18457080  0.1182E-04
+      ecur,decur   -1.18455898 -0.4983E-09
+      ecur,decur   -1.18455898 -0.6702E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391150
+     alpha=  0.94770020 -0.00740179
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870488
+     alpha=  0.75923652  0.05603296
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077122
+     alpha=  0.10035957 -0.16580458
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300134
+     alpha= -0.52435266 -0.23257102
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28197       0.00000       0.00000       0.00000       0.00000
+      -0.28197       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29697       0.00000       0.00000
+       0.00000       0.00000       7.29697      -0.26950       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23020      -7.32649
+       0.00000       0.00000       0.00000       0.00000      -7.32649      22.88613
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067867  0.3778E-05
+      ecur,decur   -5.53067490 -0.1014E-08
+      ecur,decur   -5.53067490  0.3293E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78735195  0.4149E-05
+      ecur,decur   -3.78734780 -0.7736E-09
+      ecur,decur   -3.78734780  0.1124E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89048205  0.1609E-05
+      ecur,decur   -0.89048044  0.2237E-09
+      ecur,decur   -0.89048044  0.3349E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455898  0.4767E-05
+      ecur,decur   -1.18455422 -0.1694E-09
+      ecur,decur   -1.18455422  0.5282E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391146
+     alpha=  0.94770023 -0.00740184
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870391
+     alpha=  0.75923650  0.05603289
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077136
+     alpha=  0.10035926 -0.16580391
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300129
+     alpha= -0.52435254 -0.23257090
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28197       0.00000       0.00000       0.00000       0.00000
+      -0.28197       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26950       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88615
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067490  0.1388E-05
+      ecur,decur   -5.53067351 -0.3634E-09
+      ecur,decur   -5.53067351  0.9041E-13
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734780  0.1565E-05
+      ecur,decur   -3.78734623 -0.2845E-09
+      ecur,decur   -3.78734623  0.4698E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89048044  0.4782E-06
+      ecur,decur   -0.89047996  0.6750E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455422  0.1897E-05
+      ecur,decur   -1.18455232 -0.6214E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770025 -0.00740186
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870345
+     alpha=  0.75923649  0.05603286
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077142
+     alpha=  0.10035912 -0.16580360
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300126
+     alpha= -0.52435249 -0.23257085
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88615
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067351  0.4817E-06
+      ecur,decur   -5.53067303 -0.1250E-09
+      ecur,decur   -5.53067303  0.7454E-13
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734623  0.5670E-06
+      ecur,decur   -3.78734567 -0.1020E-09
+      ecur,decur   -3.78734567 -0.1429E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047996  0.1021E-06
+      ecur,decur   -0.89047986  0.1449E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455232  0.7428E-06
+      ecur,decur   -1.18455158 -0.2349E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391144
+     alpha=  0.94770026 -0.00740186
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870324
+     alpha=  0.75923648  0.05603285
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077146
+     alpha=  0.10035905 -0.16580345
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300124
+     alpha= -0.52435247 -0.23257083
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067303  0.1516E-06
+      ecur,decur   -5.53067288 -0.3921E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734567  0.1927E-06
+      ecur,decur   -3.78734547 -0.3457E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047986 -0.5870E-08
+      ecur,decur   -0.89047986 -0.8336E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455158  0.2851E-06
+      ecur,decur   -1.18455129 -0.8886E-11
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391144
+     alpha=  0.94770026 -0.00740186
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870314
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077147
+     alpha=  0.10035902 -0.16580338
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300124
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067288  0.3879E-07
+      ecur,decur   -5.53067284 -0.9973E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734547  0.5871E-07
+      ecur,decur   -3.78734542 -0.1051E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047986 -0.2616E-07
+      ecur,decur   -0.89047989 -0.3723E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455129  0.1070E-06
+      ecur,decur   -1.18455118 -0.3241E-11
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391144
+     alpha=  0.94770027 -0.00740186
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870309
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035900 -0.16580335
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067284  0.4256E-08
+      ecur,decur   -5.53067283 -0.1035E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734542  0.1394E-07
+      ecur,decur   -3.78734540 -0.2485E-11
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047989 -0.2234E-07
+      ecur,decur   -0.89047991 -0.3168E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455118  0.3898E-07
+      ecur,decur   -1.18455114 -0.1044E-11
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391144
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870307
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035900 -0.16580333
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067283 -0.3887E-08
+      ecur,decur   -5.53067284  0.1027E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734540  0.8377E-09
+      ecur,decur   -3.78734540 -0.1897E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047991 -0.1472E-07
+      ecur,decur   -0.89047993 -0.2091E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455114  0.1377E-07
+      ecur,decur   -1.18455113 -0.5471E-12
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391144
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870306
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067284 -0.4256E-08
+      ecur,decur   -5.53067284  0.1069E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734540 -0.1943E-08
+      ecur,decur   -3.78734540  0.3371E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047993 -0.8651E-08
+      ecur,decur   -0.89047994 -0.1241E-11
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455113  0.4714E-08
+      ecur,decur   -1.18455113  0.2071E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067284 -0.2970E-08
+      ecur,decur   -5.53067284  0.7547E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734540 -0.1834E-08
+      ecur,decur   -3.78734540  0.3478E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.4746E-08
+      ecur,decur   -0.89047994 -0.6826E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455113  0.1582E-08
+      ecur,decur   -1.18455112 -0.2386E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067284 -0.1762E-08
+      ecur,decur   -5.53067285  0.4864E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734540 -0.1203E-08
+      ecur,decur   -3.78734541  0.2192E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.2480E-08
+      ecur,decur   -0.89047994 -0.3523E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.5460E-09
+      ecur,decur   -1.18455112 -0.7480E-14
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.9541E-09
+      ecur,decur   -5.53067285  0.3402E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.6776E-09
+      ecur,decur   -3.78734541  0.1543E-12
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.1246E-08
+      ecur,decur   -0.89047994 -0.1837E-12
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.2159E-09
+      ecur,decur   -1.18455112 -0.4284E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077148
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.4831E-09
+      ecur,decur   -5.53067285  0.1181E-12
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.3461E-09
+      ecur,decur   -3.78734541  0.8661E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.6034E-09
+      ecur,decur   -0.89047994 -0.8492E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.1099E-09
+      ecur,decur   -1.18455112  0.5424E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.2304E-09
+      ecur,decur   -5.53067285  0.6884E-13
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.1623E-09
+      ecur,decur   -3.78734541  0.2884E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.2814E-09
+      ecur,decur   -0.89047994 -0.3739E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.6992E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580332
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.1144E-09
+      ecur,decur   -5.53067285 -0.6280E-14
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.7973E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047994 -0.1270E-09
+      ecur,decur   -0.89047995 -0.1368E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.1105E-09
+      ecur,decur   -1.18455112 -0.7115E-13
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285  0.4139E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.2697E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995 -0.4223E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.9838E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.6790E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.1228E-09
+      ecur,decur   -3.78734541  0.1619E-13
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995 -0.8310E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.4753E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285 -0.1010E-09
+      ecur,decur   -5.53067285 -0.3171E-14
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.2815E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995 -0.1022E-09
+      ecur,decur   -0.89047995 -0.1518E-13
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.3780E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285  0.5571E-10
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541  0.2743E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995  0.1589E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.9403E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+    matrix d(i,j)
+
+       0.08929      -0.28196       0.00000       0.00000       0.00000       0.00000
+      -0.28196       3.85770       0.00000       0.00000       0.00000       0.00000
+       0.00000       0.00000      -4.62511       7.29696       0.00000       0.00000
+       0.00000       0.00000       7.29696      -0.26949       0.00000       0.00000
+       0.00000       0.00000       0.00000       0.00000      -2.23019      -7.32651
+       0.00000       0.00000       0.00000       0.00000      -7.32651      22.88616
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285  0.4046E-11
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541 -0.1874E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995  0.1628E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.6284E-10
+ leaving scheqg
+
+ subroutine rsae: construct charge density
+   intermed rsvale for lp= 1  1.90391145
+     alpha=  0.94770027 -0.00740185
+     integrated rsvale after lp 1  1.99999749
+   intermed rsvale for lp= 2  6.10870305
+     alpha=  0.75923648  0.05603284
+     integrated rsvale after lp 2  7.99999277
+   intermed rsvale for lp= 1  9.98077149
+     alpha=  0.10035899 -0.16580331
+     integrated rsvale after lp 1  9.99999233
+   intermed rsvale for lp= 3 10.61300123
+     alpha= -0.52435246 -0.23257082
+     integrated rsvale after lp 3 10.99999210
+   balancing valence density, asum = 10.99999210 wwsum = 11.00000000
+ leaving rsae
+
+ subroutine scheqg: solve schroedinger equation
+    nnlz,nctp,ninf =  300  575  681
+      ecur,decur   -5.53067285  0.1298E-09
+      ecur,decur   -5.53067285 -0.2699E-13
+    nnlz,nctp,ninf =  310  575  692
+      ecur,decur   -3.78734541  0.5015E-10
+    nnlz,nctp,ninf =  400  575  737
+      ecur,decur   -0.89047995  0.4084E-10
+    nnlz,nctp,ninf =  320  575  728
+      ecur,decur   -1.18455112  0.1051E-09
+      ecur,decur   -1.18455112  0.5055E-14
+ leaving scheqg
+
+   all electron and pseudo energies
+
+                       300                      310                      400                      320
+
+                    full     pseudo          full     pseudo          full     pseudo          full     pseudo  
+
+    energy    -5.5303174 -5.5306728    -3.7867537 -3.7873454    -0.8904398 -0.8904799    -1.1852422 -1.1845511
+
+   valence all-electron and pseudo wavefunctions
+
+                    s           p           s           d           s           p           s           d
+        r          full        full        full        full       pseudo      pseudo      pseudo      pseudo
+     0.08644     0.04094    -0.35386    -0.01279     0.02491     0.15780     0.01367    -0.05593     0.00073
+     0.26035    -0.54901    -0.39448     0.17743     0.25662     0.45750     0.11845    -0.15762     0.01905
+     0.43298     0.15077     0.24905    -0.07069     0.53012     0.70468     0.29875    -0.22826     0.08044
+     0.60774     0.81006     0.77206    -0.27748     0.72251     0.87855     0.51026    -0.25454     0.19486
+     0.78370     1.09205     1.01012    -0.31679     0.81758     0.96250     0.69693    -0.22838     0.34832
+     0.96049     1.09087     1.03352    -0.22847     0.83778     0.95571     0.81168    -0.15130     0.50695
+     1.13791     0.95014     0.94025    -0.07652     0.81075     0.87231     0.83181    -0.03366     0.63014
+     1.30317     0.77974     0.81070     0.08007     0.76193     0.74862     0.77270     0.09718     0.68669
+     1.46735     0.61474     0.67470     0.22714     0.70239     0.60727     0.66685     0.23131     0.68323
+     1.65220     0.45504     0.53290     0.36908     0.63076     0.45449     0.53207     0.36940     0.62972
+     1.82908     0.33353     0.41674     0.47643     0.56289     0.33333     0.41622     0.47652     0.56280
+     1.99085     0.24752     0.32872     0.55017     0.50383     0.24737     0.32829     0.55021     0.50378
+     2.16693     0.17687     0.25135     0.60604     0.44416     0.17676     0.25101     0.60603     0.44413
+     2.35859     0.12142     0.18597     0.64171     0.38525     0.12133     0.18571     0.64166     0.38525
+     2.52404     0.08714     0.14251     0.65485     0.33951     0.08708     0.14230     0.65477     0.33953
+     2.70111     0.06075     0.10663     0.65420     0.29564     0.06070     0.10647     0.65410     0.29567
+     2.89059     0.04106     0.07779     0.64023     0.25412     0.04103     0.07767     0.64010     0.25416
+     3.04138     0.02997     0.06033     0.62159     0.22479     0.02994     0.06024     0.62145     0.22485
+     3.20003     0.02145     0.04606     0.59661     0.19720     0.02143     0.04598     0.59647     0.19725
+     3.36696     0.01504     0.03457     0.56606     0.17146     0.01503     0.03452     0.56591     0.17152
+     3.54259     0.01033     0.02550     0.53080     0.14769     0.01032     0.02546     0.53066     0.14775
+     3.72739     0.00693     0.01847     0.49182     0.12595     0.00693     0.01844     0.49168     0.12601
+     3.92182     0.00455     0.01312     0.45014     0.10628     0.00454     0.01309     0.45001     0.10633
+     4.05705     0.00339     0.01032     0.42139     0.09432     0.00338     0.01031     0.42126     0.09437
+     4.26868     0.00213     0.00708     0.37758     0.07808     0.00213     0.00707     0.37746     0.07814
+     4.41586     0.00154     0.00544     0.34837     0.06838     0.00154     0.00543     0.34826     0.06843
+     4.64621     0.00093     0.00360     0.30526     0.05544     0.00093     0.00359     0.30515     0.05548
+     4.80641     0.00065     0.00269     0.27736     0.04784     0.00065     0.00269     0.27726     0.04788
+     4.97214     0.00045     0.00199     0.25040     0.04103     0.00045     0.00199     0.25031     0.04107
+     5.14358     0.00031     0.00146     0.22459     0.03497     0.00031     0.00146     0.22451     0.03500
+     5.32093     0.00021     0.00106     0.20010     0.02960     0.00021     0.00105     0.20002     0.02963
+     5.50440     0.00014     0.00075     0.17706     0.02488     0.00014     0.00075     0.17699     0.02491
+     5.69419     0.00009     0.00053     0.15558     0.02077     0.00009     0.00053     0.15551     0.02079
+     5.79153     0.00007     0.00044     0.14544     0.01892     0.00007     0.00044     0.14538     0.01895
+     5.99122     0.00005     0.00031     0.12641     0.01562     0.00005     0.00031     0.12636     0.01564
+     6.19780     0.00003     0.00021     0.10905     0.01279     0.00003     0.00021     0.10901     0.01281
+     6.30374     0.00002     0.00017     0.10100     0.01154     0.00002     0.00017     0.10096     0.01156
+     6.52109     0.00001     0.00012     0.08613     0.00934     0.00001     0.00011     0.08609     0.00935
+     6.74594     0.00001     0.00008     0.07287     0.00750     0.00001     0.00008     0.07283     0.00751
+     6.86125     0.00001     0.00006     0.06682     0.00669     0.00001     0.00006     0.06679     0.00670
+     7.09783     0.00000     0.00004     0.05584     0.00530     0.00000     0.00004     0.05581     0.00531
+     7.21916     0.00000     0.00003     0.05088     0.00470     0.00000     0.00003     0.05086     0.00471
+     7.34256     0.00000     0.00002     0.04627     0.00416     0.00000     0.00002     0.04625     0.00417
+     7.59573     0.00000     0.00002     0.03801     0.00323     0.00000     0.00002     0.03799     0.00324
+     7.72557     0.00000     0.00001     0.03433     0.00284     0.00000     0.00001     0.03432     0.00285
+     7.85763     0.00000     0.00001     0.03094     0.00249     0.00000     0.00001     0.03093     0.00250
+     8.12856     0.00000     0.00001     0.02496     0.00190     0.00000     0.00001     0.02495     0.00190
+     8.26751     0.00000     0.00000     0.02234     0.00165     0.00000     0.00000     0.02233     0.00166
+     8.40884     0.00000     0.00000     0.01995     0.00143     0.00000     0.00000     0.01994     0.00144
+     8.55258     0.00000     0.00000     0.01777     0.00124     0.00000     0.00000     0.01776     0.00124
+     8.84747     0.00000     0.00000     0.01400     0.00092     0.00000     0.00000     0.01399     0.00092
+     8.99870     0.00000     0.00000     0.01237     0.00079     0.00000     0.00000     0.01237     0.00079
+     9.15253     0.00000     0.00000     0.01091     0.00068     0.00000     0.00000     0.01091     0.00068
+     9.30898     0.00000     0.00000     0.00960     0.00058     0.00000     0.00000     0.00959     0.00058
+     9.46810     0.00000     0.00000     0.00842     0.00049     0.00000     0.00000     0.00842     0.00049
+
+   chart: valence all-electron and pseudo wavefunctions
+      0.0864                 2              9 3!41     7                                                              
+      0.2602        1      2           9       !A    8  3   4         7                                               
+      0.4339                        9      3   !   A   1   2  8           4       7                                   
+      0.6076                     39            !         A               8         4  2 1  7                          
+      0.7814                   3    9          !                A                 8     4      7  2   1               
+      0.9551                        3  9       !                        A               84     7   2  1               
+      1.1288                               3 9 !                               A        48 7  21                      
+      1.3026                                   !   39                            A  741 2                             
+      1.4763                                   !          39                 71 824                                   
+      1.6501                                   !                 3    1   2   A4                                      
+      1.8238                                   !                1   2  3   4                                          
+      1.9975                                   !           1   2        4  3                                          
+      2.1713                                   !        1   2        4       3                                        
+      2.3450                                   !     1  2         4            3                                      
+      2.5187                                   !   1  2         4               3                                     
+      2.6925                                   !  1 2         4                 3                                     
+      2.8662                                   ! 1 2        4                  3                                      
+      3.0399                                   !1 2       4                   3                                       
+      3.2137                                   !12       4                   3                                        
+      3.3874                                   !12      4                  3                                          
+      3.5611                                   !1     4                   3                                           
+      3.7349                                   !2    4                  3                                             
+      3.9086                                   !2   4                 3                                               
+      4.0823                                   !2   4               3                                                 
+      4.2561                                   !   4              3                                                   
+      4.4298                                   !  4             3                                                     
+      4.6035                                   !  4           3                                                       
+      4.7773                                   ! 4           3                                                        
+      4.9510                                   ! 4          3                                                         
+      5.1247                                   ! 4        3                                                           
+      5.2985                                   !4        3                                                            
+      5.4722                                   !4       3                                                             
+      5.6459                                   !4      3                                                              
+      5.8197                                   !4     3                                                               
+      5.9934                                   !4    3                                                                
+      6.1671                                   !4   3                                                                 
+      6.3409                                   !4   3                                                                 
+      6.5146                                   !   3                                                                  
+      6.6884                                   !   3                                                                  
+      6.8621                                   !  3                                                                   
+      7.0358                                   !  3                                                                   
+      7.2096                                   !  3                                                                   
+      7.3833                                   ! 3                                                                    
+      7.5570                                   ! 3                                                                    
+      7.7308                                   ! 3                                                                    
+      7.9045                                   ! 3                                                                    
+      8.0782                                   !3                                                                     
+      8.2520                                   !3                                                                     
+      8.4257                                   !3                                                                     
+      8.5994                                   !3                                                                     
+      8.7732                                   !3                                                                     
+      8.9469                                   !3                                                                     
+      9.1206                                   !3                                                                     
+      9.2944                                   !                                                                      
+      9.4681                                   !                                                                      
+                 i         i         i         i         i         i         i         i         i         i         i
+           -0.6000             -0.2000              0.2000              0.6000               1.000               1.400    
+                     -0.4000             -0.2384E-07          0.4000              0.8000               1.200    
+ 
+
+ subroutine fanal: fourier transform pseudo wavefunctions
+
+   q * fourier transform of wfns
+
+   wavevector             300          310          400          320
+
+      0.00000         0.00000      0.00000      0.00000      0.00000
+      0.20000         0.30247      0.03830     -1.28638      0.01490
+      0.40000         0.57392      0.14369     -1.67985      0.09884
+      0.60000         0.78966      0.29153     -1.23928      0.25213
+      0.80000         0.93551      0.45114     -0.53238      0.42507
+      1.00000         1.00870      0.59522      0.04469      0.57132
+      1.20000         1.01599      0.70551      0.38554      0.67043
+      1.40000         0.97020      0.77390      0.53065      0.72226
+      1.60000         0.88663      0.80055      0.55194      0.73554
+      1.80000         0.78022      0.79081      0.50768      0.72048
+      2.00000         0.66378      0.75251      0.43526      0.68585
+      2.20000         0.54725      0.69392      0.35589      0.63837
+      2.40000         0.43759      0.62265      0.28048      0.58296
+      2.60000         0.33917      0.54509      0.21398      0.52327
+      2.80000         0.25425      0.46628      0.15807      0.46200
+      3.00000         0.18351      0.38994      0.11273      0.40119
+      3.20000         0.12650      0.31870      0.07709      0.34243
+      3.40000         0.08210      0.25424      0.04992      0.28690
+      3.60000         0.04878      0.19748      0.02988      0.23552
+      3.80000         0.02482      0.14877      0.01568      0.18892
+      4.00000         0.00851      0.10803      0.00610      0.14752
+      4.20000        -0.00178      0.07483      0.00009      0.11152
+      4.40000        -0.00751      0.04857     -0.00328      0.08092
+      4.60000        -0.00997      0.02846     -0.00476      0.05559
+      4.80000        -0.01019      0.01369     -0.00498      0.03522
+      5.00000        -0.00905      0.00338     -0.00443      0.01941
+      5.20000        -0.00718     -0.00329     -0.00348      0.00768
+      5.40000        -0.00508     -0.00711     -0.00239     -0.00052
+      5.60000        -0.00306     -0.00878     -0.00135     -0.00575
+      5.80000        -0.00134     -0.00893     -0.00047     -0.00859
+      6.00000        -0.00001     -0.00807      0.00021     -0.00959
+      6.20000         0.00091     -0.00664      0.00065     -0.00926
+      6.40000         0.00143     -0.00496      0.00089     -0.00804
+      6.60000         0.00161     -0.00329      0.00095     -0.00633
+      6.80000         0.00154     -0.00178      0.00088     -0.00444
+      7.00000         0.00130     -0.00053      0.00073     -0.00260
+      7.20000         0.00096      0.00040      0.00052     -0.00098
+      7.40000         0.00059      0.00101      0.00031      0.00031
+      7.60000         0.00023      0.00134      0.00011      0.00124
+      7.80000        -0.00006      0.00142     -0.00005      0.00179
+      8.00000        -0.00028      0.00132     -0.00017      0.00202
+      8.20000        -0.00041      0.00110     -0.00024      0.00196
+      8.40000        -0.00047      0.00081     -0.00026      0.00170
+      8.60000        -0.00045      0.00051     -0.00025      0.00131
+      8.80000        -0.00039      0.00022     -0.00021      0.00086
+      9.00000        -0.00029     -0.00003     -0.00015      0.00042
+      9.20000        -0.00018     -0.00021     -0.00009      0.00002
+      9.40000        -0.00008     -0.00033     -0.00003     -0.00030
+      9.60000         0.00002     -0.00038      0.00002     -0.00052
+      9.80000         0.00009     -0.00038      0.00005     -0.00063
+     10.00000         0.00013     -0.00033      0.00008     -0.00065
+     10.20000         0.00015     -0.00026      0.00009     -0.00059
+     10.40000         0.00015     -0.00017      0.00008     -0.00048
+     10.60000         0.00013     -0.00008      0.00008     -0.00033
+     10.80000         0.00009      0.00000      0.00004     -0.00017
+     11.00000         0.00005      0.00006      0.00004     -0.00002
+     11.20000         0.00001      0.00011     -0.00002      0.00011
+     11.40000        -0.00003      0.00013      0.00001      0.00020
+     11.60000        -0.00005      0.00013     -0.00006      0.00025
+     11.80000        -0.00007      0.00012      0.00000      0.00027
+     12.00000        -0.00008      0.00009     -0.00009      0.00025
+     12.20000        -0.00007      0.00006      0.00002      0.00021
+     12.40000        -0.00006      0.00003     -0.00011      0.00014
+     12.60000        -0.00005      0.00000      0.00006      0.00008
+     12.80000        -0.00003     -0.00003     -0.00010      0.00000
+     13.00000        -0.00001     -0.00005      0.00007     -0.00005
+     13.20000         0.00001     -0.00006     -0.00004     -0.00010
+     13.40000         0.00002     -0.00006      0.00001     -0.00012
+     13.60000         0.00003     -0.00005      0.00011     -0.00013
+     13.80000         0.00003     -0.00004     -0.00017     -0.00012
+     14.00000         0.00003     -0.00003      0.00030     -0.00009
+     14.20000         0.00003     -0.00001     -0.00030     -0.00008
+     14.40000         0.00002      0.00000      0.00025     -0.00003
+     14.60000         0.00001      0.00001     -0.00003      0.00000
+     14.80000         0.00000      0.00002     -0.00026      0.00002
+     15.00000        -0.00001      0.00003      0.00052      0.00007
+
+  chart: q * fourier transform of wfns
+      0.0000                                                                   !                                      
+      0.2000                    3                                              !42         1                          
+      0.4000     3                                                             !   4 2               1                
+      0.6000                     3                                             !         42                  1        
+      0.8000                                                3                  !               42                 1   
+      1.0000                                                                   ! 3                   2               1
+      1.2000                                                                   !              3         42           1
+      1.4000                                                                   !                   3      4 2      1  
+      1.6000                                                                   !                    3      4 2  1     
+      1.8000                                                                   !                  3       4 12        
+      2.0000                                                                   !               3        14 2          
+      2.2000                                                                   !             3      1  4 2            
+      2.4000                                                                   !          3     1    42               
+      2.6000                                                                   !       3    1      42                 
+      2.8000                                                                   !     3   1      42                    
+      3.0000                                                                   !   3  1       2                       
+      3.2000                                                                   !  3 1      24                         
+      3.4000                                                                   ! 31      24                           
+      3.6000                                                                   !31     24                             
+      3.8000                                                                   !1    24                               
+      4.0000                                                                   !1  2 4                                
+      4.2000                                                                   !  24                                  
+      4.4000                                                                   ! 24                                   
+      4.6000                                                                   !24                                    
+      4.8000                                                                   !24                                    
+      5.0000                                                                   !4                                     
+      5.2000                                                                   !4                                     
+      5.4000                                                                   !                                      
+      5.6000                                                                   !                                      
+      5.8000                                                                   !                                      
+      6.0000                                                                   !                                      
+      6.2000                                                                   !                                      
+      6.4000                                                                   !                                      
+      6.6000                                                                   !                                      
+      6.8000                                                                   !                                      
+      7.0000                                                                   !                                      
+      7.2000                                                                   !                                      
+      7.4000                                                                   !                                      
+      7.6000                                                                   !                                      
+      7.8000                                                                   !                                      
+      8.0000                                                                   !                                      
+      8.2000                                                                   !                                      
+      8.4000                                                                   !                                      
+      8.6000                                                                   !                                      
+      8.8000                                                                   !                                      
+      9.0000                                                                   !                                      
+      9.2000                                                                   !                                      
+      9.4000                                                                   !                                      
+      9.6000                                                                   !                                      
+      9.8000                                                                   !                                      
+     10.0000                                                                   !                                      
+     10.2000                                                                   !                                      
+     10.4000                                                                   !                                      
+     10.6000                                                                   !                                      
+     10.8000                                                                   !                                      
+     11.0000                                                                   !                                      
+     11.2000                                                                   !                                      
+     11.4000                                                                   !                                      
+     11.6000                                                                   !                                      
+     11.8000                                                                   !                                      
+     12.0000                                                                   !                                      
+     12.2000                                                                   !                                      
+     12.4000                                                                   !                                      
+     12.6000                                                                   !                                      
+     12.8000                                                                   !                                      
+     13.0000                                                                   !                                      
+     13.2000                                                                   !                                      
+     13.4000                                                                   !                                      
+     13.6000                                                                   !                                      
+     13.8000                                                                   !                                      
+     14.0000                                                                   !                                      
+     14.2000                                                                   !                                      
+     14.4000                                                                   !                                      
+     14.6000                                                                   !                                      
+     14.8000                                                                   !                                      
+     15.0000                                                                   !                                      
+                 i         i         i         i         i         i         i         i         i         i         i
+            -1.680              -1.141             -0.6015             -0.6235E-01          0.4768               1.016    
+                      -1.410             -0.8711             -0.3319              0.2072              0.7464    
+ 
+
+ leaving fanal
+
+ calling lderiv: log derivatives of pseudopotential
+
+ subroutine lderiv: pass   2
+
+     logarithmic derivatives
+
+      e          l=0             l=1             l=2             l=0             l=1             l=2
+ 
+   -6.000     0.19094E+00     0.15363E+01     0.21590E+01     0.18950E+00     0.15655E+01     0.21604E+01
+   -5.900    -0.55574E-01     0.14900E+01     0.21344E+01    -0.56878E-01     0.15182E+01     0.21357E+01
+   -5.800    -0.36304E+00     0.14417E+01     0.21094E+01    -0.36432E+00     0.14687E+01     0.21107E+01
+   -5.700    -0.75991E+00     0.13909E+01     0.20841E+01    -0.76137E+00     0.14169E+01     0.20854E+01
+   -5.600    -0.12956E+01     0.13376E+01     0.20584E+01    -0.12977E+01     0.13624E+01     0.20597E+01
+   -5.500    -0.20644E+01     0.12813E+01     0.20324E+01    -0.20683E+01     0.13049E+01     0.20336E+01
+   -5.400    -0.32710E+01     0.12217E+01     0.20059E+01    -0.32796E+01     0.12441E+01     0.20072E+01
+   -5.300    -0.54591E+01     0.11583E+01     0.19790E+01    -0.54821E+01     0.11795E+01     0.19803E+01
+   -5.200    -0.10711E+02     0.10906E+01     0.19517E+01    -0.10799E+02     0.11106E+01     0.19529E+01
+   -5.100    -0.41213E+02     0.10180E+01     0.19240E+01    -0.42574E+02     0.10367E+01     0.19251E+01
+   -5.000     0.32347E+02     0.93968E+00     0.18957E+01     0.31542E+02     0.95708E+00     0.18969E+01
+   -4.900     0.13105E+02     0.85471E+00     0.18669E+01     0.12968E+02     0.87076E+00     0.18681E+01
+   -4.800     0.87278E+01     0.76190E+00     0.18376E+01     0.86660E+01     0.77656E+00     0.18388E+01
+   -4.700     0.67791E+01     0.65979E+00     0.18078E+01     0.67413E+01     0.67302E+00     0.18089E+01
+   -4.600     0.56700E+01     0.54650E+00     0.17773E+01     0.56432E+01     0.55824E+00     0.17784E+01
+   -4.500     0.49494E+01     0.41960E+00     0.17462E+01     0.49289E+01     0.42980E+00     0.17473E+01
+   -4.400     0.44403E+01     0.27591E+00     0.17145E+01     0.44237E+01     0.28449E+00     0.17155E+01
+   -4.300     0.40590E+01     0.11113E+00     0.16820E+01     0.40451E+01     0.11801E+00     0.16830E+01
+   -4.200     0.37607E+01    -0.80629E-01     0.16488E+01     0.37487E+01    -0.75540E-01     0.16497E+01
+   -4.100     0.35194E+01    -0.30770E+00     0.16147E+01     0.35089E+01    -0.30451E+00     0.16157E+01
+   -4.000     0.33189E+01    -0.58228E+00     0.15798E+01     0.33096E+01    -0.58110E+00     0.15808E+01
+   -3.900     0.31485E+01    -0.92293E+00     0.15440E+01     0.31402E+01    -0.92387E+00     0.15449E+01
+   -3.800     0.30010E+01    -0.13594E+01     0.15072E+01     0.29936E+01    -0.13625E+01     0.15081E+01
+   -3.700     0.28714E+01    -0.19424E+01     0.14693E+01     0.28646E+01    -0.19476E+01     0.14702E+01
+   -3.600     0.27558E+01    -0.27663E+01     0.14303E+01     0.27496E+01    -0.27732E+01     0.14312E+01
+   -3.500     0.26515E+01    -0.40290E+01     0.13900E+01     0.26459E+01    -0.40357E+01     0.13909E+01
+   -3.400     0.25564E+01    -0.62267E+01     0.13484E+01     0.25513E+01    -0.62256E+01     0.13492E+01
+   -3.300     0.24690E+01    -0.11058E+02     0.13053E+01     0.24643E+01    -0.11008E+02     0.13061E+01
+   -3.200     0.23878E+01    -0.30649E+02     0.12606E+01     0.23836E+01    -0.29980E+02     0.12614E+01
+   -3.100     0.23120E+01     0.62015E+02     0.12142E+01     0.23081E+01     0.66085E+02     0.12150E+01
+   -3.000     0.22407E+01     0.17222E+02     0.11658E+01     0.22372E+01     0.17589E+02     0.11667E+01
+   -2.900     0.21732E+01     0.10552E+02     0.11154E+01     0.21700E+01     0.10709E+02     0.11162E+01
+   -2.800     0.21090E+01     0.78512E+01     0.10626E+01     0.21061E+01     0.79463E+01     0.10634E+01
+   -2.700     0.20476E+01     0.63806E+01     0.10071E+01     0.20449E+01     0.64478E+01     0.10080E+01
+   -2.600     0.19886E+01     0.54503E+01     0.94880E+00     0.19862E+01     0.55016E+01     0.94963E+00
+   -2.500     0.19318E+01     0.48049E+01     0.88720E+00     0.19296E+01     0.48460E+01     0.88803E+00
+   -2.400     0.18767E+01     0.43279E+01     0.82191E+00     0.18748E+01     0.43618E+01     0.82275E+00
+   -2.300     0.18233E+01     0.39588E+01     0.75242E+00     0.18215E+01     0.39872E+01     0.75328E+00
+   -2.200     0.17712E+01     0.36628E+01     0.67814E+00     0.17696E+01     0.36870E+01     0.67903E+00
+   -2.100     0.17203E+01     0.34186E+01     0.59834E+00     0.17189E+01     0.34394E+01     0.59926E+00
+   -2.000     0.16704E+01     0.32125E+01     0.51214E+00     0.16692E+01     0.32304E+01     0.51310E+00
+   -1.900     0.16215E+01     0.30352E+01     0.41845E+00     0.16203E+01     0.30506E+01     0.41945E+00
+   -1.800     0.15733E+01     0.28801E+01     0.31592E+00     0.15723E+01     0.28934E+01     0.31698E+00
+   -1.700     0.15257E+01     0.27426E+01     0.20282E+00     0.15248E+01     0.27539E+01     0.20395E+00
+   -1.600     0.14788E+01     0.26190E+01     0.76962E-01     0.14779E+01     0.26287E+01     0.78179E-01
+   -1.500     0.14323E+01     0.25069E+01    -0.64522E-01     0.14315E+01     0.25150E+01    -0.63196E-01
+   -1.400     0.13862E+01     0.24041E+01    -0.22544E+00     0.13854E+01     0.24109E+01    -0.22398E+00
+   -1.300     0.13404E+01     0.23091E+01    -0.41097E+00     0.13396E+01     0.23146E+01    -0.40933E+00
+   -1.200     0.12948E+01     0.22205E+01    -0.62831E+00     0.12940E+01     0.22250E+01    -0.62645E+00
+   -1.100     0.12494E+01     0.21375E+01    -0.88783E+00     0.12486E+01     0.21410E+01    -0.88567E+00
+   -1.000     0.12042E+01     0.20592E+01    -0.12050E+01     0.12033E+01     0.20618E+01    -0.12024E+01
+   -0.900     0.11590E+01     0.19849E+01    -0.16038E+01     0.11580E+01     0.19866E+01    -0.16007E+01
+   -0.800     0.11138E+01     0.19139E+01    -0.21241E+01     0.11127E+01     0.19150E+01    -0.21201E+01
+   -0.700     0.10686E+01     0.18460E+01    -0.28365E+01     0.10673E+01     0.18464E+01    -0.28310E+01
+   -0.600     0.10233E+01     0.17805E+01    -0.38798E+01     0.10218E+01     0.17804E+01    -0.38716E+01
+   -0.500     0.97792E+00     0.17173E+01    -0.55689E+01     0.97616E+00     0.17168E+01    -0.55552E+01
+   -0.400     0.93235E+00     0.16560E+01    -0.88058E+01     0.93029E+00     0.16551E+01    -0.87767E+01
+   -0.300     0.88657E+00     0.15963E+01    -0.17635E+02     0.88415E+00     0.15952E+01    -0.17533E+02
+   -0.200     0.84054E+00     0.15381E+01    -0.14564E+03     0.83771E+00     0.15368E+01    -0.13948E+03
+   -0.100     0.79422E+00     0.14811E+01     0.26666E+02     0.79093E+00     0.14797E+01     0.26872E+02
+    0.000     0.74758E+00     0.14251E+01     0.12894E+02     0.74376E+00     0.14238E+01     0.12942E+02
+    0.100     0.70058E+00     0.13701E+01     0.87586E+01     0.69615E+00     0.13689E+01     0.87811E+01
+    0.200     0.65318E+00     0.13159E+01     0.67545E+01     0.64807E+00     0.13149E+01     0.67687E+01
+    0.300     0.60534E+00     0.12623E+01     0.55639E+01     0.59947E+00     0.12617E+01     0.55744E+01
+    0.400     0.55703E+00     0.12092E+01     0.47695E+01     0.55031E+00     0.12091E+01     0.47781E+01
+    0.500     0.50820E+00     0.11566E+01     0.41978E+01     0.50053E+00     0.11571E+01     0.42054E+01
+    0.600     0.45882E+00     0.11043E+01     0.37635E+01     0.45010E+00     0.11056E+01     0.37705E+01
+    0.700     0.40885E+00     0.10523E+01     0.34199E+01     0.39896E+00     0.10544E+01     0.34265E+01
+    0.800     0.35826E+00     0.10005E+01     0.31392E+01     0.34707E+00     0.10036E+01     0.31458E+01
+    0.900     0.30700E+00     0.94878E+00     0.29040E+01     0.29437E+00     0.95307E+00     0.29105E+01
+    1.000     0.25502E+00     0.89709E+00     0.27025E+01     0.24082E+00     0.90272E+00     0.27092E+01
+    1.100     0.20230E+00     0.84539E+00     0.25269E+01     0.18635E+00     0.85251E+00     0.25338E+01
+    1.200     0.14878E+00     0.79359E+00     0.23714E+01     0.13090E+00     0.80239E+00     0.23785E+01
+    1.300     0.94417E-01     0.74164E+00     0.22318E+01     0.74426E-01     0.75232E+00     0.22393E+01
+    1.400     0.39169E-01     0.68949E+00     0.21051E+01     0.16849E-01     0.70224E+00     0.21129E+01
+    1.500    -0.17015E-01     0.63707E+00     0.19888E+01    -0.41896E-01     0.65212E+00     0.19970E+01
+    1.600    -0.74185E-01     0.58434E+00     0.18810E+01    -0.10188E+00     0.60190E+00     0.18898E+01
+    1.700    -0.13240E+00     0.53124E+00     0.17804E+01    -0.16318E+00     0.55156E+00     0.17897E+01
+    1.800    -0.19170E+00     0.47772E+00     0.16857E+01    -0.22588E+00     0.50106E+00     0.16956E+01
+    1.900    -0.25216E+00     0.42372E+00     0.15961E+01    -0.29007E+00     0.45035E+00     0.16066E+01
+    2.000    -0.31383E+00     0.36920E+00     0.15106E+01    -0.35584E+00     0.39941E+00     0.15218E+01
+
+   chart: log derivatives
+     -6.0000                                                       ! 1                25      3                       
+     -5.9000                                                      1!                  2       3                       
+     -5.8000                                                  1    !                 2       3                        
+     -5.7000                                             41        !                25       3                        
+     -5.6000                                       1               !                2        3                        
+     -5.5000                             1                         !               2        3                         
+     -5.4000              1                                        !              25        3                         
+     -5.3000                                                       !             25         3                         
+     -5.2000                                                       !             2         3                          
+     -5.1000                                                       !            2          3                          
+     -5.0000                                                       !           2           3                          
+     -4.9000                                                       !          2           3                           
+     -4.8000                                                       !         2            3                           
+     -4.7000                                                       !       2              3                           
+     -4.6000                                                       !      2              3                            
+     -4.5000                                                       !    2                3                            
+     -4.4000                                                       !  25                3                             
+     -4.3000                                                       !2                   3                             
+     -4.2000                                                      2!                    3                         1   
+     -4.1000                                                   2   !                   3                       1      
+     -4.0000                                                2      !                   3                    1         
+     -3.9000                                           2           !                  3                   1           
+     -3.8000                                      2                !                  3                 41            
+     -3.7000                               2                       !                 3                 1              
+     -3.6000                    2                                  !                 3               1                
+     -3.5000     2                                                 !                3               1                 
+     -3.4000                                                       !                3              1                  
+     -3.3000                                                       !               3              1                   
+     -3.2000                                                       !               3             1                    
+     -3.1000                                                       !              3             1                     
+     -3.0000                                                       !              3            1                      
+     -2.9000                                                       !             3            1                       
+     -2.8000                                                       !            3            1                        
+     -2.7000                                                       !            3            1                        
+     -2.6000                                                       !           3            1                         
+     -2.5000                                                       !          3            1                          
+     -2.4000                                                       !         3            1                           
+     -2.3000                                                       !        3             1                         25
+     -2.2000                                                       !       3             1                       2    
+     -2.1000                                                       !      3             41                    2       
+     -2.0000                                                       !     3              1                  2          
+     -1.9000                                                       !    3              1                 2            
+     -1.8000                                                       !   3               1               2              
+     -1.7000                                                       !  3               1              2                
+     -1.6000                                                       !3                1              2                 
+     -1.5000                                                      3!                 1            2                   
+     -1.4000                                                    3  !                1            2                    
+     -1.3000                                                  3    !                1           2                     
+     -1.2000                                               3       !               1           2                      
+     -1.1000                                            3          !               1          2                       
+     -1.0000                                        3              !              1          2                        
+     -0.9000                                   3                   !             1          2                         
+     -0.8000                            3                          !             1         2                          
+     -0.7000                    3                                  !            1         2                           
+     -0.6000       3                                               !            1        2                            
+     -0.5000                                                       !           1        2                             
+     -0.4000                                                       !           1        2                             
+     -0.3000                                                       !          1        2                              
+     -0.2000                                                       !         41       2                               
+     -0.1000                                                       !         1       52                               
+      0.0000                                                       !        1        2                                
+      0.1000                                                       !        1       2                                 
+      0.2000                                                       !       1       2                                  
+      0.3000                                                       !      41       2                                  
+      0.4000                                                       !      1       2                                   
+      0.5000                                                       !     1       2                                    
+      0.6000                                                       !     1       2                                3   
+      0.7000                                                       !    1       2                             3       
+      0.8000                                                       !   1        2                         3           
+      0.9000                                                       !   1       2                       3              
+      1.0000                                                       !  1       2                      3                
+      1.1000                                                       ! 41       2                    3                  
+      1.2000                                                       ! 1       2                   3                    
+      1.3000                                                       !1       2                  3                      
+      1.4000                                                       !        2                3                        
+      1.5000                                                      4!       2                3                         
+      1.6000                                                      1!      25               3                          
+      1.7000                                                     1 !      2              3                            
+      1.8000                                                    41 !     2              3                             
+      1.9000                                                   41  !    25             3                              
+      2.0000                                                   1   !    2             3                               
+                 i         i         i         i         i         i         i         i         i         i         i
+            -4.000              -2.400             -0.8000              0.8000               2.400               4.000    
+                      -3.200              -1.600                  0.               1.600               3.200    
+ 
+
+ leaving lderiv
+
+ eigenvalues of nonlocal potential 
+
+   l= 0       0.066425   3.406739
+   l= 1      -2.606088   2.999127
+   l= 2      -1.675106   4.396038
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 30.00
+ -------------------------------------------------
+
+   ecut=  30.0  rmax=  10.0   nbt= 1501
+   nsw(l=0)=   18
+   nsw(l=1)=   17
+   nsw(l=2)=   17
+
+   eigenvalues of local potential 
+   l= 0      -5.624596  -1.150165
+   l= 1      -2.165240  -0.446771
+   l= 2      -0.427866  -0.029822
+
+   eigenvalues of US hamiltonian 
+   l= 0      -5.530599  -0.890406  -0.193089   0.354465
+   l= 1      -3.785854  -0.576459  -0.056809   0.524023
+   l= 2      -1.182593  -0.194054   0.222682   0.863669
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 35.00
+ -------------------------------------------------
+
+   ecut=  35.0  rmax=  10.0   nbt= 1501
+   nsw(l=0)=   19
+   nsw(l=1)=   19
+   nsw(l=2)=   18
+
+   eigenvalues of local potential 
+   l= 0      -5.624598  -1.150339
+   l= 1      -2.214631  -0.448014
+   l= 2      -0.428138  -0.029832
+
+   eigenvalues of US hamiltonian 
+   l= 0      -5.530599  -0.890406  -0.193089   0.354463
+   l= 1      -3.787013  -0.576498  -0.056885   0.523716
+   l= 2      -1.183275  -0.194108   0.222624   0.863628
+
+ -------------------------------------------------
+ eigensolution in bessel basis with cutoff 40.00
+ -------------------------------------------------
+
+   ecut=  40.0  rmax=  10.0   nbt= 1501
+   nsw(l=0)=   21
+   nsw(l=1)=   20
+   nsw(l=2)=   20
+
+   eigenvalues of local potential 
+   l= 0      -5.624632  -1.150410
+   l= 1      -2.229319  -0.448303
+   l= 2      -0.428445  -0.029833
+
+   eigenvalues of US hamiltonian 
+   l= 0      -5.530631  -0.890417  -0.193095   0.354452
+   l= 1      -3.787217  -0.576502  -0.056900   0.523643
+   l= 2      -1.184248  -0.194192   0.222528   0.863544

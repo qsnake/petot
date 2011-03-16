@@ -273,7 +273,8 @@ cccccc calculation and in the final pseudopotential output here.
       if(dabs(AR(i,2)).lt.1.D-80) AR(i,2)=0.d0
       if(dabs(AR(i,3)).lt.1.D-80) AR(i,3)=0.d0
       if(dabs(CDC(i)).lt.1.D-80) CDC(i)=0.d0
-      CDC(i)=CDC(i)/(4*pi*R(i)**2)
+cccc The old code is /(2*pi*R(i)**2), that was a bug, July 6, 2001
+      CDC(i)=CDC(i)/(4*pi*R(i)**2)   
       enddo
 
 
@@ -289,6 +290,12 @@ c     & type_tmp,kerker_tmp,icorr_tmp,ispp_tmp,
 c     & rcut_s_tmp,rcut_p_tmp,rcut_d_tmp,
 c     & ncore_tmp,nval_tmp,
 c     & ((n_tmp(i),l_tmp(i),zd_tmp(i),zu_tmp(i)),i=1,nval_tmp)
+
+cccc using iref_s,iref_p,iref_d is dangerous ! 
+
+       iref_s=1
+       iref_p=1
+       iref_d=1
 
       if(nval_tmp.eq.1) then
        write(10,901) iref_s,iref_p,iref_d,iTB_s,iTB_p,iTB_d,
@@ -353,7 +360,7 @@ c     & ((n_tmp(i),l_tmp(i),zd_tmp(i),zu_tmp(i)),i=1,nval_tmp)
        do i=2,NR
        write(10,1002) R(i),VIOD(1,i)/R(i)/2,VIOD(2,i)/R(i)/2,
      & VIOD(3,i)/R(i)/2,AR(i,1)/R(i),AR(i,2)/R(i),AR(i,3)/R(i),
-     & -VIOU(2,i)/R(i)/2,-VIOU(3,i)/R(i)/2
+     & VIOU(2,i)/R(i)/2,VIOU(3,i)/R(i)/2
        enddo
        write(10,*) "#r, vs(Hart.),vp,vd,phi_s/sqr(4pi),phi_p/sqr4pi,"//
      &   "phi_d/sqr4pi,v_(p+1/2)-v_(p-1/2),v_(d+1/2)-v_(d-1/2)"
@@ -364,7 +371,7 @@ c     & ((n_tmp(i),l_tmp(i),zd_tmp(i),zu_tmp(i)),i=1,nval_tmp)
        do i=2,NR
        write(10,1003) R(i),VIOD(1,i)/R(i)/2,VIOD(2,i)/R(i)/2,
      & VIOD(3,i)/R(i)/2,AR(i,1)/R(i),AR(i,2)/R(i),AR(i,3)/R(i),
-     & CDC(i),-VIOU(2,i)/R(i)/2,-VIOU(3,i)/R(i)/2
+     & CDC(i),VIOU(2,i)/R(i)/2,VIOU(3,i)/R(i)/2
        enddo
        write(10,*) "#r, vs(Hart.),vp,vd,phi_s/sqr(4pi),"//
      & "phi_p/sqr4pi,phi_d/sqr4pi,rho_core,v_(p+1/2)-v_(p-1/2),"//

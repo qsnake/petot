@@ -2,8 +2,12 @@
 
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 
@@ -53,7 +57,6 @@ cc     The United States government retains a royalty free license in this work
      &     jjnode_dum,kpt,ierr
       
 
-      call mpi_barrier(mpi_comm_world,ierr)
 
       if(isign.eq.-1) then
 
@@ -63,8 +66,6 @@ c     put into x col format for fft in workr_n
          fr_n(i) = dcmplx(0.d0,0.d0)
       enddo
 
- 
-      call mpi_barrier(mpi_comm_world,ierr)
 
       do ig = 1, ngtotnod(inode,kpt)
 
@@ -73,11 +74,10 @@ c     put into x col format for fft in workr_n
 
       enddo
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
       call invcpfft_comp(fr_n,n1,n2,n3)
 
-      call mpi_barrier(mpi_comm_world,ierr)
       return
       endif
 
@@ -100,7 +100,7 @@ c
       enddo
 
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
       return
       endif
 

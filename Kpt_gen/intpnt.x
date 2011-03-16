@@ -482,7 +482,7 @@ C
 	do 515 ii=1,nrk
 	  wpsum = wpsum + w(ii)
 	  write(nout,521) (rkpp(j,ii),j=1,3),w(ii)
-          write(17,521) (rkpp(j,ii),j=1,3),w(ii)
+          write(17,522) (rkpp(j,ii),j=1,3),w(ii)
   515	continue
 
 	else if (ppflag.eq.2) then 
@@ -499,7 +499,7 @@ C
 	do 525 ii=1,nrk
 	  wpsum = wpsum + w(ii)
 	  write(nout,521) (rk(j,ii),j=1,3),w(ii)
-	  write(17,521) (rk(j,ii),j=1,3),w(ii)
+	  write(17,522) (rk(j,ii),j=1,3),w(ii)
   525	continue
 
 	endif
@@ -510,6 +510,7 @@ C
 	
   520   format(3f10.7,f10.4,i5)
   521   format(3f10.5,f10.5)
+  522   format(3f13.8,f13.8)
 
       if (irand .ne. 1) write(nout,430) nred,nexp
   430 format(/,' corresponding to',i5,' distinct reducible vectors',

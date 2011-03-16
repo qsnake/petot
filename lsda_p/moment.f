@@ -2,8 +2,12 @@
       program moment
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 
@@ -93,11 +97,19 @@ c
        nr3x=n3+2
        nr=n1*n2*n3
 
+       n1L=n1
+       n2L=n2
+       n3L=n3
+
        mr=n1*n2*(n3+2)
 
        nr_n = nr/nnodes
 
+       nr_nL=nr_n
+
        mr_n=mr/nnodes
+
+       mr_nL=mr_n
 
        mr=1
        mr_n=1
@@ -158,10 +170,14 @@ c     Calculate the approx. no. of g points, so we can dimension arrays
 ************************************************
        ilocal=1
        call fft_allocate(n1,n2,n3,nnodes)
-       call load_allocate(ncolx,nnodes,mg_nx,mr_n)
+       call load_allocate(n1,n2,n3,ncolx,nnodes,mg_nx,mr_n)
        islda=1
-       call data_allocate(mg_nx,mx,mr_n,ilocal,inode,nkpt,
-     &   islda,1)
+       natom=1
+       nref_tot=1
+       ipsp_all=1
+       npulay_max=1
+       call data_allocate(mg_nx,mx,mr_n,mr_nL,ilocal,inode,nkpt,
+     &   islda,natom,nref_tot,ipsp_all,nnodes,npulay_max)
 ************************************************
 
         if(inode.eq.1) then

@@ -1,10 +1,13 @@
-      subroutine getwq(AL,ntype,iatom,ityatom,xatom,kpt)
+      subroutine getwq(AL,ntype,iatom,xatom,kpt)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
-******************************************
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
 
+******************************************
 
       use fft_data
       use load_data
@@ -12,18 +15,21 @@ cc     The United States government retains a royalty free license in this work
 
       implicit double precision (a-h,o-z)
 
+      include 'mpif.h'
       include 'param.escan_real'
 
       real*8 xatom(3,matom)
 
       real*8 AL(3,3)
 
-      real*8 qi3(mnq),wq2(mnq,3,mtype)
+      real*8 qi(mnq),wq(mnq,8,mtype)
+      real*8 ri(201),amr(201)
 
       real*8 occ_t(mtype)
-      integer iiatom(mtype),iatom(matom),icore(mtype),numref(matom)
+      integer iiatom(mtype),iatom(matom),icore(mtype),numref(matom),
+     & ityatom(matom)
       integer is_ref(mtype),ip_ref(mtype),id_ref(mtype)
-      integer ityatom(matom)
+      integer lll(8,mtype),nbeta(mtype)
 
 
       complex*16 cc,cai
@@ -33,9 +39,10 @@ cc     The United States government retains a royalty free license in this work
 ****  supercell edges
 ***************************************************
 
-      common /comline2/qi3,wq2
-      common /comNL2/occ_t,iiatom,icore,numref
+      common /comline/qi,wq,ri,amr
+      common /comNL2/occ_t,iiatom,icore,numref,ityatom
       common /comispd_ref/is_ref,ip_ref,id_ref
+      common /comlll/lll,nbeta
 
 *******************************************************
 **** generate the Kleiman-Bylander reference wavefunction
@@ -46,18 +53,10 @@ cc     The United States government retains a royalty free license in this work
       cai=dcmplx(0.d0,1.d0)
 
       do 20 ia=1,natom
+      iref_start2=iref_start(ia)
+      
 
       iitype=ityatom(ia)
-
-      is_ref1=is_ref(iitype)
-      ip_ref1=ip_ref(iitype)
-      id_ref1=id_ref(iitype)
-      kk=0
-      if(is_ref1.eq.1) kk=kk+1
-      if(ip_ref1.eq.1) kk=kk+3
-      if(id_ref1.eq.1) kk=kk+5
-      numref(ia)=kk
-
 
       do 10 i=1,ng_n
 
@@ -74,76 +73,122 @@ cc     The United States government retains a royalty free license in this work
 
       q=dsqrt(gkx_n(i,kpt)**2+gky_n(i,kpt)**2+gkz_n(i,kpt)**2)
 
-      iq=1+q*(mnq-1.d0)/qi3(mnq)
+      iq=1+q*(mnq-1.d0)/qi(mnq)
 
-      x=(q-qi3(iq))/(qi3(iq+1)-qi3(iq))
+      x=(q-qi(iq))/(qi(iq+1)-qi(iq))
 
       f1=1-x-0.5d0*x*(1-x)
       f2=x+x*(1-x)
       f3=-0.5d0*x*(1-x)
 
-      ys=wq2(iq,1,iitype)*f1+wq2(iq+1,1,iitype)*f2+
-     &   wq2(iq+2,1,iitype)*f3
-      yp=wq2(iq,2,iitype)*f1+wq2(iq+1,2,iitype)*f2+
-     &   wq2(iq+2,2,iitype)*f3
-      yd=wq2(iq,3,iitype)*f1+wq2(iq+1,3,iitype)*f2+
-     &   wq2(iq+2,3,iitype)*f3
-       
+c-----------------------------------------
 
        if(q.lt.1.D-6) then
+
        kk=0
-       if(is_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=ys*cc*vins
+       do 301 ibeta=1,nbeta(iitype)
+
+      yspd=wq(iq,ibeta,iitype)*f1+
+     &  wq(iq+1,ibeta,iitype)*f2+wq(iq+2,ibeta,iitype)*f3
+
+       if(lll(ibeta,iitype).eq.0) then
+       wqmask(i,iref_start2+kk+1)=yspd*cc*vins
        kk=kk+1
        endif
-       if(ip_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=0.d0
-       wqmask(kk+2,i,ia)=0.d0
-       wqmask(kk+3,i,ia)=0.d0
+       if(lll(ibeta,iitype).eq.1) then
+       wqmask(i,iref_start2+kk+1)=0.d0
+       wqmask(i,iref_start2+kk+2)=0.d0
+       wqmask(i,iref_start2+kk+3)=0.d0
        kk=kk+3
        endif
-       if(id_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=0.d0
-       wqmask(kk+2,i,ia)=0.d0
-       wqmask(kk+3,i,ia)=0.d0
-       wqmask(kk+4,i,ia)=0.d0
-       wqmask(kk+5,i,ia)=0.d0
+       if(lll(ibeta,iitype).eq.2) then
+       wqmask(i,iref_start2+kk+1)=0.d0
+       wqmask(i,iref_start2+kk+2)=0.d0
+       wqmask(i,iref_start2+kk+3)=0.d0
+       wqmask(i,iref_start2+kk+4)=0.d0
+       wqmask(i,iref_start2+kk+5)=0.d0
        kk=kk+5
        endif
-       else
+       if(lll(ibeta,iitype).gt.2) then
+       write(6,*) "lll.gt.2, not programed, stop",
+     & ibeta,iitype,lll(ibeta,iitype)
+       endif
+
+301    continue
+
+c-------------------------------------------------------
+       else   !  q.lt.1.D-6
 
        kk=0
-       if(is_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=ys*cc*vins
+       do 302 ibeta=1,nbeta(iitype)
+
+       yspd=wq(iq,ibeta,iitype)*f1+
+     &  wq(iq+1,ibeta,iitype)*f2+wq(iq+2,ibeta,iitype)*f3
+
+       if(lll(ibeta,iitype).eq.0) then
+       wqmask(i,iref_start2+kk+1)=yspd*cc*vins
        kk=kk+1
        endif
 
-       if(ip_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=dsqrt(3.d0)*cai*gkx_n(i,kpt)/q*yp*cc*vins
-       wqmask(kk+2,i,ia)=dsqrt(3.d0)*cai*gky_n(i,kpt)/q*yp*cc*vins
-       wqmask(kk+3,i,ia)=dsqrt(3.d0)*cai*gkz_n(i,kpt)/q*yp*cc*vins
+       if(lll(ibeta,iitype).eq.1) then
+c       wqmask(i,iref_start2+kk+1)=
+c     &            dsqrt(3.d0)*cai*gkx_n(i,kpt)/q*yspd*cc*vins
+c       wqmask(i,iref_start2+kk+2)=
+c     &            dsqrt(3.d0)*cai*gky_n(i,kpt)/q*yspd*cc*vins
+c       wqmask(i,iref_start2+kk+3)=
+c     &            dsqrt(3.d0)*cai*gkz_n(i,kpt)/q*yspd*cc*vins
+
+cccccc  Yl0, Ylm+=[Ylm+(-)^m Yl-m]/sqrt(2), Ylm=[Ylm-(-)^m Yl-m]/i sqrt(2)  
+cccccc cos(phi)=x/sqrt(x**2+y**2)  
+
+       wqmask(i,iref_start2+kk+1)=
+     &            dsqrt(3.d0)*cai*gkz_n(i,kpt)/q*yspd*cc*vins    ! Y10
+       wqmask(i,iref_start2+kk+2)=
+     &           -dsqrt(3.d0)*cai*gkx_n(i,kpt)/q*yspd*cc*vins    ! Y11+
+       wqmask(i,iref_start2+kk+3)=
+     &           -dsqrt(3.d0)*cai*gky_n(i,kpt)/q*yspd*cc*vins    ! Y11-
        kk=kk+3
        endif
 
-       if(id_ref1.eq.1) then
-       wqmask(kk+1,i,ia)=dsqrt(5.d0)*yd*cc*vins*(
-     & dsqrt(3.d0)*gkx_n(i,kpt)*gky_n(i,kpt)/q**2)
-       wqmask(kk+2,i,ia)=dsqrt(5.d0)*yd*cc*vins*(
+       if(lll(ibeta,iitype).eq.2) then
+c       wqmask(i,iref_start2+kk+1)=dsqrt(5.d0)*yspd*cc*vins*(
+c     & dsqrt(3.d0)*gkx_n(i,kpt)*gky_n(i,kpt)/q**2)
+c       wqmask(i,iref_start2+kk+2)=dsqrt(5.d0)*yspd*cc*vins*(
+c     & dsqrt(3.d0)*gkx_n(i,kpt)*gkz_n(i,kpt)/q**2)
+c       wqmask(i,iref_start2+kk+3)=dsqrt(5.d0)*yspd*cc*vins*(
+c     & dsqrt(3.d0)*gky_n(i,kpt)*gkz_n(i,kpt)/q**2)
+c       wqmask(i,iref_start2+kk+4)=dsqrt(5.d0)*yspd*cc*vins*(
+c     & dsqrt(3.d0)/2*(gkx_n(i,kpt)**2-gky_n(i,kpt)**2)/q**2)
+c       wqmask(i,iref_start2+kk+5)=dsqrt(5.d0)*yspd*cc*vins*(
+c     & 1.d0/2*(gkx_n(i,kpt)**2+
+c     &              gky_n(i,kpt)**2-2*gkz_n(i,kpt)**2)/q**2)
+       wqmask(i,iref_start2+kk+1)=-dsqrt(5.d0)*yspd*cc*vins*(
+     & 1.d0/2*(2*gkz_n(i,kpt)**2-gkx_n(i,kpt)**2-
+     &              gky_n(i,kpt)**2)/q**2)                       ! Y20
+       wqmask(i,iref_start2+kk+2)=dsqrt(5.d0)*yspd*cc*vins*(     ! Y21+
      & dsqrt(3.d0)*gkx_n(i,kpt)*gkz_n(i,kpt)/q**2)
-       wqmask(kk+3,i,ia)=dsqrt(5.d0)*yd*cc*vins*(
+       wqmask(i,iref_start2+kk+3)=dsqrt(5.d0)*yspd*cc*vins*(     ! Y21-
      & dsqrt(3.d0)*gky_n(i,kpt)*gkz_n(i,kpt)/q**2)
-       wqmask(kk+4,i,ia)=dsqrt(5.d0)*yd*cc*vins*(
+       wqmask(i,iref_start2+kk+4)=-dsqrt(5.d0)*yspd*cc*vins*(    ! Y22+
      & dsqrt(3.d0)/2*(gkx_n(i,kpt)**2-gky_n(i,kpt)**2)/q**2)
-       wqmask(kk+5,i,ia)=dsqrt(5.d0)*yd*cc*vins*(
-     & 1.d0/2*(gkx_n(i,kpt)**2+
-     &              gky_n(i,kpt)**2-2*gkz_n(i,kpt)**2)/q**2)
-       endif
-       endif
+       wqmask(i,iref_start2+kk+5)=-dsqrt(5.d0)*yspd*cc*vins*(    ! Y22-
+     & dsqrt(3.d0)*gkx_n(i,kpt)*gky_n(i,kpt)/q**2)
 
- 10   continue
- 20   continue
+       kk=kk+5
+       endif
+       if(lll(ibeta,iitype).gt.2) then
+       write(6,*) "lll.gt.2, not programed, stop",
+     & ibeta,iitype,lll(ibeta,iitype)
+       endif
+302    continue
+
+       endif  !  q.lt.1.D-6
+
+ 10   continue    ! i=1,ng
+ 20   continue    ! ia=1,natom
 
 ******************************************************************
+      call mpi_barrier(MPI_COMM_K,ierr)
       return
       end
 

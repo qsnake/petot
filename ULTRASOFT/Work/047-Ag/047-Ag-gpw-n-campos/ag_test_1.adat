@@ -1,0 +1,7 @@
+    0    1    1    1    3             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+   2.6     -2.       2.       80   rlogd,emin,emax,nnt (3f10.5,i5)
+   1.0d-11   1.0d-08   0.12     600   thresh,tol.damp (2e10.1,f10.5)
+ag                                   title (a20)
+   8    3    3                       ncores,nvales,nang (3i5)
+ 10.0      40.0       35.0        5.0        besrmax,besemin,besemax,besde(4f10.5)
+

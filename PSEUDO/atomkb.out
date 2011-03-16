@@ -1,0 +1,158 @@
+ atom-LDAcaTODAY          kb-test   
+ B  pseudopotential test
+ -----------------------
+
+ correlation = ca   nonspin-polarized
+
+ nuclear charge             =  3.000000
+ number of core orbitals    =  0
+ number of valence orbitals =  2
+ electronic charge          =  2.650000
+ ionic charge               =   .350000
+
+
+ input data for orbitals
+
+  i    n    l    s     j     occ
+
+  1    1    0    .0    .0    1.8500
+  2    2    1    .0    .0     .8000
+
+
+ B   ca  nrl  nc    pseudopotential read from tape
+ atom-lda  TODAY            Improved Troullier - Martins potential
+ 2s(  1.85)  rc= 1.392p(   .80)  rc= 1.39                              
+
+
+ radial grid parameters
+
+ r(1) = .0 , r(2) = .624E-05 , ... , r( 992) = 118.873
+
+
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 -0.844649437646292217E-01
+ prowav 1 0.164401960917318762
+ prowav 1 0.280723244450287346
+ prowav 1 0.388740068841336495
+ prowav 1 0.485068462944967305
+ prowav 1 0.567416943769955218
+ prowav 1 0.635859375929287096
+ prowav 1 0.691649652016382288
+ prowav 1 0.736510870498434667
+ prowav 1 0.772232732418395518
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.814595453995782148
+ prowav 1 0.834208036136006803
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.856437236709690186
+ prowav 1 0.866730201387714838
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.878530953738321130
+ prowav 1 0.883795137226200733
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.889863091803236084
+ prowav 1 0.892471414695151899
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.895485507188207741
+ prowav 1 0.896783844905635785
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.898286047099990048
+ prowav 1 0.898831503731003401
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.899462352139576815
+ prowav 1 0.899793118401992387
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900176337596476639
+ prowav 1 0.900343923215880082
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900538111638775396
+ prowav 1 0.900625976189179056
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900727813042244585
+ prowav 1 0.900772710485317707
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900824748745611914
+ prowav 1 0.900845895903996330
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900870396635001791
+ prowav 1 0.900881572799300367
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900894525761696929
+ prowav 1 0.900900206642705537
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900906790849569927
+ prowav 1 0.900909608485312763
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900912873857454444
+ prowav 1 0.900914329907745448
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900916017566404048
+ prowav 1 0.900916748273647539
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+ prowav 1 0.900917595172063823
+ prowav 1 0.900917954174446423
+ prowav 0 0.000000000000000000E+00
+ prowav 0 0.000000000000000000E+00
+
+ n = 1  l = 0  s =  .0
+        a extr          .746
+        r extr         1.497
+        r zero    
+        r 90/99 %      3.013   4.495
+ prowav 1 0.900918370207620001
+ prowav 1 0.900918555586100234
+
+ n = 2  l = 1  s =  .0
+        a extr          .658
+        r extr         1.496
+        r zero    
+        r 90/99 %      3.545   5.559
+
+Total number of iterations needed for electron screening potential is 18
+
+
+
+ B  output data for orbitals
+ ----------------------------
+
+ nl    s      occ         eigenvalue    kinetic energy      pot energy
+
+ 1s    .0    1.8500       -.92810110        .58993172        .00000000
+ 2p    .0     .8000       -.50109211       1.63876702       -.96090746
+
+
+ total energies
+ --------------
+
+ sum of eigenvalues        =       -2.11786073
+ kinetic energy from ek    =        2.40238730
+ el-ion interaction energy =        -.76872596
+ el-el  interaction energy =        3.26586661
+ vxc    correction         =       -1.80859062
+ virial correction         =         .12431116
+ exchange + corr energy    =       -1.38752075
+ kinetic energy from ev    =       -6.07227736
+ potential energy          =        1.10961989
+ ---------------------------------------------
+ total energy              =       -4.96265747
+
+
+ The total time for the K-B Atomic  calculation is       .00000 seconds

@@ -1,4 +1,8 @@
-      subroutine fftprep_real2(nr1,nr2,nr3)
+      subroutine fftprep_real2(nr1,nr2,nr3,mr_n)
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccc written by Andew Canning, 2001
+cccccccccccccccccccccccccccccccccccccccccccccccccc
 
 c Large sphere potential  prep prog for FFT starts here
 c This FFT is only used in vofrho
@@ -32,8 +36,8 @@ c
 
       integer i,j,ic,ico,idum,inodec,itaradd,itnode,ix,iy,iz,
      c        jcol,ngy,ngyadd,ngz,igdum,nr1,nr2,nr3,nr3u,ierr,
-     c        ilocadd,izb,iw,ib,itar,isc,ii,itar,
-     c        n1_inv,n2_inv,indepg_d,jjnode_dum,indepg,ig,
+     c        ilocadd,izb,iw,ib,itar,isc,ii,mgz2tmp,isum,imax,
+     c        mr_n,n1_inv,n2_inv,indepg_d,jjnode_dum,indepg,ig,
      c        k0npac_max,k0nunp_max
 
 c
@@ -47,7 +51,7 @@ ccccc      integer k0idum(nr1*nr2,nnodes)    ! old stupid way, too much memory
       integer, allocatable,dimension(:,:) ::  k0idum
 
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
       nr3u = nr3/2+1
 
@@ -67,15 +71,17 @@ c
          if(ngz.gt.mgz2) mgz2 = ngz
        enddo
 c
-       call global_maxi(mgz2,nnodes)
+       call global_maxi(mgz2)
 c
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
  
-       call mpi_allreduce(mgz2,mgz2,1,mpi_integer,mpi_max,
-     &                    mpi_comm_world, ierr)
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_allreduce(mgz2,mgz2tmp,1,mpi_integer,mpi_max,
+     &                    MPI_COMM_K, ierr)
+       mgz2 = mgz2tmp
 
-       if(inode.eq.1) then
+       call mpi_barrier(MPI_COMM_K,ierr)
+
+       if(inode_tot.eq.1) then
          write(*,*)
          write(*,*) 'minimum possible value of (pot) mgz2 = ',mgz2
        endif
@@ -85,14 +91,14 @@ c
          goto 101
        endif
 
-       if(inode.eq.1) then
+       if(inode_tot.eq.1) then
          write(*,*) 'optimal (and used) value of (pot) mgz2 = ',mgz2
          if(mgz2.gt.(1+nr3/2)) then
            write(*,*) 'load balancing failed, change n3 '
          endif
        endif
 
-       call mpi_barrier(MPI_COMM_WORLD,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
 c      ncolnz = ico
 
@@ -111,7 +117,7 @@ c
         call mpi_abort(MPI_COMM_WORLD,ierr)
        endif
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
 c  choose data layout for  slab  for y dir FFT
 c  each PE will take (nr1*mgz2)/nnodes consecutive
@@ -228,7 +234,7 @@ c
         endif
        enddo
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 c
 c put ivecadd into 1 dim array  ivdum
 c
@@ -292,31 +298,31 @@ c   ie transformation of cylinder
 c
        do i = 1,nnodes
         call mpi_isend(ivpacn1l(i),1,mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
        enddo
 
        do i = 1,nnodes
         call mpi_recv(ivunpn1l(i),1,mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
        enddo
 
        do i = 1, nnodes
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        idum = 1
        do i = 1,nnodes
         call mpi_isend(ivdum(idum),ivpacn1l(i),mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
         idum = idum + ivpacn1l(i)
        enddo
 
        idum = 1
        do i = 1,nnodes
         call mpi_recv(ivunp1l(idum),ivunpn1l(i),mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
         idum = idum + ivunpn1l(i)
        enddo
 
@@ -324,7 +330,7 @@ c
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        ivunp1l = ivunp1l + 1
 c
@@ -389,31 +395,31 @@ c communicate scatter indexes for mpi second send
 c
        do i = 1,nnodes
         call mpi_isend(ivpacn2l(i),1,mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
        enddo
 
        do i = 1,nnodes
         call mpi_recv(ivunpn2l(i),1,mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
        enddo
 
        do i = 1, nnodes
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-       call mpi_barrier(mpi_comm_world,ierr)
+       call mpi_barrier(MPI_COMM_K,ierr)
 
        idum = 1
        do i = 1,nnodes
         call mpi_isend(ivdum(idum),ivpacn2l(i),mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
         idum = idum + ivpacn2l(i)
        enddo
 
        idum = 1
        do i = 1,nnodes
         call mpi_recv(ivunp2l(idum),ivunpn2l(i),mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
         idum = idum + ivunpn2l(i)
        enddo
 
@@ -421,7 +427,7 @@ c
           call mpi_wait(ireq(i), mpistatus, ierr)
        end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 c
 c mpi indexes for filling in of half sphere k.eq.0 for ffts
 c
@@ -448,19 +454,19 @@ cccccc            k0idum(k0npac(jjnode_dum),jjnode_dum)=2*indepg_d
 
       do i = 1,nnodes
         call mpi_isend(k0npac(i),1,mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
       enddo
 
       do i = 1,nnodes
         call mpi_recv(k0nunp(i),1,mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
       enddo
 
       do i = 1, nnodes
          call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 *******************************************************
       k0npac_max=1
       k0nunp_max=1
@@ -493,24 +499,45 @@ ccccc recalculate k0npac, and this time: k0idum
 
       enddo
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
 
 
       do i = 1,nnodes
         call mpi_isend(k0idum(1,i),k0npac(i),mpi_integer,i-1,inode,
-     &                 mpi_comm_world,ireq(i),ierr)
+     &                 MPI_COMM_K,ireq(i),ierr)
       enddo
 
       do i = 1,nnodes
         call mpi_recv(k0iunp(1,i),k0nunp(i),mpi_integer,i-1,i,
-     &                mpi_comm_world,mpistatus,ierr)
+     &                MPI_COMM_K,mpistatus,ierr)
       enddo
 
       do i = 1, nnodes
          call mpi_wait(ireq(i), mpistatus, ierr)
       end do
 
-      call mpi_barrier(mpi_comm_world,ierr)
+      call mpi_barrier(MPI_COMM_K,ierr)
+
+ccccccccccccccccccccccccccccccccc
+cccccc  safety check
+      isum=0
+      imax=0
+      do i=1,nnodes
+      isum=isum+ivpacn2l(i)
+        do j=1,k0nunp(i)
+        if(k0iunp(j,i).gt.imax) imax=k0iunp(j,i)
+        enddo
+      enddo
+
+      if(isum.gt.mr_n.or.imax.gt.mr_n) then
+       write(6,*) "increase mr_n, due to imbalance, stop",
+     & inode,isum,imax,mr_n
+cccccc This is probably nature, due to the load imbalance, some
+cccccc node might have slightly more FFT columns than other nodes,
+cccccc  then isum,imax > (n1*n2*(n3+2)/nnodes)
+      call mpi_abort(MPI_COMM_WORLD,ierr)
+      endif
+
 
       return
       end

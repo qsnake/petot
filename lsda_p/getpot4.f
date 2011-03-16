@@ -2,8 +2,12 @@
      & E_coul,E_ion)
 ******************************************
 cc     Written by Lin-Wang Wang, March 30, 2001.  
-cc     Copyright 2001 The Regents of the University of California
-cc     The United States government retains a royalty free license in this work
+*************************************************************************
+**  copyright (c) 2003, The Regents of the University of California,
+**  through Lawrence Berkeley National Laboratory (subject to receipt of any
+**  required approvals from the U.S. Dept. of Energy).  All rights reserved.
+*************************************************************************
+
 ******************************************
 
 ***********************************************************
@@ -184,14 +188,21 @@ cccccccccc Hartree energy
        delgr=dotrho(i)
        lcor=1
        lpot=1
+
       call easypbe(up,agrup,delgrup,uplap,dn,agrdn,delgrdn,dnlap,
      &           agr,delgr,lcor,lpot,
      &           exlsd,vxuplsd,vxdnlsd,eclsd,vcuplsd,vcdnlsd,
      &           expw91,vxuppw91,vxdnpw91,ecpw91,vcuppw91,vcdnpw91,
      &           expbe,vxuppbe,vxdnpbe,ecpbe,vcuppbe,vcdnpbe)
 
+ccccccccc dirty trick to avoid the convergency
+      if(rho(i).gt.0.003) then
       vtot(i)=vtot(i)+vion(i)+vxuppbe+vcuppbe
       E_Hxc=E_Hxc+(expbe+ecpbe)*(rho(i)+rhocr(i))
+      else        ! use LDA formula
+      vtot(i)=vtot(i)+vion(i)+UxcCA(rho(i)+rhocr(i),uxc2)
+      E_Hxc=E_Hxc+uxc2*(rho(i)+rhocr(i))
+      endif
 
       s=s+vtot(i)
 1000  continue

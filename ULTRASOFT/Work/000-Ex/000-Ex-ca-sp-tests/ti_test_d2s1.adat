@@ -1,0 +1,6 @@
+    0    1    1    0    3             ifae,ifpsp,ifprt,ifplw,ilogd (5i5)
+   1.8      -6.0       2.0       80   rlogd,emin,emax,nnt (3f10.5,i5)
+   1.0d-10   1.0d-09   0.5            thresh,tol,damp (2e10.1,f10.5)
+Ti                                    title (a20)
+    3    4    3                       ncores,nvales,nang (3i5)
+ 10.0      30.0       40.0        5.0   besrmax, besemin,besemax,besde (4f10.5)
