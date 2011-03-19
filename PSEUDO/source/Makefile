@@ -10,9 +10,9 @@
 #FCOPZE =  -dp -O2 -c
 
 # For IBM SP
-F77=xlf
-FCOPTS =  -O2 -c  
-FCOPZE =  -O2 -c
+#F77=xlf
+#FCOPTS =  -O2 -c  
+#FCOPZE =  -O2 -c
 
 # For HP 
 #F77 = f77
@@ -23,8 +23,9 @@ FCOPZE =  -O2 -c
 # 
 # F77 = fort77
 # F77 = g77
-# FCOPTS = -O3 -c -malign-double -fomit-frame-pointer
-# FCOPZE = -c
+F77 = gfortran
+FCOPTS = -O3 -c -malign-double -fomit-frame-pointer
+FCOPZE = -c
 
 # For IBM and DEC
 # 
