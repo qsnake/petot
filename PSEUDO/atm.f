@@ -253,7 +253,7 @@ c
 c
       parameter (zero=0.0d0,one=1.0d0)
 c
-      parameter(lmax=5,nrmax=2000,norbmx=40)
+      parameter(lmax=5,nrmax=9022,norbmx=40)
 c
       dimension r(nrmax),rab(nrmax),no(norbmx),lo(norbmx),
      1 so(norbmx),zo(norbmx),cdd(nrmax),cdu(nrmax),cdc(nrmax),

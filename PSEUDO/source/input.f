@@ -164,9 +164,9 @@ c
 c
 c   set up grid
 c
-        if (abs(rmax) .lt. 0.00001) rmax=120.0
-        if (abs(aa) .lt. 0.00001) aa = 6.0  
-        if (abs(bb) .lt. 0.00001) bb = 80.0 
+        if (abs(rmax) .lt. 0.00001) rmax=50
+        if (abs(aa) .lt. 0.00001) aa = 12.347636209
+        if (abs(bb) .lt. 0.00001) bb = 434.0277777d0
 c       bb = 40.0 standard
 c       bb = 80.0 2 * standard
 c       bb = 120.0 3 * standard
@@ -182,6 +182,7 @@ c       bb = 120.0 3 * standard
           if (r(i) .gt. rmax) goto 60
  30     continue
  60     nr = i-1
+        print *, "Mesh params (a*Z, b, N):", a*znuc, b, nr
       endif
  50   format(/,' error in input - arraylimits',
      1 ' for radial array exceeded',/)          

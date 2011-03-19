@@ -27,7 +27,7 @@ c
      1 vod(nr),vou(nr),etot(10),y(nr),yp(nr),ypp(nr),
      2 s1(nr),s2(nr),w(3*nr)
 
-      parameter ( maxr = 1500 )
+      parameter ( maxr = 10000 )
       dimension dens(maxr,2),vxc(maxr,2)
 
       pi=4*atan(one)
