@@ -164,6 +164,7 @@ c   point nctp for orbital
 c
       icount=0
  20   icount=icount+1
+      print *, v(:30)
       do 22 j=nr,2,-1
         temp = v(j) -ev(iorb)
         if (temp .lt. zero) temp = zero
