@@ -24,7 +24,7 @@
 # F77 = fort77
 # F77 = g77
 F77 = gfortran
-FCOPTS = -O3 -c -malign-double -fomit-frame-pointer
+FCOPTS = -g -c -W -Wall -Wextra -fPIC -fbounds-check -fcheck-array-temporaries
 FCOPZE = -c
 
 # For IBM and DEC
