@@ -143,8 +143,8 @@ c
 
       do 90 i=2,nr
         if (ispp .eq. 's') then
-	  dens(i,1) = cdu(i)/(4.d0*pi*r(i)**2)
-	  dens(i,2) = cdd(i)/(4.d0*pi*r(i)**2)
+        dens(i,1) = cdu(i)/(4.d0*pi*r(i)**2)
+        dens(i,2) = cdd(i)/(4.d0*pi*r(i)**2)
         else
           dens(i,1) = 0.5d0*(cdu(i) + cdd(i))/(4.d0*pi*r(i)**2)
           dens(i,2) = dens(i,1)
@@ -169,9 +169,9 @@ c
 c
       r(1) = 0.0d0
            if (icorr .eq. 'ca') then
- 	      call atomxc('LDA','ca',irel,nr,maxr,r,nspin,dens,
+           call atomxc('LDA','ca',irel,nr,maxr,r,nspin,dens,
      .                     ex,ec,dx,dc,vxc)      
-	    elseif(icorr .eq. 'pw') then
+           elseif(icorr .eq. 'pw') then
               call atomxc('LDA','pw92',irel,nr,maxr,r,nspin,dens,
      .                    ex,ec,dx,dc,vxc)
             elseif(icorr .eq. 'pb') then

@@ -163,9 +163,11 @@ c
 c
         if (ispp .eq. 'r') then
           if (so(i) .lt. 0.1) then
-            arp=ka*ar(2)/r(2)+(ev(i)-viod(lp,2)/r(2)-vid(2)+ai*ai)*br(2)/ai
+            arp=ka*ar(2)/r(2)+(ev(i)-viod(lp,2)/r(2)-vid(2)+ai*ai) *
+     1         br(2)/ai
           else
-            arp=ka*ar(2)/r(2)+(ev(i)-viou(lp,2)/r(2)-viu(2)+ai*ai)*br(2)/ai
+            arp=ka*ar(2)/r(2)+(ev(i)-viou(lp,2)/r(2)-viu(2)+ai*ai) *
+     1         br(2)/ai
           endif
         endif
 c
