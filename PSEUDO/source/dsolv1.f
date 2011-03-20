@@ -22,7 +22,7 @@ c
       dimension r(nr),rab(nr),no(norb),lo(norb),so(norb),
      1 zo(norb),cdd(nr),cdu(nr),viod(lmax,nr),viou(lmax,nr),
      2 vid(nr),viu(nr),ev(norb),dk(nr),d(nr),sd(nr),sd2(nr),
-     2 z(6*nr),rv1(nr),rv2(nr),rv3(nr),rv4(nr),rv5(nr)
+     2 z(7*nr),rv1(nr),rv2(nr),rv3(nr),rv4(nr),rv5(nr)
 c
       dimension nmax(2,5),e(10),ind(10)
 c

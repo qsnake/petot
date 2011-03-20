@@ -263,7 +263,7 @@ c
      5 vn22d(nrmax),vn22u(nrmax),ev(norbmx),evi(norbmx),ek(norbmx),
      6 ep(norbmx),wk1(nrmax),wk2(nrmax),wk3(nrmax),wk4(nrmax),
      7 wk5(nrmax),wk6(nrmax),wk7(nrmax),wk8(nrmax),wk9(nrmax),
-     8 wkb(6*nrmax)
+     8 wkb(7*nrmax)
 c
       dimension econf(100),etot(10)
 c
