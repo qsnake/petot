@@ -312,7 +312,7 @@ c   Start of loop over configuration.
 c   Read the input data.
 c
 
- 20   nr = nrmax
+      nr = nrmax
       norb = norbmx
 
 
