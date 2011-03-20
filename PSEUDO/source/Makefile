@@ -24,7 +24,7 @@
 # F77 = fort77
 # F77 = g77
 F77 = gfortran
-FCOPTS = -g -c -W -Wall -Wextra -fPIC -fbounds-check -fcheck-array-temporaries
+FCOPTS = -g -c -W -Wall -Wextra -Wno-unused-parameter -Wno-unused-label -Wno-unused-variable -fPIC -fbounds-check -fcheck-array-temporaries
 FCOPZE = -c
 
 # For IBM and DEC
