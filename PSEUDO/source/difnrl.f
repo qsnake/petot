@@ -80,6 +80,7 @@ c
 c  njtj  *** major modification start  ***
 c    Loop data calculated outside loop to gain speed.
 c
+      print *, "n, l", no(iorb), lo(iorb)
       itmax = 100         
       iflag = 0
       lp = lo(iorb)+1
